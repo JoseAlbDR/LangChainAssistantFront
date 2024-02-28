@@ -14,7 +14,7 @@ import { toast } from 'react-toastify';
 import { Message } from '../../pages/chat-bot/ChatBotPage';
 
 interface Props {
-  onSendMessage: (message: string, file: File) => void;
+  onSendMessage: (message: string) => void;
   placeholder?: string;
   disableCorrections?: boolean;
   accept?: string; //image*
@@ -51,7 +51,6 @@ Props) => {
       ]);
       onClose();
     } catch (error) {
-      console.log(error);
       if (error instanceof Error) return toast.error(error.message);
       if (typeof error === 'string') return toast.error(error);
       return toast.error('Error desconocido, revise los logs');
@@ -63,9 +62,9 @@ Props) => {
   const handleSendMessage = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (!selectedFile) return;
+    // if (!selectedFile) return;
 
-    onSendMessage(message, selectedFile);
+    onSendMessage(message);
     setMessage('');
     setSelectedFile(null);
   };
@@ -135,7 +134,7 @@ Props) => {
         </div>
       </div>
       <div className="ml-4">
-        <button className="btn-primary" disabled={!selectedFile || isLoading}>
+        <button className="btn-primary" disabled={false}>
           {isLoading ? (
             <Spinner />
           ) : (

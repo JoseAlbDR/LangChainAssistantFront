@@ -5,6 +5,8 @@ import {
   TypingLoader,
   TextMessageBoxFile,
 } from '../../components';
+import { chatBotStreamGeneratorUseCase } from '../../../core/use-cases/chat-bot/chat-bot-stream-generator.use-case';
+import { toast } from 'react-toastify';
 
 export interface Message {
   text: string;
@@ -19,11 +21,25 @@ const ChatTemplate = () => {
     setIsLoading(true);
     setMessages((prev) => [...prev, { text, isGpt: false }]);
 
-    //TODO: UseCase
+    try {
+      const stream = chatBotStreamGeneratorUseCase({ question: text });
 
-    setIsLoading(false);
+      setMessages((prev) => [...prev, { text: '', isGpt: true }]);
 
-    //TODO: Add message isGpt true
+      for await (const chunk of stream) {
+        setMessages((prev) => {
+          const newMessages = [...prev];
+          newMessages[newMessages.length - 1].text = chunk;
+          return newMessages;
+        });
+      }
+    } catch (error) {
+      if (error instanceof Error) return toast.error(error.message);
+      if (typeof error === 'string') return toast.error(error);
+      return toast.error('Error desconocido, revise los logs');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
