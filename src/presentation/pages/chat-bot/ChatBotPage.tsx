@@ -34,7 +34,7 @@ const ChatTemplate = () => {
 
           {messages.map((message, index) =>
             message.isGpt ? (
-              <GptMessage key={index} text="OpenAI!" />
+              <GptMessage key={index} text={message.text} />
             ) : (
               <UserMessage key={index} text={message.text} />
             )
@@ -51,6 +51,7 @@ const ChatTemplate = () => {
       <TextMessageBoxFile
         onSendMessage={handlePost}
         placeholder="Write here your shit"
+        // accept=".pdf, .txt"
         disableCorrections
       />
     </div>
