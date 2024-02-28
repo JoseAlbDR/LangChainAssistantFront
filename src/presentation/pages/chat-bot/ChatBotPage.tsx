@@ -3,7 +3,7 @@ import {
   GptMessage,
   UserMessage,
   TypingLoader,
-  TextMessageBox,
+  TextMessageBoxFile,
 } from '../../components';
 
 interface Message {
@@ -48,7 +48,7 @@ const ChatTemplate = () => {
         </div>
       </div>
 
-      <TextMessageBox
+      <TextMessageBoxFile
         onSendMessage={handlePost}
         placeholder="Write here your shit"
         disableCorrections
