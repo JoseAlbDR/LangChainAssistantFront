@@ -4,7 +4,7 @@ import {
   UserMessage,
   TypingLoader,
   TextMessageBox,
-} from '../components';
+} from '../../components';
 
 interface Message {
   text: string;
