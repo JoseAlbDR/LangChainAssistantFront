@@ -10,6 +10,7 @@ import {
 } from '@nextui-org/react';
 import { FormEvent, useState } from 'react';
 import { documentUploadUseCase } from '../../../core/use-cases/document-upload/document-upload.use-case';
+import { toast } from 'react-toastify';
 
 interface Props {
   onSendMessage: (message: string, file: File) => void;
@@ -31,13 +32,19 @@ Props) => {
   );
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
-
   const handleUploadDocument = async (onClose: () => void) => {
     if (!selectedFile) return;
-    setIsLoading(true);
-    await documentUploadUseCase({ file: selectedFile });
-    setIsLoading(false);
-    onClose();
+
+    try {
+      setIsLoading(true);
+      await documentUploadUseCase({ file: selectedFile });
+      toast.success('Carga realizada con éxito!');
+      setIsLoading(false);
+      onClose();
+    } catch (error) {
+      console.log(error);
+      toast.error('Error subiendo el documento');
+    }
   };
 
   const handleSendMessage = (event: FormEvent<HTMLFormElement>) => {
