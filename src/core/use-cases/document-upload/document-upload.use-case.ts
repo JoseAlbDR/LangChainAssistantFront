@@ -3,6 +3,11 @@ interface Payload {
 }
 
 export const documentUploadUseCase = async ({ file }: Payload) => {
+  if (file.type !== 'application/pdf' && file.type !== 'text/plain')
+    throw new Error(
+      `Invalid file type ${file.type} valid types are: .pdf and .text`
+    );
+
   const formData = new FormData();
   formData.append('document', file);
 
@@ -18,5 +23,6 @@ export const documentUploadUseCase = async ({ file }: Payload) => {
     if (!res.ok) throw new Error('Error uploading document');
   } catch (err) {
     console.log(err);
+    throw err;
   }
 };

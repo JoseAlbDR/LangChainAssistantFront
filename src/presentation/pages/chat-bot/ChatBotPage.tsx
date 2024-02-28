@@ -6,7 +6,7 @@ import {
   TextMessageBoxFile,
 } from '../../components';
 
-interface Message {
+export interface Message {
   text: string;
   isGpt: boolean;
 }
@@ -30,7 +30,7 @@ const ChatTemplate = () => {
     <div className="chat-container">
       <div className="chat-messages">
         <div className="grid grid-cols-12 gap-y-2">
-          <GptMessage text="Hello there!, you can write your text in english and I will help you with the corrections" />
+          <GptMessage text="Hola! soy tu Chat Bot, para empezar adjuta el documento sobre el cual quieres hablar, ten en cuenta que según el tamaño del documento el tiempo de carga puede variar." />
 
           {messages.map((message, index) =>
             message.isGpt ? (
@@ -52,6 +52,7 @@ const ChatTemplate = () => {
         onSendMessage={handlePost}
         placeholder="Write here your shit"
         // accept=".pdf, .txt"
+        setMessages={setMessages}
         disableCorrections
       />
     </div>

@@ -11,18 +11,21 @@ import {
 import { FormEvent, useState } from 'react';
 import { documentUploadUseCase } from '../../../core/use-cases/document-upload/document-upload.use-case';
 import { toast } from 'react-toastify';
+import { Message } from '../../pages/chat-bot/ChatBotPage';
 
 interface Props {
   onSendMessage: (message: string, file: File) => void;
   placeholder?: string;
   disableCorrections?: boolean;
   accept?: string; //image*
+  setMessages: React.Dispatch<React.SetStateAction<Message[]>>;
 }
 
 const TextMessageBoxFile = ({
   onSendMessage,
   placeholder = '',
   disableCorrections = false,
+  setMessages,
 }: // accept,
 Props) => {
   const [message, setMessage] = useState('');
@@ -39,11 +42,21 @@ Props) => {
       setIsLoading(true);
       await documentUploadUseCase({ file: selectedFile });
       toast.success('Carga realizada con éxito!');
-      setIsLoading(false);
+      setMessages((prev) => [
+        ...prev,
+        {
+          isGpt: true,
+          text: `¿Sobre qué quieres hablar del documento ${selectedFile.name}?`,
+        },
+      ]);
       onClose();
     } catch (error) {
       console.log(error);
-      toast.error('Error subiendo el documento');
+      if (error instanceof Error) return toast.error(error.message);
+      if (typeof error === 'string') return toast.error(error);
+      return toast.error('Error desconocido, revise los logs');
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -122,9 +135,15 @@ Props) => {
         </div>
       </div>
       <div className="ml-4">
-        <button className="btn-primary" disabled={!selectedFile}>
-          <span className="mr-2 ">Enviar</span>
-          <i className="fa-regular fa-paper-plane"></i>
+        <button className="btn-primary" disabled={!selectedFile || isLoading}>
+          {isLoading ? (
+            <Spinner />
+          ) : (
+            <>
+              <span className="mr-2 ">Enviar</span>{' '}
+              <i className="fa-regular fa-paper-plane"></i>
+            </>
+          )}
         </button>
       </div>
     </form>
