@@ -1,6 +1,7 @@
 import { Outlet } from 'react-router-dom';
-import { menuRoutes } from '../../router/router';
-import SidebarItem from '../components/sidebar/SidebarItem';
+// import { menuRoutes } from '../../router/router';
+// import SidebarItem from '../components/sidebar/SidebarItem';
+import { DocumentsDropDown } from '../components';
 
 const DashboardLayout = () => {
   return (
@@ -13,9 +14,10 @@ const DashboardLayout = () => {
 
         <div className="border-gray-700 border my-3" />
 
-        {menuRoutes.map((item) => (
+        {/* {menuRoutes.map((item) => (
           <SidebarItem key={item.to} {...item} />
-        ))}
+        ))} */}
+        <DocumentsDropDown />
       </nav>
 
       <section className="mx-3 sm:mx-20 flex flex-col w-full h-[calc(100vh-50px)]  bg-white bg-opacity-10 p-5 rounded-3xl">

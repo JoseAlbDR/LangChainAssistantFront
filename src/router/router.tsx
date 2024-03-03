@@ -2,6 +2,7 @@ import { Navigate, createBrowserRouter } from 'react-router-dom';
 import DashboardLayout from '../presentation/layouts/DashboardLayout';
 import { MenuItem } from '../interfaces';
 import { ChatBotPage } from '../presentation/pages';
+import { DocumentsDropDown } from '../presentation/components';
 
 export const menuRoutes: MenuItem[] = [
   {
@@ -10,6 +11,13 @@ export const menuRoutes: MenuItem[] = [
     title: 'Chat Bot',
     description: 'Chat with documents',
     component: <ChatBotPage />,
+  },
+  {
+    to: '/documents',
+    icon: 'fa-solid fa-book',
+    title: 'Documentos',
+    description: 'Documentos subidos',
+    component: <DocumentsDropDown />,
   },
 ];
 
