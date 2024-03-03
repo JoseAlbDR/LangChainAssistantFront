@@ -8,7 +8,7 @@ import {
 import { useState, useMemo } from 'react';
 
 const DocumentsDropDown = () => {
-  const [selectedKeys, setSelectedKeys] = useState(new Set([]));
+  const [selectedKeys, setSelectedKeys] = useState(new Set(['']));
 
   const selectedValue = useMemo(
     () => Array.from(selectedKeys).join(', ').replaceAll('_', ' '),
