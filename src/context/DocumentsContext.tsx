@@ -3,16 +3,13 @@ import { createContext, useContext, useState } from 'react';
 interface DocumentsContextValues {
   documentName: string;
   selectedFile: File | null | undefined;
-  selectFile?: (file: File) => void;
-  saveDocumentName?: (name: string) => void;
+  selectFile: (file: File | null) => void;
+  saveDocumentName: (name: string) => void;
 }
 
-const initialState = {
-  documentName: '',
-  selectedFile: null,
-};
-
-const DocumentsContext = createContext<DocumentsContextValues>(initialState);
+const DocumentsContext = createContext<DocumentsContextValues | undefined>(
+  undefined
+);
 
 function DocumentsProvider({ children }: { children: React.ReactNode }) {
   const [documentName, setDocumentName] = useState<string>('');
@@ -20,7 +17,7 @@ function DocumentsProvider({ children }: { children: React.ReactNode }) {
     null
   );
 
-  const selectFile = (file: File) => {
+  const selectFile = (file: File | null) => {
     setSelectedFile(file);
   };
 

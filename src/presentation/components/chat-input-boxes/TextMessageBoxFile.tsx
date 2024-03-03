@@ -12,6 +12,7 @@ import { FormEvent, useState } from 'react';
 import { documentUploadUseCase } from '../../../core/use-cases/document-upload/document-upload.use-case';
 import { toast } from 'react-toastify';
 import { Message } from '../../pages/chat-bot/ChatBotPage';
+import { useDocumentsContext } from '../../../context/DocumentsContext';
 
 interface Props {
   onSendMessage: (message: string, document: string) => void;
@@ -28,18 +29,16 @@ const TextMessageBoxFile = ({
   setMessages,
 }: // accept,
 Props) => {
+  const { documentName, selectedFile, saveDocumentName, selectFile } =
+    useDocumentsContext();
   const [message, setMessage] = useState('');
-  const [documentName, setDocumentName] = useState('adoptaunpeludo.txt');
   const [isLoading, setIsLoading] = useState(false);
-  const [selectedFile, setSelectedFile] = useState<File | null | undefined>(
-    null
-  );
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   const handleUploadDocument = async (onClose: () => void) => {
     if (!selectedFile) return;
 
-    setDocumentName(selectedFile.name);
+    saveDocumentName(selectedFile.name);
 
     try {
       setIsLoading(true);
@@ -67,7 +66,7 @@ Props) => {
 
     onSendMessage(message, documentName);
     setMessage('');
-    setSelectedFile(null);
+    selectFile(null);
   };
 
   return (
@@ -96,7 +95,7 @@ Props) => {
                         type="file"
                         onChange={(e) => {
                           console.log(e.target.files);
-                          return setSelectedFile(e.target.files!.item(0));
+                          return selectFile(e.target.files!.item(0));
                         }}
                       />
                     )}
