@@ -1,8 +1,11 @@
 interface Payload {
   question: string;
+  document: string;
 }
 
-export async function* chatBotStreamGeneratorUseCase(question: Payload) {
+export async function* chatBotStreamGeneratorUseCase(payload: Payload) {
+  const { question, document } = payload;
+
   try {
     const res = await fetch(
       'http://localhost:3000/api/chat-bot/user-question',
@@ -11,7 +14,7 @@ export async function* chatBotStreamGeneratorUseCase(question: Payload) {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(question),
+        body: JSON.stringify({ question, document }),
       }
     );
 

@@ -14,7 +14,7 @@ import { toast } from 'react-toastify';
 import { Message } from '../../pages/chat-bot/ChatBotPage';
 
 interface Props {
-  onSendMessage: (message: string) => void;
+  onSendMessage: (message: string, document: string) => void;
   placeholder?: string;
   disableCorrections?: boolean;
   accept?: string; //image*
@@ -29,6 +29,7 @@ const TextMessageBoxFile = ({
 }: // accept,
 Props) => {
   const [message, setMessage] = useState('');
+  const [documentName, setDocumentName] = useState('adoptaunpeludo.txt');
   const [isLoading, setIsLoading] = useState(false);
   const [selectedFile, setSelectedFile] = useState<File | null | undefined>(
     null
@@ -37,6 +38,8 @@ Props) => {
 
   const handleUploadDocument = async (onClose: () => void) => {
     if (!selectedFile) return;
+
+    setDocumentName(selectedFile.name);
 
     try {
       setIsLoading(true);
@@ -62,9 +65,7 @@ Props) => {
   const handleSendMessage = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    // if (!selectedFile) return;
-
-    onSendMessage(message);
+    onSendMessage(message, documentName);
     setMessage('');
     setSelectedFile(null);
   };
@@ -123,7 +124,7 @@ Props) => {
             type="text"
             autoFocus
             name="message"
-            className="flex w-full border rounded-xl text-gray-800 focus:outline-none focus:border-purple-300 pl-4 h-10"
+            className="flex w-full border rounded-xl text-gray-800 focus:outline-none focus:border-purple-300 pl-4 h-14 text-xl"
             placeholder={placeholder}
             autoComplete={!disableCorrections ? 'off' : 'on'}
             autoCorrect={!disableCorrections ? 'off' : 'on'}
