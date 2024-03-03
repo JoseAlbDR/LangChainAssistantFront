@@ -1,10 +1,13 @@
-import { createContext, useContext, useState } from 'react';
+import { createContext, useCallback, useContext, useState } from 'react';
 
 interface DocumentsContextValues {
   documentName: string;
   selectedFile: File | null | undefined;
+  documents: string[];
   selectFile: (file: File | null) => void;
   saveDocumentName: (name: string) => void;
+  saveDocument: (document: string) => void;
+  saveDocuments: (document: string[]) => void;
 }
 
 const DocumentsContext = createContext<DocumentsContextValues | undefined>(
@@ -16,6 +19,7 @@ function DocumentsProvider({ children }: { children: React.ReactNode }) {
   const [selectedFile, setSelectedFile] = useState<File | null | undefined>(
     null
   );
+  const [documents, setDocuments] = useState<string[]>([]);
 
   const selectFile = (file: File | null) => {
     setSelectedFile(file);
@@ -25,13 +29,24 @@ function DocumentsProvider({ children }: { children: React.ReactNode }) {
     setDocumentName(name);
   };
 
+  const saveDocument = (document: string) => {
+    setDocuments((documents) => [...documents, document]);
+  };
+
+  const saveDocuments = useCallback((documents: string[]) => {
+    setDocuments(documents);
+  }, []);
+
   return (
     <DocumentsContext.Provider
       value={{
         documentName,
         selectedFile,
+        documents,
         selectFile,
         saveDocumentName,
+        saveDocument,
+        saveDocuments,
       }}
     >
       {children}

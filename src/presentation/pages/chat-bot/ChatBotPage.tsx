@@ -1,16 +1,14 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { GptMessage, UserMessage, TextMessageBoxFile } from '../../components';
 import { chatBotStreamGeneratorUseCase } from '../../../core/use-cases/chat-bot/chat-bot-stream-generator.use-case';
 import { toast } from 'react-toastify';
-
-export interface Message {
-  text: string;
-  isGpt: boolean;
-}
+import { useChatContext } from '../../../context/ChatContext';
+import { useDocumentsContext } from '../../../context/DocumentsContext';
 
 const ChatBotPage = () => {
   // const [isLoading, setIsLoading] = useState(false);
-  const [messages, setMessages] = useState<Message[]>([]);
+  const { documentName } = useDocumentsContext();
+  const { messages, saveMessage, saveStream, emptyMessages } = useChatContext();
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const scrollToBottom = () => {
@@ -20,26 +18,32 @@ const ChatBotPage = () => {
   };
 
   useEffect(() => {
+    if (documentName) {
+      emptyMessages();
+      saveMessage({
+        isGpt: true,
+        text: `¿Sobre qué te gustaría hablar del documento ${documentName}`,
+      });
+    }
+  }, [documentName, saveMessage, emptyMessages]);
+
+  useEffect(() => {
     scrollToBottom();
   }, [messages]);
 
   const handlePost = async (text: string, document: string) => {
     try {
-      setMessages((prev) => [...prev, { text, isGpt: false }]);
+      saveMessage({ text, isGpt: false });
 
       const stream = chatBotStreamGeneratorUseCase({
         document,
         question: text,
       });
 
-      setMessages((prev) => [...prev, { text: '', isGpt: true }]);
+      saveMessage({ text: '', isGpt: true });
 
       for await (const chunk of stream) {
-        setMessages((prev) => {
-          const newMessages = [...prev];
-          newMessages[newMessages.length - 1].text = chunk;
-          return newMessages;
-        });
+        saveStream(chunk);
       }
     } catch (error) {
       if (error instanceof Error) return toast.error(error.message);
@@ -75,7 +79,6 @@ const ChatBotPage = () => {
         onSendMessage={handlePost}
         placeholder="Write here your shit"
         // accept=".pdf, .txt"
-        setMessages={setMessages}
         disableCorrections
       />
     </div>

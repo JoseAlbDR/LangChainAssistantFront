@@ -1,9 +1,34 @@
-import { Outlet } from 'react-router-dom';
+import { Outlet, useLoaderData } from 'react-router-dom';
 // import { menuRoutes } from '../../router/router';
 // import SidebarItem from '../components/sidebar/SidebarItem';
 import { DocumentsDropDown } from '../components';
+import { toast } from 'react-toastify';
+import { useDocumentsContext } from '../../context/DocumentsContext';
+import { useEffect } from 'react';
+
+export const loader = async () => {
+  try {
+    const res = await fetch('http://localhost:3000/api/chat-bot/documents');
+
+    const documents = await res.json();
+
+    return documents;
+  } catch (error) {
+    console.log(error);
+    toast.error('Error loading documents');
+  }
+};
 
 const DashboardLayout = () => {
+  const documents = useLoaderData() as [{ name: string }];
+  const { saveDocuments } = useDocumentsContext();
+
+  console.log(documents);
+
+  useEffect(() => {
+    saveDocuments(documents.map((document) => document.name));
+  }, [documents, saveDocuments]);
+
   return (
     <main className="flex flex-row mt-7">
       <nav className="hidden sm:flex flex-col ml-5 w-[370px] min-h-[calc(100vh-3.0rem)] bg-white bg-opacity-10 p-5 rounded-3xl">

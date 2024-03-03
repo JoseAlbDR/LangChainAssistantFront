@@ -11,7 +11,6 @@ import {
 import { FormEvent, useState } from 'react';
 import { documentUploadUseCase } from '../../../core/use-cases/document-upload/document-upload.use-case';
 import { toast } from 'react-toastify';
-import { Message } from '../../pages/chat-bot/ChatBotPage';
 import { useDocumentsContext } from '../../../context/DocumentsContext';
 
 interface Props {
@@ -19,18 +18,21 @@ interface Props {
   placeholder?: string;
   disableCorrections?: boolean;
   accept?: string; //image*
-  setMessages: React.Dispatch<React.SetStateAction<Message[]>>;
 }
 
 const TextMessageBoxFile = ({
   onSendMessage,
   placeholder = '',
   disableCorrections = false,
-  setMessages,
 }: // accept,
 Props) => {
-  const { documentName, selectedFile, saveDocumentName, selectFile } =
-    useDocumentsContext();
+  const {
+    documentName,
+    selectedFile,
+    saveDocumentName,
+    selectFile,
+    saveDocument,
+  } = useDocumentsContext();
   const [message, setMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
@@ -44,13 +46,8 @@ Props) => {
       setIsLoading(true);
       await documentUploadUseCase({ file: selectedFile });
       toast.success('Carga realizada con éxito!');
-      setMessages((prev) => [
-        ...prev,
-        {
-          isGpt: true,
-          text: `¿Sobre qué quieres hablar del documento ${selectedFile.name}?`,
-        },
-      ]);
+      saveDocument(selectedFile.name);
+      saveDocumentName(selectedFile.name);
       onClose();
     } catch (error) {
       if (error instanceof Error) return toast.error(error.message);

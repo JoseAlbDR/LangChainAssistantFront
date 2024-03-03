@@ -4,6 +4,8 @@ import { MenuItem } from '../interfaces';
 import { ChatBotPage } from '../presentation/pages';
 import { DocumentsDropDown } from '../presentation/components';
 
+import { loader as documentsLoader } from '../presentation/layouts/DashboardLayout';
+
 export const menuRoutes: MenuItem[] = [
   {
     to: '/chat-bot',
@@ -25,6 +27,7 @@ export const router = createBrowserRouter([
   {
     path: '/',
     element: <DashboardLayout />,
+    loader: documentsLoader,
     children: [
       ...menuRoutes.map((route) => ({
         path: route.to,
