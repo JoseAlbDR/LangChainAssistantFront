@@ -20,7 +20,10 @@ export const documentUploadUseCase = async ({ file }: Payload) => {
       }
     );
 
-    if (!res.ok) throw new Error('Error uploading document');
+    if (!res.ok) {
+      const { message } = await res.json();
+      throw new Error(message);
+    }
   } catch (err) {
     console.log(err);
     throw err;
