@@ -8,7 +8,7 @@ import { useEffect } from 'react';
 
 export const loader = async () => {
   try {
-    const res = await fetch('http://localhost:3000/api/chat-bot/documents');
+    const res = await fetch('http://localhost:3000/api/documents');
 
     const documents = await res.json();
 

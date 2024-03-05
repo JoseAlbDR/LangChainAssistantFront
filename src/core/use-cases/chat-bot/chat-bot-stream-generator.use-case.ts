@@ -8,7 +8,7 @@ export async function* chatBotStreamGeneratorUseCase(payload: Payload) {
 
   try {
     const res = await fetch(
-      'http://localhost:3000/api/chat-bot/user-question',
+      'http://localhost:3000/api/assistant/user-question',
       {
         method: 'POST',
         headers: {

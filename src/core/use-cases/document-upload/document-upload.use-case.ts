@@ -12,13 +12,10 @@ export const documentUploadUseCase = async ({ file }: Payload) => {
   formData.append('document', file);
 
   try {
-    const res = await fetch(
-      'http://localhost:3000/api/chat-bot/feed-document',
-      {
-        method: 'POST',
-        body: formData,
-      }
-    );
+    const res = await fetch('http://localhost:3000/api/document/', {
+      method: 'POST',
+      body: formData,
+    });
 
     if (!res.ok) {
       const { message } = await res.json();
