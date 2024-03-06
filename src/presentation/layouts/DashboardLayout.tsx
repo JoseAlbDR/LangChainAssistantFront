@@ -1,7 +1,7 @@
 import { Outlet, useLoaderData } from 'react-router-dom';
 import { menuRoutes } from '../../router/router';
 import SidebarItem from '../components/sidebar/SidebarItem';
-import { DocumentsDropDown } from '../components';
+import { ConfigModal, DocumentsDropDown } from '../components';
 import { toast } from 'react-toastify';
 import { useDocumentsContext } from '../../context/DocumentsContext';
 import { useEffect } from 'react';
@@ -32,9 +32,13 @@ const DashboardLayout = () => {
   return (
     <main className="flex flex-row mt-7">
       <nav className="hidden sm:flex flex-col ml-5 w-[370px] min-h-[calc(100vh-3.0rem)] bg-white bg-opacity-10 p-5 rounded-3xl">
-        <h1 className="font-bold text-lg lg:text-3xl bg-gradient-to-br from-white via-white/50 bg-clip-text text-transparent">
-          Chat Bot<span className="text-indigo-500"></span>
-        </h1>
+        <div className="flex justify-between items-center">
+          <h1 className="font-bold text-lg lg:text-3xl from-white">
+            Chat Bot
+            <span className="text-indigo-500"></span>
+          </h1>
+          <ConfigModal />
+        </div>
         <span className="text-xl text-stone-300">Bienvenido!</span>
 
         <div className="border-gray-700 border my-3" />
