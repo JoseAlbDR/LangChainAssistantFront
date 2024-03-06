@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   GptMessage,
   UserMessage,
@@ -6,15 +6,39 @@ import {
   TextMessageBox,
 } from '../../components';
 import { chatStreamGeneratorUseCase } from '../../../core/use-cases/chat-stream-generator/chat-stream-generator.use-case';
+import { Message } from '../../../context/ChatContext';
+import { useLoaderData } from 'react-router-dom';
+import { mapChatHistory } from '../../../utils';
+import { useScroll } from '../../../hooks/useScroll';
 
-interface Message {
-  text: string;
-  isGpt: boolean;
-}
+export const loader = async () => {
+  try {
+    const response = await fetch(
+      'http://localhost:3000/api/chatgpt/chat-history'
+    );
+
+    if (!response.ok) throw new Error(await response.json());
+
+    const history = await response.json();
+
+    const chatHistory = mapChatHistory(history);
+
+    return chatHistory;
+  } catch (error) {
+    console.log(error);
+    return error;
+  }
+};
 
 const ChatBotPage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
+  const chatHistory = useLoaderData() as Message[];
+  const { messagesEndRef } = useScroll(messages);
+
+  useEffect(() => {
+    setMessages(chatHistory);
+  }, [chatHistory]);
 
   const handlePost = async (text: string) => {
     setIsLoading(true);
@@ -58,6 +82,7 @@ const ChatBotPage = () => {
               <TypingLoader />
             </div>
           )}
+          <div ref={messagesEndRef} />
         </div>
       </div>
 

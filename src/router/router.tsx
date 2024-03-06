@@ -9,6 +9,7 @@ import {
 import { DocumentsDropDown } from '../presentation/components';
 
 import { loader as documentsLoader } from '../presentation/layouts/DashboardLayout';
+import { loader as chatHistoryLoader } from '../presentation/pages/chat-bot/ChatBotPage';
 
 export const menuRoutes: MenuItem[] = [
   {
@@ -36,6 +37,7 @@ export const router = createBrowserRouter([
       {
         path: 'chat-bot',
         element: <ChatBotPage />,
+        loader: chatHistoryLoader,
       },
       {
         path: 'documents/',
