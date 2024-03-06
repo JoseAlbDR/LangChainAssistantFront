@@ -1,7 +1,11 @@
 import { Navigate, createBrowserRouter } from 'react-router-dom';
 import DashboardLayout from '../presentation/layouts/DashboardLayout';
 import { MenuItem } from '../interfaces';
-import { ChatBotPage } from '../presentation/pages';
+import {
+  DocumentAssistantPage,
+  ChatBotPage,
+  DocumentsPage,
+} from '../presentation/pages';
 import { DocumentsDropDown } from '../presentation/components';
 
 import { loader as documentsLoader } from '../presentation/layouts/DashboardLayout';
@@ -11,11 +15,11 @@ export const menuRoutes: MenuItem[] = [
     to: '/chat-bot',
     icon: 'fa-solid fa-robot',
     title: 'Chat Bot',
-    description: 'Chat with documents',
+    description: 'Your personal GPT',
     component: <ChatBotPage />,
   },
   {
-    to: '/documents',
+    to: '/documents/',
     icon: 'fa-solid fa-book',
     title: 'Documentos',
     description: 'Documentos subidos',
@@ -29,10 +33,18 @@ export const router = createBrowserRouter([
     element: <DashboardLayout />,
     loader: documentsLoader,
     children: [
-      ...menuRoutes.map((route) => ({
-        path: route.to,
-        element: route.component,
-      })),
+      {
+        path: 'chat-bot',
+        element: <ChatBotPage />,
+      },
+      {
+        path: 'documents/',
+        element: <DocumentsPage />,
+      },
+      {
+        path: 'document-assistant/:name',
+        element: <DocumentAssistantPage />,
+      },
       {
         path: '',
         element: <Navigate to={menuRoutes[0].to} />,

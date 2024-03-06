@@ -1,84 +1,56 @@
-import { useEffect, useRef } from 'react';
-import { GptMessage, UserMessage, TextMessageBoxFile } from '../../components';
-import { chatBotStreamGeneratorUseCase } from '../../../core/use-cases/chat-bot/chat-bot-stream-generator.use-case';
-import { toast } from 'react-toastify';
-import { useChatContext } from '../../../context/ChatContext';
-import { useDocumentsContext } from '../../../context/DocumentsContext';
+import { useState } from 'react';
+import {
+  GptMessage,
+  UserMessage,
+  TypingLoader,
+  TextMessageBox,
+} from '../../components';
+
+interface Message {
+  text: string;
+  isGpt: boolean;
+}
 
 const ChatBotPage = () => {
-  // const [isLoading, setIsLoading] = useState(false);
-  const { documentName } = useDocumentsContext();
-  const { messages, saveMessage, saveStream, emptyMessages } = useChatContext();
-  const messagesEndRef = useRef<HTMLDivElement>(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [messages, setMessages] = useState<Message[]>([]);
 
-  const scrollToBottom = () => {
-    if (messagesEndRef.current) {
-      messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
+  const handlePost = async (text: string) => {
+    setIsLoading(true);
+    setMessages((prev) => [...prev, { text, isGpt: false }]);
 
-  useEffect(() => {
-    if (documentName) {
-      emptyMessages();
-      saveMessage({
-        isGpt: true,
-        text: `¿Sobre qué te gustaría hablar del documento ${documentName}`,
-      });
-    }
-  }, [documentName, saveMessage, emptyMessages]);
+    //TODO: UseCase
 
-  useEffect(() => {
-    scrollToBottom();
-  }, [messages]);
+    setIsLoading(false);
 
-  const handlePost = async (text: string, document: string) => {
-    try {
-      saveMessage({ text, isGpt: false });
-
-      const stream = chatBotStreamGeneratorUseCase({
-        document,
-        question: text,
-      });
-
-      saveMessage({ text: '', isGpt: true });
-
-      for await (const chunk of stream) {
-        saveStream(chunk);
-      }
-    } catch (error) {
-      if (error instanceof Error) return toast.error(error.message);
-      if (typeof error === 'string') return toast.error(error);
-      return toast.error('Error desconocido, revise los logs');
-    }
+    //TODO: Add message isGpt true
   };
 
   return (
     <div className="chat-container">
       <div className="chat-messages">
         <div className="grid grid-cols-12 gap-y-2">
-          <GptMessage text="Hola! soy tu Chat Bot, para empezar adjunta el documento sobre el cual quieres hablar, ten en cuenta que según el tamaño del documento el tiempo de carga puede variar." />
+          <GptMessage text="Hola! Soy tu asistente personal, pregunta lo que necesites y responderé basado en mi base de conocimiento" />
+
           {messages.map((message, index) =>
             message.isGpt ? (
-              <GptMessage key={index} text={message.text} />
+              <GptMessage key={index} text="OpenAI!" />
             ) : (
               <UserMessage key={index} text={message.text} />
             )
           )}
-          {/* 
+
           {isLoading && (
-            <div className="col-start-3 col-end-12 fade-in">
+            <div className="col-start-1 col-end-12 fade-in">
               <TypingLoader />
             </div>
-          )} */}
-
-          <div ref={messagesEndRef} />
+          )}
         </div>
       </div>
 
-      <TextMessageBoxFile
+      <TextMessageBox
         onSendMessage={handlePost}
         placeholder="Write here your shit"
-        // accept=".pdf, .txt"
         disableCorrections
       />
     </div>

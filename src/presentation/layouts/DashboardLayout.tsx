@@ -1,6 +1,6 @@
 import { Outlet, useLoaderData } from 'react-router-dom';
-// import { menuRoutes } from '../../router/router';
-// import SidebarItem from '../components/sidebar/SidebarItem';
+import { menuRoutes } from '../../router/router';
+import SidebarItem from '../components/sidebar/SidebarItem';
 import { DocumentsDropDown } from '../components';
 import { toast } from 'react-toastify';
 import { useDocumentsContext } from '../../context/DocumentsContext';
@@ -8,7 +8,7 @@ import { useEffect } from 'react';
 
 export const loader = async () => {
   try {
-    const res = await fetch('http://localhost:3000/api/documents');
+    const res = await fetch('http://localhost:3000/api/document');
 
     const documents = await res.json();
 
@@ -39,9 +39,9 @@ const DashboardLayout = () => {
 
         <div className="border-gray-700 border my-3" />
 
-        {/* {menuRoutes.map((item) => (
+        {menuRoutes.map((item) => (
           <SidebarItem key={item.to} {...item} />
-        ))} */}
+        ))}
         <DocumentsDropDown />
       </nav>
 
