@@ -4,6 +4,8 @@ interface DocumentsContextValues {
   documentName: string;
   selectedFile: File | null | undefined;
   documents: string[];
+  selectedKeys: Set<string>;
+  setSelectedKeys: React.Dispatch<React.SetStateAction<Set<string>>>;
   selectFile: (file: File | null) => void;
   saveDocumentName: (name: string) => void;
   saveDocument: (document: string) => void;
@@ -20,6 +22,7 @@ function DocumentsProvider({ children }: { children: React.ReactNode }) {
     null
   );
   const [documents, setDocuments] = useState<string[]>([]);
+  const [selectedKeys, setSelectedKeys] = useState(new Set(['']));
 
   const selectFile = (file: File | null) => {
     setSelectedFile(file);
@@ -44,9 +47,11 @@ function DocumentsProvider({ children }: { children: React.ReactNode }) {
         selectedFile,
         documents,
         selectFile,
+        selectedKeys,
         saveDocumentName,
         saveDocument,
         saveDocuments,
+        setSelectedKeys,
       }}
     >
       {children}

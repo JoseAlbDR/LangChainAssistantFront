@@ -12,6 +12,7 @@ import { FormEvent, useState } from 'react';
 import { documentUploadUseCase } from '../../../core/use-cases/document-upload/document-upload.use-case';
 import { toast } from 'react-toastify';
 import { useDocumentsContext } from '../../../context/DocumentsContext';
+import { useNavigate } from 'react-router-dom';
 
 interface Props {
   onSendMessage: (message: string, document: string) => void;
@@ -32,10 +33,12 @@ Props) => {
     saveDocumentName,
     selectFile,
     saveDocument,
+    setSelectedKeys,
   } = useDocumentsContext();
   const [message, setMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const navigate = useNavigate();
 
   const handleUploadDocument = async (onClose: () => void) => {
     if (!selectedFile) return;
@@ -46,8 +49,10 @@ Props) => {
       setIsLoading(true);
       await documentUploadUseCase({ file: selectedFile });
       toast.success('Carga realizada con éxito!');
+      navigate(`/document-assistant/${selectedFile.name}`);
       saveDocument(selectedFile.name);
       saveDocumentName(selectedFile.name);
+      setSelectedKeys(new Set([selectedFile.name]));
       onClose();
     } catch (error) {
       if (error instanceof Error) return toast.error(error.message);

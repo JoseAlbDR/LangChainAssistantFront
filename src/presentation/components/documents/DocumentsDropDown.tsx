@@ -6,12 +6,14 @@ import {
   DropdownItem,
   Selection,
 } from '@nextui-org/react';
-import { useState, useMemo } from 'react';
+import { useMemo } from 'react';
 import { useDocumentsContext } from '../../../context/DocumentsContext';
+import { useNavigate } from 'react-router-dom';
 
 const DocumentsDropDown = () => {
-  const [selectedKeys, setSelectedKeys] = useState(new Set(['']));
+  const { selectedKeys, setSelectedKeys } = useDocumentsContext();
   const { documents, saveDocumentName } = useDocumentsContext();
+  const navigate = useNavigate();
 
   const selectedValue = useMemo(
     () => Array.from(selectedKeys).join(', ').replaceAll('_', ' '),
@@ -19,6 +21,7 @@ const DocumentsDropDown = () => {
   );
 
   const handleSelectDocument = (document: string) => {
+    navigate(`document-assistant/${document}`);
     saveDocumentName(document);
   };
 
