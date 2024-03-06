@@ -1,9 +1,9 @@
 import { useEffect, useRef } from 'react';
 import { GptMessage, UserMessage, TextMessageBoxFile } from '../../components';
-import { chatBotStreamGeneratorUseCase } from '../../../core/use-cases/chat-bot/chat-bot-stream-generator.use-case';
 import { toast } from 'react-toastify';
 import { useChatContext } from '../../../context/ChatContext';
 import { useDocumentsContext } from '../../../context/DocumentsContext';
+import { chatStreamGeneratorUseCase } from '../../../core/use-cases/chat-stream-generator/chat-stream-generator.use-case';
 
 const DocumentAssistantPage = () => {
   // const [isLoading, setIsLoading] = useState(false);
@@ -35,10 +35,13 @@ const DocumentAssistantPage = () => {
     try {
       saveMessage({ text, isGpt: false });
 
-      const stream = chatBotStreamGeneratorUseCase({
-        document,
-        question: text,
-      });
+      const stream = chatStreamGeneratorUseCase(
+        {
+          document,
+          question: text,
+        },
+        'assistant/user-question'
+      );
 
       saveMessage({ text: '', isGpt: true });
 

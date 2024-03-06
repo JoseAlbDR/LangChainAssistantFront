@@ -1,22 +1,20 @@
 interface Payload {
   question: string;
-  document: string;
+  document?: string;
 }
 
-export async function* chatBotStreamGeneratorUseCase(payload: Payload) {
-  const { question, document } = payload;
-
+export async function* chatStreamGeneratorUseCase(
+  payload: Payload,
+  endpoint: string
+) {
   try {
-    const res = await fetch(
-      'http://localhost:3000/api/assistant/user-question',
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ question, document }),
-      }
-    );
+    const res = await fetch(`http://localhost:3000/api/${endpoint}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(payload),
+    });
 
     if (!res.ok) throw new Error('Error obteniendo respuesta del Bot');
 
