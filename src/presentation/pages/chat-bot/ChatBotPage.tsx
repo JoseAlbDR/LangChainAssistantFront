@@ -21,7 +21,8 @@ export const loader = async () => {
 
     const history = await response.json();
 
-    const chatHistory = mapChatHistory(history);
+    const chatHistory =
+      history.length === 0 ? history : mapChatHistory(history);
 
     return chatHistory;
   } catch (error) {

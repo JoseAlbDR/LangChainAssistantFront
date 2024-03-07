@@ -7,13 +7,13 @@ const models = [
   'gpt-4-0125-preview',
   'gpt-4-1106-preview',
 ];
-const ModelSelect = () => {
+const ModelSelect = ({ value }: { value: string }) => {
   return (
     <>
       <Select
         label="Selecciona un modelo"
         endContent={<Icon type={'robot'} />}
-        defaultSelectedKeys={['gpt-3.5-turbo-0125']}
+        defaultSelectedKeys={[value]}
         className="w-full text-stone-500"
       >
         {models.map((model) => (

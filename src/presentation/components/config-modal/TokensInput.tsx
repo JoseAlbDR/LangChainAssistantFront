@@ -16,7 +16,7 @@ const Tokens = () => {
     </div>
   );
 };
-const TokensInput = () => {
+const TokensInput = ({ value }: { value: string }) => {
   return (
     <Tooltip content={<Tokens />} className="text-stone-500 w-56">
       <Input
@@ -24,7 +24,7 @@ const TokensInput = () => {
         label="Tokens"
         variant="bordered"
         type="number"
-        defaultValue="250"
+        defaultValue={value}
       />
     </Tooltip>
   );

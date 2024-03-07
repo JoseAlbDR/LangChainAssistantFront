@@ -13,7 +13,13 @@ import ModelSelect from './ModelSelect';
 import TemperatureSlider from './TemperatureSlider';
 import TokensInput from './TokensInput';
 
-const ConfigModal = () => {
+interface Config {
+  modelName: string;
+  temperature: number;
+  maxTokens: number;
+}
+
+const ConfigModal = ({ config }: { config: Config }) => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   return (
@@ -37,11 +43,11 @@ const ConfigModal = () => {
               <ModalBody>
                 <ApiKeyInput />
                 <Divider className="my-1" />
-                <ModelSelect />
+                <ModelSelect value={config!.modelName} />
                 <Divider className="my-1" />
-                <TemperatureSlider />
+                <TemperatureSlider value={config!.temperature} />
                 <Divider className="my-1" />
-                <TokensInput />
+                <TokensInput value={String(config!.maxTokens)} />
                 <Divider className="my-1" />
               </ModalBody>
               <ModalFooter>

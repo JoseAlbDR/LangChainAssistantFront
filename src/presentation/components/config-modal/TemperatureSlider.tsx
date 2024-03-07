@@ -16,7 +16,7 @@ const Temperature = () => {
   );
 };
 
-const TemperatureSlider = () => {
+const TemperatureSlider = ({ value }: { value: number }) => {
   return (
     <Tooltip content={<Temperature />} className="text-stone-500 w-56">
       <Slider
@@ -24,7 +24,7 @@ const TemperatureSlider = () => {
         step={0.1}
         maxValue={1}
         minValue={0}
-        defaultValue={0.7}
+        defaultValue={value}
         className="max-w-md"
         endContent={<Icon type={'thermometer-full'} />}
       />

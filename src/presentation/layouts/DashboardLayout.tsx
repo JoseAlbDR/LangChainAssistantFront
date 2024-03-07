@@ -6,27 +6,47 @@ import { toast } from 'react-toastify';
 import { useDocumentsContext } from '../../context/DocumentsContext';
 import { useEffect } from 'react';
 
+interface LoaderData {
+  documents: Document[];
+  config: Config;
+}
+
+export interface Config {
+  modelName: string;
+  temperature: number;
+  maxTokens: number;
+}
+
+interface Document {
+  name: string;
+}
+
 export const loader = async () => {
   try {
-    const res = await fetch('http://localhost:3000/api/document');
+    const [documentRes, configRes] = await Promise.all([
+      fetch('http://localhost:3000/api/document'),
+      fetch('http://localhost:3000/api/openai-config'),
+    ]);
 
-    const documents = await res.json();
+    if (!configRes.ok) toast.error('Error fetching config');
+    if (!documentRes.ok) toast.error('Error fetching documents');
 
-    return documents;
+    const documents = await documentRes.json();
+    const config = await configRes.json();
+
+    return { documents, config };
   } catch (error) {
     console.log(error);
-    toast.error('Error loading documents');
+    toast.error('Error fetching data from server');
   }
 };
 
 const DashboardLayout = () => {
-  const documents = useLoaderData() as [{ name: string }];
+  const { documents, config } = useLoaderData() as LoaderData;
   const { saveDocuments } = useDocumentsContext();
 
-  console.log(documents);
-
   useEffect(() => {
-    saveDocuments(documents.map((document) => document.name));
+    saveDocuments(documents.map((document: Document) => document.name));
   }, [documents, saveDocuments]);
 
   return (
@@ -37,7 +57,7 @@ const DashboardLayout = () => {
             Chat Bot
             <span className="text-indigo-500"></span>
           </h1>
-          <ConfigModal />
+          <ConfigModal config={config} />
         </div>
         <span className="text-xl text-stone-300">Bienvenido!</span>
 
