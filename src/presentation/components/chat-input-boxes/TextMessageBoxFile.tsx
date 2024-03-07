@@ -13,6 +13,7 @@ import { documentUploadUseCase } from '../../../core/use-cases/document-upload/d
 import { toast } from 'react-toastify';
 import { useDocumentsContext } from '../../../context/DocumentsContext';
 import { useNavigate } from 'react-router-dom';
+import { useQueryClient } from '@tanstack/react-query';
 
 interface Props {
   onSendMessage: (message: string, document: string) => void;
@@ -38,6 +39,7 @@ Props) => {
   const [message, setMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const queryClient = useQueryClient();
   const navigate = useNavigate();
 
   const handleUploadDocument = async (onClose: () => void) => {
@@ -50,6 +52,9 @@ Props) => {
       await documentUploadUseCase({ file: selectedFile });
       toast.success('Carga realizada con éxito!');
       navigate(`/document-assistant/${selectedFile.name}`);
+      queryClient.invalidateQueries({
+        queryKey: ['documents'],
+      });
       saveDocument(selectedFile.name);
       saveDocumentName(selectedFile.name);
       setSelectedKeys(new Set([selectedFile.name]));

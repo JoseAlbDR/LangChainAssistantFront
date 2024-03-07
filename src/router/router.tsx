@@ -10,6 +10,7 @@ import { DocumentsDropDown } from '../presentation/components';
 
 import { loader as dashboardLoader } from '../presentation/layouts/DashboardLayout';
 import { loader as chatHistoryLoader } from '../presentation/pages/chat-bot/ChatBotPage';
+
 import { QueryClient } from '@tanstack/react-query';
 
 export const menuRoutes: MenuItem[] = [

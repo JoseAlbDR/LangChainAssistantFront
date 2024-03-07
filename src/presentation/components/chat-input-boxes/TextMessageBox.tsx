@@ -32,7 +32,7 @@ const TextMessageBox = ({
           <input
             type="text"
             autoFocus
-            name="message"
+            name="question"
             className="flex w-full border rounded-xl text-gray-800 focus:outline-none focus:border-purple-300 pl-4 h-10"
             placeholder={placeholder}
             autoComplete={!disableCorrections ? 'off' : 'on'}
@@ -44,7 +44,7 @@ const TextMessageBox = ({
         </div>
       </div>
       <div className="ml-4">
-        <button className="btn-primary">
+        <button className="btn-primary" type="submit">
           <span className="mr-2 ">Send</span>
           <i className="fa-regular fa-paper-plane"></i>
         </button>

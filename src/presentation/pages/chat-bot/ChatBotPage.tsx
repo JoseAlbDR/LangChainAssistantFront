@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import {
   GptMessage,
   UserMessage,
@@ -22,15 +22,20 @@ const ChatBotPage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
   const { data: chatHistory, isFetching: isLoadingHistory } = useHistory();
-  const { messagesEndRef } = useScroll(messages);
+  const { messagesEndRef, setShouldScroll } = useScroll(messages);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (!isLoadingHistory && chatHistory) {
       const history = mapChatHistory(chatHistory);
-
       setMessages(history);
+      setShouldScroll(true);
     }
-  }, [chatHistory, isLoadingHistory]);
+
+    if (containerRef.current) {
+      containerRef.current.scrollTop = containerRef.current.scrollHeight;
+    }
+  }, [chatHistory, isLoadingHistory, setShouldScroll]);
 
   if (isLoadingHistory) {
     return <Spinner />;
@@ -57,10 +62,12 @@ const ChatBotPage = () => {
         return newMessages;
       });
     }
+
+    setShouldScroll(true);
   };
 
   return (
-    <div className="chat-container">
+    <div className="chat-container" ref={containerRef}>
       <div className="chat-messages">
         <div className="grid grid-cols-12 gap-y-2">
           <GptMessage text="Hola! Soy tu asistente personal, pregunta lo que necesites y responderé basado en mi base de conocimiento" />
