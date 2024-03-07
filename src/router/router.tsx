@@ -13,6 +13,7 @@ import { loader as chatHistoryLoader } from '../presentation/pages/chat-bot/Chat
 import { loader as documentLoader } from '../presentation/pages/documents/DocumentAssistantPage';
 
 import { QueryClient } from '@tanstack/react-query';
+import ErrorPage from '../presentation/pages/error/ErrorPage';
 
 export const menuRoutes: MenuItem[] = [
   {
@@ -44,6 +45,7 @@ export const router = createBrowserRouter([
     path: '/',
     element: <DashboardLayout />,
     loader: dashboardLoader(queryClient),
+    errorElement: <ErrorPage />,
     children: [
       {
         path: 'chat-bot',
