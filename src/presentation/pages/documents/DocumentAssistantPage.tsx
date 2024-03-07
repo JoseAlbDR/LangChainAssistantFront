@@ -1,7 +1,6 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import { GptMessage, UserMessage, TextMessageBoxFile } from '../../components';
-import { toast } from 'react-toastify';
-import { useChatContext } from '../../../context/ChatContext';
+import { Message } from '../../../context/ChatContext';
 import { chatStreamGeneratorUseCase } from '../../../core/use-cases/chat-stream-generator/chat-stream-generator.use-case';
 import { useScroll } from '../../../hooks/useScroll';
 import { QueryClient } from '@tanstack/react-query';
@@ -21,49 +20,40 @@ export const loader =
   };
 
 const DocumentAssistantPage = () => {
-  const { messages, saveMessage, saveStream, setMessages } = useChatContext();
-  const { messagesEndRef, setShouldScroll } = useScroll(messages);
-  const containerRef = useRef<HTMLDivElement>(null);
-
   const document = useLoaderData() as string;
-
-  const { data: chatHistory, isFetching: isLoadingHistory } =
-    useDocumentHistory(document);
+  const [messages, setMessages] = useState<Message[]>([]);
+  const { data: chatHistory } = useDocumentHistory(document);
+  const { messagesEndRef, setShouldScroll } = useScroll(messages);
 
   useEffect(() => {
-    if (!isLoadingHistory && chatHistory) {
+    if (chatHistory) {
       const history = mapChatHistory(chatHistory);
       setMessages(history);
-      setShouldScroll(true);
     }
-
-    if (containerRef.current) {
-      containerRef.current.scrollTop = containerRef.current.scrollHeight;
-    }
-  }, [chatHistory, isLoadingHistory, setShouldScroll, setMessages]);
+  }, [chatHistory]);
 
   const handlePost = async (text: string, document: string) => {
-    try {
-      saveMessage({ text, isGpt: false });
+    setMessages((prev) => [...prev, { text, isGpt: false }]);
 
-      const stream = chatStreamGeneratorUseCase(
-        {
-          document,
-          question: text,
-        },
-        'assistant/user-question'
-      );
+    const stream = chatStreamGeneratorUseCase(
+      {
+        document,
+        question: text,
+      },
+      'assistant/user-question'
+    );
 
-      saveMessage({ text: '', isGpt: true });
+    setMessages((prev) => [...prev, { text: '', isGpt: true }]);
 
-      for await (const chunk of stream) {
-        saveStream(chunk);
-      }
-    } catch (error) {
-      if (error instanceof Error) return toast.error(error.message);
-      if (typeof error === 'string') return toast.error(error);
-      return toast.error('Error desconocido, revise los logs');
+    for await (const chunk of stream) {
+      setMessages((prev) => {
+        const newMessages = [...prev];
+        newMessages[newMessages.length - 1].text = chunk;
+        return newMessages;
+      });
     }
+
+    setShouldScroll(true);
   };
 
   return (
@@ -78,12 +68,6 @@ const DocumentAssistantPage = () => {
               <UserMessage key={index} text={message.text} />
             )
           )}
-          {/* 
-          {isLoading && (
-            <div className="col-start-3 col-end-12 fade-in">
-              <TypingLoader />
-            </div>
-          )} */}
 
           <div ref={messagesEndRef} />
         </div>

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   GptMessage,
   UserMessage,
@@ -10,7 +10,6 @@ import { Message } from '../../../context/ChatContext';
 import { useScroll } from '../../../hooks/useScroll';
 import { QueryClient } from '@tanstack/react-query';
 import { historyQuery, useHistory } from './useHistory';
-import { Spinner } from '@nextui-org/react';
 import { mapChatHistory } from '../../../utils';
 
 export const loader = (queryClient: QueryClient) => async () => {
@@ -21,25 +20,15 @@ export const loader = (queryClient: QueryClient) => async () => {
 const ChatBotPage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
-  const { data: chatHistory, isFetching: isLoadingHistory } = useHistory();
+  const { data: chatHistory } = useHistory();
   const { messagesEndRef, setShouldScroll } = useScroll(messages);
-  const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (!isLoadingHistory && chatHistory) {
+    if (chatHistory) {
       const history = mapChatHistory(chatHistory);
       setMessages(history);
-      setShouldScroll(true);
     }
-
-    if (containerRef.current) {
-      containerRef.current.scrollTop = containerRef.current.scrollHeight;
-    }
-  }, [chatHistory, isLoadingHistory, setShouldScroll]);
-
-  if (isLoadingHistory) {
-    return <Spinner className="flex items-center justify-center" size="lg" />;
-  }
+  }, [chatHistory]);
 
   const handlePost = async (text: string) => {
     setIsLoading(true);
@@ -65,7 +54,7 @@ const ChatBotPage = () => {
   };
 
   return (
-    <div className="chat-container" ref={containerRef}>
+    <div className="chat-container">
       <div className="chat-messages">
         <div className="grid grid-cols-12 gap-y-2">
           <GptMessage text="Hola! Soy tu asistente personal, pregunta lo que necesites y responderé basado en mi base de conocimiento" />

@@ -46,6 +46,8 @@ const DocumentsDropDown = () => {
 
   if (!documents) return <div>No hay documentos, prueba a subir uno.</div>;
 
+  console.log({ documents });
+
   return (
     <Dropdown className="light text-foreground bg-background">
       <DropdownTrigger>

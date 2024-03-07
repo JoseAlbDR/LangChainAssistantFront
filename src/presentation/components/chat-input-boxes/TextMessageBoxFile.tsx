@@ -2,7 +2,6 @@ import { Spinner } from '@nextui-org/react';
 import { FormEvent, useState } from 'react';
 import { useDocumentsContext } from '../../../context/DocumentsContext';
 import { useParams } from 'react-router-dom';
-import { useQueryClient } from '@tanstack/react-query';
 
 interface Props {
   onSendMessage: (message: string, document: string) => void;
@@ -21,15 +20,12 @@ Props) => {
   const [message, setMessage] = useState('');
 
   const params = useParams();
-  const queryClient = useQueryClient();
 
   const handleSendMessage = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     if (params && params.name) onSendMessage(message, params.name);
-    queryClient.invalidateQueries({
-      queryKey: ['documentHistory', params.name],
-    });
+
     setMessage('');
     selectFile(null);
   };
