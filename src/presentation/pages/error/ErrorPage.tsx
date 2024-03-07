@@ -24,7 +24,7 @@ const ErrorPage = () => {
     );
   }
   return (
-    <div className="min-h-screen text-center text-capitalize flex items-center justify-center">
+    <div className="min-h-screen text-center text-capitalize flex flex-col items-center justify-center">
       <h3 className="mb-2">Ups!</h3>
       <p className="leading-6 mt-2 mb-4 text-secondary">Algo malo pasó,</p>
       <p>{error.message}</p>

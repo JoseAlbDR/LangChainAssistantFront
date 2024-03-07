@@ -11,6 +11,7 @@ import { useScroll } from '../../../hooks/useScroll';
 import { QueryClient } from '@tanstack/react-query';
 import { historyQuery, useHistory } from './useHistory';
 import { mapChatHistory } from '../../../utils';
+import { toast } from 'react-toastify';
 
 export const loader = (queryClient: QueryClient) => async () => {
   await queryClient.ensureQueryData(historyQuery());
@@ -34,23 +35,29 @@ const ChatBotPage = () => {
     setIsLoading(true);
     setMessages((prev) => [...prev, { text, isGpt: false }]);
 
-    const stream = chatStreamGeneratorUseCase(
-      {
-        question: text,
-      },
-      'chatgpt/user-question'
-    );
+    try {
+      const stream = chatStreamGeneratorUseCase(
+        {
+          question: text,
+        },
+        'chatgpt/user-question'
+      );
 
-    setIsLoading(false);
-    setMessages((prev) => [...prev, { text: '', isGpt: true }]);
-    for await (const chunk of stream) {
-      setMessages((prev) => {
-        const newMessages = [...prev];
-        newMessages[newMessages.length - 1].text = chunk;
-        return newMessages;
-      });
+      setIsLoading(false);
+      setMessages((prev) => [...prev, { text: '', isGpt: true }]);
+      for await (const chunk of stream) {
+        setMessages((prev) => {
+          const newMessages = [...prev];
+          newMessages[newMessages.length - 1].text = chunk;
+          return newMessages;
+        });
+      }
+      setShouldScroll(true);
+    } catch (error) {
+      if (error instanceof Error) return toast.error(error.message);
+      if (typeof error === 'string') return toast.error(error);
+      return toast.error('Error desconocido, revise los logs');
     }
-    setShouldScroll(true);
   };
 
   return (

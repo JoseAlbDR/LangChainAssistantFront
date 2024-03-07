@@ -16,7 +16,11 @@ export async function* chatStreamGeneratorUseCase(
       body: JSON.stringify(payload),
     });
 
-    if (!res.ok) throw new Error('Error obteniendo respuesta del Bot');
+    if (!res.ok) {
+      const data = await res.json();
+
+      throw new Error(data.message);
+    }
 
     const reader = res.body?.getReader();
 

@@ -1,12 +1,19 @@
 export const getHistory = async () => {
-  const response = await fetch(
-    'http://localhost:3000/api/chatgpt/chat-history'
-  );
+  try {
+    const response = await fetch(
+      'http://localhost:3000/api/chatgpt/chat-history'
+    );
 
-  if (!response.ok) throw new Error(await response.json());
+    if (!response.ok) {
+      const data = await response.json();
+      throw data;
+    }
 
-  const data = await response.json();
+    const data = await response.json();
 
-  return data;
+    return data;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
 };
-

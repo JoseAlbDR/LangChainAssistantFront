@@ -7,7 +7,7 @@ export const historyQuery = () => {
   return {
     queryKey: ['chatbotHistory'],
     queryFn: async () => getHistory(),
-    staleTime: 0,
+    staleTime: 1000,
     onError: (error: string) => {
       console.log(error);
       toast.error(error);

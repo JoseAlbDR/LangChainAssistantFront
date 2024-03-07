@@ -7,7 +7,7 @@ export const documentHistoryQuery = (document: string) => {
   return {
     queryKey: ['documentHistory', document],
     queryFn: async () => getDocumentHistory(document),
-    staleTime: 0,
+    staleTime: 1000,
     onError: (error: string) => {
       console.log(error);
       toast.error(error);
