@@ -5,9 +5,11 @@ interface DocumentsContextValues {
   documents: string[];
   selectedKeys: Set<string>;
   setSelectedKeys: React.Dispatch<React.SetStateAction<Set<string>>>;
+  isLoading: boolean;
   selectFile: (file: File | null) => void;
   saveDocument: (document: string) => void;
   saveDocuments: (document: string[]) => void;
+  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const DocumentsContext = createContext<DocumentsContextValues | undefined>(
@@ -15,6 +17,7 @@ const DocumentsContext = createContext<DocumentsContextValues | undefined>(
 );
 
 function DocumentsProvider({ children }: { children: React.ReactNode }) {
+  const [isLoading, setIsLoading] = useState(false);
   const [selectedFile, setSelectedFile] = useState<File | null | undefined>(
     null
   );
@@ -43,6 +46,8 @@ function DocumentsProvider({ children }: { children: React.ReactNode }) {
         saveDocument,
         saveDocuments,
         setSelectedKeys,
+        isLoading,
+        setIsLoading,
       }}
     >
       {children}
