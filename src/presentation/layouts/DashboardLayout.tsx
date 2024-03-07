@@ -2,9 +2,12 @@ import { Outlet, useLoaderData } from 'react-router-dom';
 import { menuRoutes } from '../../router/router';
 import SidebarItem from '../components/sidebar/SidebarItem';
 import { ConfigModal, DocumentsDropDown } from '../components';
-import { toast } from 'react-toastify';
+
 import { useDocumentsContext } from '../../context/DocumentsContext';
 import { useEffect } from 'react';
+import { QueryClient } from '@tanstack/react-query';
+import { configQuery } from './useConfig';
+import { documentsQuery } from './useDocuments';
 
 interface LoaderData {
   documents: Document[];
@@ -21,24 +24,10 @@ interface Document {
   name: string;
 }
 
-export const loader = async () => {
-  try {
-    const [documentRes, configRes] = await Promise.all([
-      fetch('http://localhost:3000/api/document'),
-      fetch('http://localhost:3000/api/openai-config'),
-    ]);
-
-    if (!configRes.ok) toast.error('Error fetching config');
-    if (!documentRes.ok) toast.error('Error fetching documents');
-
-    const documents = await documentRes.json();
-    const config = await configRes.json();
-
-    return { documents, config };
-  } catch (error) {
-    console.log(error);
-    toast.error('Error fetching data from server');
-  }
+export const loader = (queryClient: QueryClient) => async () => {
+  const config = await queryClient.ensureQueryData(configQuery());
+  const documents = await queryClient.ensureQueryData(documentsQuery());
+  return { documents, config };
 };
 
 const DashboardLayout = () => {

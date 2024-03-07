@@ -8,8 +8,9 @@ import {
 } from '../presentation/pages';
 import { DocumentsDropDown } from '../presentation/components';
 
-import { loader as documentsLoader } from '../presentation/layouts/DashboardLayout';
+import { loader as dashboardLoader } from '../presentation/layouts/DashboardLayout';
 import { loader as chatHistoryLoader } from '../presentation/pages/chat-bot/ChatBotPage';
+import { QueryClient } from '@tanstack/react-query';
 
 export const menuRoutes: MenuItem[] = [
   {
@@ -28,11 +29,19 @@ export const menuRoutes: MenuItem[] = [
   },
 ];
 
+export const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 0,
+    },
+  },
+});
+
 export const router = createBrowserRouter([
   {
     path: '/',
     element: <DashboardLayout />,
-    loader: documentsLoader,
+    loader: dashboardLoader(queryClient),
     children: [
       {
         path: 'chat-bot',
