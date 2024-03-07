@@ -48,6 +48,10 @@ export const router = createBrowserRouter([
         element: <DocumentAssistantPage />,
       },
       {
+        path: 'config',
+      },
+
+      {
         path: '',
         element: <Navigate to={menuRoutes[0].to} />,
       },

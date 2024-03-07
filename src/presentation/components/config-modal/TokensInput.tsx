@@ -25,6 +25,7 @@ const TokensInput = ({ value }: { value: string }) => {
         variant="bordered"
         type="number"
         defaultValue={value}
+        name="maxTokens"
       />
     </Tooltip>
   );

@@ -11,6 +11,7 @@ const ApiKeyInput = () => {
         // placeholder="OpenAI API Key"
         variant="bordered"
         type="password"
+        name="openAIApiKey"
       />
       <div className="flex items-center justify-between">
         <Link

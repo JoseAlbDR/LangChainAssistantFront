@@ -15,6 +15,7 @@ const ModelSelect = ({ value }: { value: string }) => {
         endContent={<Icon type={'robot'} />}
         defaultSelectedKeys={[value]}
         className="w-full text-stone-500"
+        name="modelName"
       >
         {models.map((model) => (
           <SelectItem key={model} value={model} className="text-stone-500">
