@@ -15,6 +15,7 @@ import TokensInput from './TokensInput';
 import { toast } from 'react-toastify';
 import { FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useQueryClient } from '@tanstack/react-query';
 
 interface Config {
   openAIApiKey?: string;
@@ -25,6 +26,7 @@ interface Config {
 
 const ConfigModal = ({ config }: { config: Config }) => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const queryClient = useQueryClient();
   const navigate = useNavigate();
 
   const handleSubmit = async (event: FormEvent) => {
@@ -55,9 +57,11 @@ const ConfigModal = ({ config }: { config: Config }) => {
       });
 
       if (!response.ok) throw new Error('Error saving configuration');
-
+      queryClient.invalidateQueries({
+        queryKey: ['config'],
+      });
       toast.success('Configuración actualizada');
-      navigate('/');
+      navigate(-1);
     } catch (error) {
       console.log(error);
       if (error instanceof Error) return toast.error(error.message);
@@ -73,7 +77,6 @@ const ConfigModal = ({ config }: { config: Config }) => {
         aria-label="config"
         className="p-4 bg-indigo-500"
         onPress={onOpen}
-        onClick={() => navigate('config')}
       >
         <span className="fa fa-cog text-3xl text-white"></span>
       </Button>
