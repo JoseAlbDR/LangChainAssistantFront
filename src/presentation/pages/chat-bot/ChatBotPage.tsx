@@ -38,7 +38,7 @@ const ChatBotPage = () => {
   }, [chatHistory, isLoadingHistory, setShouldScroll]);
 
   if (isLoadingHistory) {
-    return <Spinner />;
+    return <Spinner className="flex items-center justify-center" size="lg" />;
   }
 
   const handlePost = async (text: string) => {
@@ -53,7 +53,6 @@ const ChatBotPage = () => {
     );
 
     setIsLoading(false);
-
     setMessages((prev) => [...prev, { text: '', isGpt: true }]);
     for await (const chunk of stream) {
       setMessages((prev) => {
@@ -62,7 +61,6 @@ const ChatBotPage = () => {
         return newMessages;
       });
     }
-
     setShouldScroll(true);
   };
 

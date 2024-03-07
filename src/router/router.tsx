@@ -10,6 +10,7 @@ import { DocumentsDropDown } from '../presentation/components';
 
 import { loader as dashboardLoader } from '../presentation/layouts/DashboardLayout';
 import { loader as chatHistoryLoader } from '../presentation/pages/chat-bot/ChatBotPage';
+import { loader as documentLoader } from '../presentation/pages/documents/DocumentAssistantPage';
 
 import { QueryClient } from '@tanstack/react-query';
 
@@ -33,7 +34,7 @@ export const menuRoutes: MenuItem[] = [
 export const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      staleTime: 60 * 60 * 5,
+      staleTime: 1000 * 60 * 15,
     },
   },
 });
@@ -56,6 +57,7 @@ export const router = createBrowserRouter([
       {
         path: 'document-assistant/:name',
         element: <DocumentAssistantPage />,
+        loader: documentLoader(queryClient),
       },
       {
         path: '',

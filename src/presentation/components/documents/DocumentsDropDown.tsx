@@ -7,9 +7,9 @@ import {
   Selection,
   Spinner,
 } from '@nextui-org/react';
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import { useDocumentsContext } from '../../../context/DocumentsContext';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { documentsQuery } from '../../layouts/useDocuments';
 
@@ -19,10 +19,14 @@ interface Document {
 
 const DocumentsDropDown = () => {
   const { selectedKeys, setSelectedKeys } = useDocumentsContext();
-  const { saveDocumentName } = useDocumentsContext();
-
+  const params = useParams();
   const { data: documents, isLoading } = useQuery<Document[]>(documentsQuery());
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (params && params.name) return setSelectedKeys(new Set([params.name]));
+    setSelectedKeys(new Set(['']));
+  }, [params, setSelectedKeys]);
 
   const selectedValue = useMemo(
     () => Array.from(selectedKeys).join(', ').replaceAll('_', ' '),
@@ -31,7 +35,6 @@ const DocumentsDropDown = () => {
 
   const handleSelectDocument = (document: string) => {
     navigate(`document-assistant/${document}`);
-    saveDocumentName(document);
   };
 
   const cutName = (document: string) => {

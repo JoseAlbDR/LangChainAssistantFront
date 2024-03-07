@@ -10,6 +10,7 @@ interface ChatContextValues {
   saveMessage: (message: Message) => void;
   saveStream: (chunk: string) => void;
   emptyMessages: () => void;
+  setMessages: React.Dispatch<React.SetStateAction<Message[]>>;
 }
 
 const ChatContext = createContext<ChatContextValues | undefined>(undefined);
@@ -40,6 +41,7 @@ function ChatProvider({ children }: { children: React.ReactNode }) {
         saveMessage,
         saveStream,
         emptyMessages,
+        setMessages,
       }}
     >
       {children}

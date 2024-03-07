@@ -12,7 +12,7 @@ import { FormEvent, useState } from 'react';
 import { documentUploadUseCase } from '../../../core/use-cases/document-upload/document-upload.use-case';
 import { toast } from 'react-toastify';
 import { useDocumentsContext } from '../../../context/DocumentsContext';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useQueryClient } from '@tanstack/react-query';
 
 interface Props {
@@ -28,36 +28,26 @@ const TextMessageBoxFile = ({
   disableCorrections = false,
 }: // accept,
 Props) => {
-  const {
-    documentName,
-    selectedFile,
-    saveDocumentName,
-    selectFile,
-    saveDocument,
-    setSelectedKeys,
-  } = useDocumentsContext();
+  const { selectedFile, selectFile, saveDocument } = useDocumentsContext();
   const [message, setMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const params = useParams();
   const queryClient = useQueryClient();
   const navigate = useNavigate();
 
   const handleUploadDocument = async (onClose: () => void) => {
     if (!selectedFile) return;
 
-    saveDocumentName(selectedFile.name);
-
     try {
       setIsLoading(true);
       await documentUploadUseCase({ file: selectedFile });
       toast.success('Carga realizada con éxito!');
-      navigate(`/document-assistant/${selectedFile.name}`);
       queryClient.invalidateQueries({
         queryKey: ['documents'],
       });
       saveDocument(selectedFile.name);
-      saveDocumentName(selectedFile.name);
-      setSelectedKeys(new Set([selectedFile.name]));
+      navigate(`/document-assistant/${selectedFile.name}`);
       onClose();
     } catch (error) {
       if (error instanceof Error) return toast.error(error.message);
@@ -71,7 +61,10 @@ Props) => {
   const handleSendMessage = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    onSendMessage(message, documentName);
+    if (params && params.name) onSendMessage(message, params.name);
+    queryClient.invalidateQueries({
+      queryKey: ['documentHistory', params.name],
+    });
     setMessage('');
     selectFile(null);
   };

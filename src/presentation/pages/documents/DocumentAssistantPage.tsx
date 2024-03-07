@@ -1,26 +1,46 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { GptMessage, UserMessage, TextMessageBoxFile } from '../../components';
 import { toast } from 'react-toastify';
 import { useChatContext } from '../../../context/ChatContext';
-import { useDocumentsContext } from '../../../context/DocumentsContext';
 import { chatStreamGeneratorUseCase } from '../../../core/use-cases/chat-stream-generator/chat-stream-generator.use-case';
 import { useScroll } from '../../../hooks/useScroll';
+import { QueryClient } from '@tanstack/react-query';
+import { ActionFunctionArgs, useLoaderData } from 'react-router-dom';
+import { documentHistoryQuery, useDocumentHistory } from './useDocumentHistory';
+import { mapChatHistory } from '../../../utils';
+
+export const loader =
+  (queryClient: QueryClient) => async (data: ActionFunctionArgs) => {
+    const { params } = data;
+
+    if (!params.name) return;
+
+    await queryClient.ensureQueryData(documentHistoryQuery(params.name));
+
+    return params.name;
+  };
 
 const DocumentAssistantPage = () => {
-  // const [isLoading, setIsLoading] = useState(false);
-  const { documentName } = useDocumentsContext();
-  const { messages, saveMessage, saveStream, emptyMessages } = useChatContext();
-  const { messagesEndRef } = useScroll(messages);
+  const { messages, saveMessage, saveStream, setMessages } = useChatContext();
+  const { messagesEndRef, setShouldScroll } = useScroll(messages);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  const document = useLoaderData() as string;
+
+  const { data: chatHistory, isFetching: isLoadingHistory } =
+    useDocumentHistory(document);
 
   useEffect(() => {
-    if (documentName) {
-      emptyMessages();
-      saveMessage({
-        isGpt: true,
-        text: `¿Sobre qué te gustaría hablar del documento ${documentName}`,
-      });
+    if (!isLoadingHistory && chatHistory) {
+      const history = mapChatHistory(chatHistory);
+      setMessages(history);
+      setShouldScroll(true);
     }
-  }, [documentName, saveMessage, emptyMessages]);
+
+    if (containerRef.current) {
+      containerRef.current.scrollTop = containerRef.current.scrollHeight;
+    }
+  }, [chatHistory, isLoadingHistory, setShouldScroll, setMessages]);
 
   const handlePost = async (text: string, document: string) => {
     try {
