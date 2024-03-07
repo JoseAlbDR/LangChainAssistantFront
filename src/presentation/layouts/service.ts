@@ -3,6 +3,8 @@ export const getDocuments = async () => {
 
   if (!response.ok) throw new Error('Error fetching documents');
 
+  console.log('documents');
+
   const data = await response.json();
 
   return data;

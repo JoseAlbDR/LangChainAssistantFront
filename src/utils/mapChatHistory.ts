@@ -1,7 +1,7 @@
 import { ChatHistory, HistoryMessage } from '../interfaces';
 
 export const mapChatHistory = (history: ChatHistory) => {
-  console.log(history);
+  if (!history?.messages) return [];
 
   return history.messages.map((message: HistoryMessage) => {
     if (message.type === 'ai')

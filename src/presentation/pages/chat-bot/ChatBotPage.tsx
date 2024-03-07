@@ -7,39 +7,34 @@ import {
 } from '../../components';
 import { chatStreamGeneratorUseCase } from '../../../core/use-cases/chat-stream-generator/chat-stream-generator.use-case';
 import { Message } from '../../../context/ChatContext';
-import { useLoaderData } from 'react-router-dom';
-import { mapChatHistory } from '../../../utils';
 import { useScroll } from '../../../hooks/useScroll';
+import { QueryClient } from '@tanstack/react-query';
+import { historyQuery, useHistory } from './useHistory';
+import { Spinner } from '@nextui-org/react';
+import { mapChatHistory } from '../../../utils';
 
-export const loader = async () => {
-  try {
-    const response = await fetch(
-      'http://localhost:3000/api/chatgpt/chat-history'
-    );
-
-    if (!response.ok) throw new Error(await response.json());
-
-    const history = await response.json();
-
-    const chatHistory =
-      history.length === 0 ? history : mapChatHistory(history);
-
-    return chatHistory;
-  } catch (error) {
-    console.log(error);
-    return error;
-  }
+export const loader = (queryClient: QueryClient) => async () => {
+  await queryClient.ensureQueryData(historyQuery());
+  return null;
 };
 
 const ChatBotPage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
-  const chatHistory = useLoaderData() as Message[];
+  const { data: chatHistory, isFetching: isLoadingHistory } = useHistory();
   const { messagesEndRef } = useScroll(messages);
 
   useEffect(() => {
-    setMessages(chatHistory);
-  }, [chatHistory]);
+    if (!isLoadingHistory && chatHistory) {
+      const history = mapChatHistory(chatHistory);
+
+      setMessages(history);
+    }
+  }, [chatHistory, isLoadingHistory]);
+
+  if (isLoadingHistory) {
+    return <Spinner />;
+  }
 
   const handlePost = async (text: string) => {
     setIsLoading(true);

@@ -32,7 +32,7 @@ export const menuRoutes: MenuItem[] = [
 export const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      staleTime: 0,
+      staleTime: 60 * 60 * 5,
     },
   },
 });
@@ -46,7 +46,7 @@ export const router = createBrowserRouter([
       {
         path: 'chat-bot',
         element: <ChatBotPage />,
-        loader: chatHistoryLoader,
+        loader: chatHistoryLoader(queryClient),
       },
       {
         path: 'documents/',
@@ -56,10 +56,6 @@ export const router = createBrowserRouter([
         path: 'document-assistant/:name',
         element: <DocumentAssistantPage />,
       },
-      {
-        path: 'config',
-      },
-
       {
         path: '',
         element: <Navigate to={menuRoutes[0].to} />,
