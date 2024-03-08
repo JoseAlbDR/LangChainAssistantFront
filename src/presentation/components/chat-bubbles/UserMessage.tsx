@@ -4,12 +4,12 @@ interface Props {
 
 const MyMessage = ({ text }: Props) => {
   return (
-    <div className="col-start-6 col-end-13 p-3 rounded-lg">
+    <div className="sm:col-start-6 col-start-1 col-end-13 p-3 rounded-lg">
       <div className="flex items-center justify-start flex-row-reverse">
         <div className="flex items-center justify-center h-10 w-10 rounded-full bg-purple-500 flex-shrink-0">
           U
         </div>
-        <div className="relative mr-3 text-xl bg-purple-700 py-2 px-4 shadow rounded-xl">
+        <div className="relative mr-3 text-medium bg-purple-700 py-2 px-4 shadow rounded-xl">
           {text}
         </div>
       </div>

@@ -1,3 +1,4 @@
+import { Button } from '@nextui-org/react';
 import { FormEvent, useState } from 'react';
 
 interface Props {
@@ -44,10 +45,10 @@ const TextMessageBox = ({
         </div>
       </div>
       <div className="ml-4">
-        <button className="btn-primary" type="submit">
-          <span className="mr-2 ">Send</span>
-          <i className="fa-regular fa-paper-plane"></i>
-        </button>
+        <Button className="btn-primary" type="submit">
+          <span className="mr-2 hidden sm:block">Send</span>
+          <i className=" fa-regular fa-paper-plane"></i>
+        </Button>
       </div>
     </form>
   );

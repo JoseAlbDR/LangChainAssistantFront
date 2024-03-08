@@ -1,6 +1,7 @@
 import { NavLink } from 'react-router-dom';
 import { MenuItem } from '../../../interfaces/MenuItem';
 import DocumentClip from '../documents/DocumentClip';
+import TrashCan from './TrashCan';
 
 const SidebarItem = ({ to, icon, title, description }: MenuItem) => {
   return (
@@ -21,6 +22,7 @@ const SidebarItem = ({ to, icon, title, description }: MenuItem) => {
         </div>
       </NavLink>
       {title === 'Documentos' && <DocumentClip />}
+      {title === 'Chat Bot' && <TrashCan />}
     </div>
   );
 };

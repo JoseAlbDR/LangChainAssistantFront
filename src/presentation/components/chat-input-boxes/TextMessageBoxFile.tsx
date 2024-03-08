@@ -1,4 +1,4 @@
-import { Spinner } from '@nextui-org/react';
+import { Button, Spinner } from '@nextui-org/react';
 import { FormEvent, useState } from 'react';
 import { useDocumentsContext } from '../../../context/DocumentsContext';
 import { useParams } from 'react-router-dom';
@@ -54,16 +54,16 @@ Props) => {
         </div>
       </div>
       <div className="ml-4">
-        <button className="btn-primary" disabled={isLoading}>
+        <div className="ml-4">
           {isLoading ? (
             <Spinner />
           ) : (
-            <>
-              <span className="mr-2 ">Enviar</span>{' '}
-              <i className="fa-regular fa-paper-plane"></i>
-            </>
+            <Button className="btn-primary" type="submit">
+              <span className="mr-2 hidden sm:block">Send</span>
+              <i className=" fa-regular fa-paper-plane"></i>
+            </Button>
           )}
-        </button>
+        </div>
       </div>
     </form>
   );
