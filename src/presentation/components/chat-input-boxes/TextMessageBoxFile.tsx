@@ -33,7 +33,7 @@ Props) => {
   return (
     <form
       onSubmit={handleSendMessage}
-      className="flex flex-row items-center h-16 rounded-xl bg-white w-full px-4"
+      className="flex flex-row items-center h-16 rounded-xl w-full px-4"
       encType="multipart/form-data"
     >
       <div className="flex-grow">
@@ -42,7 +42,7 @@ Props) => {
             type="text"
             autoFocus
             name="message"
-            className="flex w-full border rounded-xl text-gray-800 focus:outline-none focus:border-purple-300 pl-4 h-14 text-xl"
+            className="flex w-full border rounded-xl focus:outline-none focus:border-purple-300 pl-4 h-14 text-xl"
             placeholder={placeholder}
             autoComplete={!disableCorrections ? 'off' : 'on'}
             autoCorrect={!disableCorrections ? 'off' : 'on'}
@@ -59,8 +59,8 @@ Props) => {
             <Spinner />
           ) : (
             <Button className="btn-primary" type="submit">
-              <span className="mr-2 hidden sm:block">Send</span>
-              <i className=" fa-regular fa-paper-plane"></i>
+              <span className="mr-2 hidden sm:block text-white">Send</span>
+              <i className=" fa-regular fa-paper-plane text-white"></i>
             </Button>
           )}
         </div>

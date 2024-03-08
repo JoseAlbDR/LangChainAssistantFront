@@ -61,7 +61,7 @@ const ChatBotPage = () => {
   };
 
   return (
-    <div className="chat-container">
+    <div className="chat-container bg-primary bg-opacity-15">
       <div className="chat-messages">
         <div className="grid grid-cols-12 gap-y-2">
           <GptMessage text="Hola! Soy tu asistente personal, pregunta lo que necesites y responderé basado en mi base de conocimiento" />

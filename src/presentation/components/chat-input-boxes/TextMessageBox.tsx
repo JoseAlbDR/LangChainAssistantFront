@@ -26,7 +26,7 @@ const TextMessageBox = ({
   return (
     <form
       onSubmit={handleSendMessage}
-      className="flex flex-row items-center h-16 rounded-xl bg-white w-full px-4"
+      className="flex flex-row items-center h-16 rounded-xl w-full px-4"
     >
       <div className="flex-grow">
         <div className="relative w-full">
@@ -34,7 +34,7 @@ const TextMessageBox = ({
             type="text"
             autoFocus
             name="question"
-            className="flex w-full border rounded-xl text-gray-800 focus:outline-none focus:border-purple-300 pl-4 h-10"
+            className="flex w-full border rounded-xl focus:outline-none focus:border-purple-300 pl-4 h-10"
             placeholder={placeholder}
             autoComplete={!disableCorrections ? 'off' : 'on'}
             autoCorrect={!disableCorrections ? 'off' : 'on'}
@@ -46,8 +46,8 @@ const TextMessageBox = ({
       </div>
       <div className="ml-4">
         <Button className="btn-primary" type="submit">
-          <span className="mr-2 hidden sm:block">Send</span>
-          <i className=" fa-regular fa-paper-plane"></i>
+          <span className="mr-2 hidden sm:block text-white">Send</span>
+          <i className=" fa-regular fa-paper-plane text-white"></i>
         </Button>
       </div>
     </form>
