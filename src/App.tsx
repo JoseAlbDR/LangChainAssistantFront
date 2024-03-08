@@ -11,6 +11,8 @@ import useDarkMode from 'use-dark-mode';
 function App() {
   const darkMode = useDarkMode();
 
+  console.log({ darkMode });
+
   return (
     <QueryClientProvider client={queryClient}>
       <ReactQueryDevtools initialIsOpen={false} />

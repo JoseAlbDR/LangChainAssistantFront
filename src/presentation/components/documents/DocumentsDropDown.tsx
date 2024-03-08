@@ -47,15 +47,15 @@ const DocumentsDropDown = () => {
   if (!documents) return <div>No hay documentos, prueba a subir uno.</div>;
 
   return (
-    <Dropdown>
+    <Dropdown className="text-foreground bg-background">
       <DropdownTrigger>
-        <Button variant="bordered">
+        <Button variant="solid">
           {`Documento: ${cutName(selectedValue) || 'Seleccionar'} `}
         </Button>
       </DropdownTrigger>
       <DropdownMenu
         aria-label="Single selection example"
-        variant="flat"
+        // variant="faded"
         disallowEmptySelection
         selectionMode="single"
         selectedKeys={selectedKeys}
@@ -64,7 +64,7 @@ const DocumentsDropDown = () => {
         {documents.map((document) => (
           <DropdownItem
             key={document.name}
-            className="lowercase "
+            className="lowercase"
             onPress={() => handleSelectDocument(document.name)}
           >
             {document.name}

@@ -9,7 +9,7 @@ const MyMessage = ({ text }: Props) => {
         <div className="flex items-center justify-center h-10 w-10 rounded-full bg-purple-500 flex-shrink-0 text-white">
           U
         </div>
-        <div className="relative mr-3 text-medium bg-purple-700 py-2 px-4 shadow rounded-xl text-white">
+        <div className="relative mr-3 text-medium bg-tertiary py-2 px-4 shadow rounded-xl text-white">
           {text}
         </div>
       </div>

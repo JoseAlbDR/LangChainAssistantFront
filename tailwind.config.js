@@ -16,11 +16,11 @@ export default {
       themes: {
         light: {
           colors: {
-            background: '#e7e5e4', // or DEFAULT
-            foreground: '#11181C', // or 50 to 900 DEFAULT
+            background: '#e7e5e4',
+            foreground: '#11181C',
             primary: '#11181C',
             secondary: '#a3a3a3',
-            tertiary: '#3E73C7',
+            tertiary: '#a855f7',
             default: {
               50: '#f7f7f8',
               100: '#eeeef0',
@@ -38,11 +38,11 @@ export default {
         },
         dark: {
           colors: {
-            background: '#11181C', // or DEFAULT
-            foreground: '#e7e5e4', // or 50 to 900 DEFAULT
+            background: '#11181C',
+            foreground: '#e7e5e4',
             primary: '#e7e5e4',
             secondary: '#a3a3a3',
-            tertiary: '#3E73C7',
+            tertiary: '#a855f7',
             default: {
               50: '#fafafa',
               100: '#efefef',
@@ -56,18 +56,6 @@ export default {
               900: '#3d3d3d',
               950: '#292929',
             },
-          },
-          // ... rest of the colors
-        },
-        mytheme: {
-          // custom theme
-          extend: 'dark',
-          colors: {
-            primary: {
-              DEFAULT: '#BEF264',
-              foreground: '#000000',
-            },
-            focus: '#BEF264',
           },
         },
       },

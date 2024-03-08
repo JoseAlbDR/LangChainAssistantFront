@@ -4,9 +4,13 @@ export const ThemeSwitcher = () => {
   const darkMode = useDarkMode(false);
 
   return (
-    <div>
-      <button onClick={darkMode.disable}>Light Mode</button>
-      <button onClick={darkMode.enable}>Dark Mode</button>
+    <div className="flex gap-3">
+      <button onClick={darkMode.disable}>
+        <i className="fa fa-sun"></i>
+      </button>
+      <button onClick={darkMode.enable}>
+        <i className="fa fa-moon"></i>
+      </button>
     </div>
   );
 };

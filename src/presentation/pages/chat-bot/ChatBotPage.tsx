@@ -73,13 +73,13 @@ const ChatBotPage = () => {
               <UserMessage key={index} text={message.text} />
             )
           )}
+          <div ref={messagesEndRef} />
 
           {isLoading && (
             <div className="col-start-1 col-end-12 fade-in">
               <TypingLoader />
             </div>
           )}
-          <div ref={messagesEndRef} />
         </div>
       </div>
 

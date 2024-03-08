@@ -26,10 +26,10 @@ const TextMessageBox = ({
   return (
     <form
       onSubmit={handleSendMessage}
-      className="flex flex-row items-center h-16 rounded-xl w-full px-4"
+      className="flex flex-row items-center justify-center h-16 rounded-xl w-full px-4"
     >
       <div className="flex-grow">
-        <div className="relative w-full">
+        <div className="relative w-full bg-primary p-2 bg-opacity-25 rounded-md flex gap-1">
           <input
             type="text"
             autoFocus
@@ -42,13 +42,16 @@ const TextMessageBox = ({
             value={message}
             onChange={(e) => setMessage(e.target.value)}
           />
+          <div className="">
+            <Button
+              className="btn-primary min-w-10 min-h-fit sm:w-20"
+              type="submit"
+            >
+              <span className="mr-2 hidden sm:block text-white">Send</span>
+              <i className=" fa-regular fa-paper-plane text-white"></i>
+            </Button>
+          </div>
         </div>
-      </div>
-      <div className="ml-4">
-        <Button className="btn-primary" type="submit">
-          <span className="mr-2 hidden sm:block text-white">Send</span>
-          <i className=" fa-regular fa-paper-plane text-white"></i>
-        </Button>
       </div>
     </form>
   );

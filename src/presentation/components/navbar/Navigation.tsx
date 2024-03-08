@@ -7,6 +7,7 @@ import {
   NavbarContent,
   NavbarItem,
   Link,
+  Divider,
   // Button,
 } from '@nextui-org/react';
 import Logo from '../../layouts/Logo';
@@ -14,21 +15,12 @@ import { DocumentsDropDown } from '..';
 import { ThemeSwitcher } from '../theme-switcher/ThemeSwitcher';
 
 export default function Navigation() {
-  const menuItems = [
-    'Profile',
-    'Dashboard',
-    'Activity',
-    'Analytics',
-    'System',
-    'Deployments',
-    'My Settings',
-    'Team Settings',
-    'Help & Feedback',
-    'Log Out',
-  ];
-
   return (
-    <Navbar isBordered shouldHideOnScroll className="h-20 bg-opacity-5">
+    <Navbar
+      isBordered
+      shouldHideOnScroll
+      className="h-20 bg-primary bg-opacity-15 border border-b-secondary text-foreground "
+    >
       <NavbarContent className="sm:hidden" justify="start">
         <NavbarMenuToggle />
       </NavbarContent>
@@ -37,6 +29,11 @@ export default function Navigation() {
         <NavbarBrand>
           <Logo />
         </NavbarBrand>
+        <NavbarItem>
+          <Link href="#">
+            <ThemeSwitcher />
+          </Link>
+        </NavbarItem>
       </NavbarContent>
 
       <NavbarContent
@@ -49,7 +46,7 @@ export default function Navigation() {
         <NavbarItem>
           <Link href="/chat-bot">Chat Bot</Link>
         </NavbarItem>
-        <NavbarItem isActive>
+        <NavbarItem>
           <Link href="#" aria-current="page">
             <DocumentsDropDown />
           </Link>
@@ -63,20 +60,18 @@ export default function Navigation() {
           </Link>
         </NavbarItem>
       </NavbarContent>
-      {/* 
-      <NavbarContent justify="end">
-        <NavbarItem className="hidden lg:flex">
-          <Link href="#">Login</Link>
-        </NavbarItem>
-        <NavbarItem>
-          <Button as={Link} color="warning" href="#" variant="flat">
-            Sign Up
-          </Button>
-        </NavbarItem>
-      </NavbarContent> */}
 
-      <NavbarMenu>
-        {menuItems.map((item, index) => (
+      <NavbarMenu className="flex flex-col p-7 list-none items-center gap-6 ">
+        <Divider />
+        <NavbarMenuItem>
+          <Link href="/chat-bot">Chat Bot</Link>
+        </NavbarMenuItem>
+        <Divider />
+        <NavbarMenuItem isActive>
+          <DocumentsDropDown />
+        </NavbarMenuItem>
+        <Divider />
+        {/* {menuItems.map((item, index) => (
           <NavbarMenuItem key={`${item}-${index}`}>
             <Link
               className="w-full"
@@ -93,7 +88,7 @@ export default function Navigation() {
               {item}
             </Link>
           </NavbarMenuItem>
-        ))}
+        ))} */}
       </NavbarMenu>
     </Navbar>
   );

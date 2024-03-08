@@ -15,12 +15,14 @@ export interface Config {
 export const loader = (queryClient: QueryClient) => async () => {
   const config = await queryClient.ensureQueryData(configQuery());
   const documents = await queryClient.ensureQueryData(documentsQuery());
+
   return { documents, config };
 };
 
 const DashboardLayout = () => {
   // const { isFetching: isLoadingConfig, data: config } = useConfig();
   // const { isFetching: isLoadingDocuments } = useDocuments();
+
   const navigate = useNavigate();
 
   return (
