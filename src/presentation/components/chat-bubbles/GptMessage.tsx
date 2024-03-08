@@ -15,7 +15,7 @@ const GptMessage = ({ text }: Props) => {
         {text === '' ? (
           <TypingLoader />
         ) : (
-          <div className="relative ml-3 text-medium bg-primary bg-opacity-25 pt-3 pb-2 px-4 shadow rounded-xl text-white">
+          <div className="relative ml-3 text-medium bg-primary bg-opacity-25 pt-3 pb-2 px-4 shadow-xl rounded-xl text-white">
             <Markdown>{text}</Markdown>
           </div>
         )}

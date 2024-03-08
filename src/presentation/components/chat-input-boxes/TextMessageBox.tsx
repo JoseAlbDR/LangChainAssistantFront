@@ -29,7 +29,7 @@ const TextMessageBox = ({
       className="flex flex-row items-center justify-center h-16 rounded-xl w-full px-4"
     >
       <div className="flex-grow">
-        <div className="relative w-full bg-primary p-2 bg-opacity-25 rounded-md flex gap-1">
+        <div className="relative w-full bg-primary p-2 bg-opacity-25 rounded-md flex gap-1 shadow-xl">
           <input
             type="text"
             autoFocus
