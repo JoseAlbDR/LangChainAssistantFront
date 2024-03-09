@@ -1,4 +1,3 @@
-import React from 'react';
 import {
   Modal,
   ModalContent,
@@ -13,16 +12,15 @@ import { useQueryClient } from '@tanstack/react-query';
 import { useNavigate, useNavigation } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import TrashCan from '../sidebar/TrashCan';
-import { useChatContext } from '../../../context/ChatContext';
 import useDarkMode from 'use-dark-mode';
 
 interface Payload {
   bot: string;
+  deleteMessages: () => void;
 }
 
-export default function DeleteModal({ bot }: Payload) {
+export default function DeleteModal({ bot, deleteMessages }: Payload) {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
-  const { emptyMessages } = useChatContext();
   const darkMode = useDarkMode();
 
   const navigation = useNavigation();
@@ -50,7 +48,7 @@ export default function DeleteModal({ bot }: Payload) {
       queryClient.invalidateQueries({
         queryKey: ['chatbotHistory'],
       });
-      emptyMessages();
+      deleteMessages();
 
       toast.success(data.message);
       navigate(`/${bot}`);

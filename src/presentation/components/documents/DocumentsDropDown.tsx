@@ -12,6 +12,7 @@ import { useDocumentsContext } from '../../../context/DocumentsContext';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { documentsQuery } from '../../layouts/useDocuments';
+import useDarkMode from 'use-dark-mode';
 
 interface Document {
   name: string;
@@ -22,6 +23,7 @@ const DocumentsDropDown = () => {
   const params = useParams();
   const { data: documents, isLoading } = useQuery<Document[]>(documentsQuery());
   const navigate = useNavigate();
+  const darkMode = useDarkMode();
 
   useEffect(() => {
     if (params && params.name) return setSelectedKeys(new Set([params.name]));
@@ -47,9 +49,13 @@ const DocumentsDropDown = () => {
   if (!documents) return <div>No hay documentos, prueba a subir uno.</div>;
 
   return (
-    <Dropdown className="text-foreground bg-background">
+    <Dropdown
+      className={`${
+        darkMode.value ? 'dark' : ''
+      } text-foreground bg-background border border-white`}
+    >
       <DropdownTrigger>
-        <Button variant="solid">
+        <Button variant="ghost">
           {`Documento: ${cutName(selectedValue) || 'Seleccionar'} `}
         </Button>
       </DropdownTrigger>

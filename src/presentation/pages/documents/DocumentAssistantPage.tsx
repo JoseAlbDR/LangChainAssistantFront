@@ -64,7 +64,7 @@ const DocumentAssistantPage = () => {
   };
 
   return (
-    <div className="chat-container">
+    <div className="chat-container bg-primary bg-opacity-15">
       <div className="chat-messages">
         <div className="grid grid-cols-12 gap-y-2">
           <GptMessage text="Hola! soy tu Chat Bot, para empezar adjunta el documento sobre el cual quieres hablar, ten en cuenta que según el tamaño del documento el tiempo de carga puede variar." />

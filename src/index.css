@@ -39,6 +39,11 @@ em {
   @apply bg-indigo-500 font-bold py-2 px-4 rounded-xl opacity-50 cursor-not-allowed; */
 /* } */
 
+.filter-green {
+  filter: invert(48%) sepia(79%) saturate(2476%) hue-rotate(86deg)
+    brightness(118%) contrast(119%);
+}
+
 .chat-container {
   @apply flex flex-col rounded-2xl h-full p-4;
 }

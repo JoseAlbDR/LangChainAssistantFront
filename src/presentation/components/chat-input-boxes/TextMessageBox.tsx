@@ -6,12 +6,14 @@ interface Props {
   onSendMessage: (message: string) => void;
   placeholder?: string;
   disableCorrections?: boolean;
+  onDeleteMessages: () => void;
 }
 
 const TextMessageBox = ({
   onSendMessage,
   placeholder = '',
   disableCorrections = false,
+  onDeleteMessages,
 }: Props) => {
   const [message, setMessage] = useState('');
 
@@ -31,7 +33,7 @@ const TextMessageBox = ({
     >
       <div className="flex-grow">
         <div className="relative w-full bg-primary p-2 bg-opacity-25 rounded-md flex gap-1 shadow-xl">
-          <DeleteModal bot={'chatgpt'} />
+          <DeleteModal bot={'chatgpt'} deleteMessages={onDeleteMessages} />
           <input
             type="text"
             autoFocus

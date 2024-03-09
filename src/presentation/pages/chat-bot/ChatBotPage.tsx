@@ -6,7 +6,7 @@ import {
   TextMessageBox,
 } from '../../components';
 import { chatStreamGeneratorUseCase } from '../../../core/use-cases/chat-stream-generator/chat-stream-generator.use-case';
-import { useChatContext } from '../../../context/ChatContext';
+import { Message } from '../../../context/ChatContext';
 import { useScroll } from '../../../hooks/useScroll';
 import { QueryClient } from '@tanstack/react-query';
 import { historyQuery, useHistory } from './useHistory';
@@ -22,7 +22,7 @@ export const loader = (queryClient: QueryClient) => async () => {
 
 const ChatBotPage = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const { messages, setMessages } = useChatContext();
+  const [messages, setMessages] = useState<Message[]>([]);
   const { data: chatHistory, isFetching } = useHistory();
   const { messagesEndRef, setShouldScroll } = useScroll(messages);
 
@@ -30,6 +30,10 @@ const ChatBotPage = () => {
     const history = mapChatHistory(chatHistory!);
     setMessages(history);
   }, [chatHistory, setMessages]);
+
+  const handleDeleteMessages = () => {
+    setMessages([]);
+  };
 
   const handlePost = async (text: string) => {
     setIsLoading(true);
@@ -89,6 +93,7 @@ const ChatBotPage = () => {
       </div>
 
       <TextMessageBox
+        onDeleteMessages={handleDeleteMessages}
         onSendMessage={handlePost}
         placeholder="Write here your shit"
         disableCorrections
