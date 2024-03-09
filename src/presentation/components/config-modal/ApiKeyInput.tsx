@@ -17,7 +17,8 @@ const ApiKeyInput = () => {
         <Link
           href="https://liveconnect.chat/es/obtener-api-key-openai-chatgpt#:~:text=Si%20no%20tienes%20una%20cuenta,%22Create%20new%20API%20key%22."
           size="sm"
-          className="text-indigo-500"
+          className="font-bold"
+          color="success"
           isExternal
         >
           Obtener un API Key de OpenAI
@@ -25,8 +26,9 @@ const ApiKeyInput = () => {
         <Link
           href="https://platform.openai.com/usage"
           size="sm"
-          className="text-indigo-500"
+          color="success"
           isExternal
+          className="font-bold"
         >
           Ver uso
         </Link>

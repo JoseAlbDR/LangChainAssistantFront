@@ -16,6 +16,7 @@ import { toast } from 'react-toastify';
 import { FormEvent } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 import { useConfig } from '../../layouts/useConfig';
+import useDarkMode from 'use-dark-mode';
 
 interface Config {
   openAIApiKey?: string;
@@ -28,6 +29,7 @@ const ConfigModal = () => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const { data: config } = useConfig();
   const queryClient = useQueryClient();
+  const darkMode = useDarkMode();
 
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
@@ -74,14 +76,20 @@ const ConfigModal = () => {
       <Button
         isIconOnly
         aria-label="config"
-        className="p-4 bg-indigo-500"
+        className="p-4 bg-primary bg-opacity-50"
         onPress={onOpen}
       >
         <span className="fa fa-cog text-3xl text-white"></span>
       </Button>
-      <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
+      <Modal
+        isOpen={isOpen}
+        onOpenChange={onOpenChange}
+        className={`${
+          darkMode.value ? 'dark' : ''
+        } text-foreground bg-background border border-white`}
+      >
         <form encType="application/json" onSubmit={handleSubmit}>
-          <ModalContent className="text-indigo-500">
+          <ModalContent>
             {(onClose) => (
               <>
                 <ModalHeader className="flex flex-col gap-1">
@@ -102,7 +110,11 @@ const ConfigModal = () => {
                   <Button color="danger" variant="light" onPress={onClose}>
                     Cerrar
                   </Button>
-                  <Button color="primary" onPress={onClose} type="submit">
+                  <Button
+                    className="bg-tertiary text-white"
+                    onPress={onClose}
+                    type="submit"
+                  >
                     Aceptar
                   </Button>
                 </ModalFooter>

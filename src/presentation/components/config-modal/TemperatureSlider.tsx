@@ -28,6 +28,7 @@ const TemperatureSlider = ({ value }: { value: number }) => {
         className="max-w-md"
         endContent={<Icon type={'thermometer-full'} />}
         name="temperature"
+        color="success"
       />
     </Tooltip>
   );

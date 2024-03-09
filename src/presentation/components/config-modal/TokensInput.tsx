@@ -26,6 +26,7 @@ const TokensInput = ({ value }: { value: string }) => {
         type="number"
         defaultValue={value}
         name="maxTokens"
+        color="success"
       />
     </Tooltip>
   );

@@ -14,11 +14,11 @@ const ModelSelect = ({ value }: { value: string }) => {
         label="Selecciona un modelo"
         endContent={<Icon type={'robot'} />}
         defaultSelectedKeys={[value]}
-        className="w-full text-stone-500"
+        color="secondary"
         name="modelName"
       >
         {models.map((model) => (
-          <SelectItem key={model} value={model} className="text-stone-500">
+          <SelectItem key={model} value={model}>
             {model}
           </SelectItem>
         ))}
@@ -26,8 +26,9 @@ const ModelSelect = ({ value }: { value: string }) => {
       <Link
         href="https://platform.openai.com/docs/models"
         size="sm"
-        className="text-indigo-500"
         isExternal
+        className="font-bold"
+        color="success"
       >
         Modelos OpenAI
       </Link>

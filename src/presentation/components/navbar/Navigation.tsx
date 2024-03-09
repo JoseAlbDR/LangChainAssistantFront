@@ -88,6 +88,7 @@ import {
 } from '@nextui-org/react';
 import Logo from '../../layouts/Logo';
 import { ThemeSwitcher } from '../theme-switcher/ThemeSwitcher';
+import { ConfigModal, DocumentsDropDown } from '..';
 
 export default function Navigation() {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
@@ -117,26 +118,20 @@ export default function Navigation() {
           aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
           className="sm:hidden"
         />
-        <NavbarBrand>
+        <NavbarBrand className="flex gap-3">
           <Logo />
+          <ConfigModal />
         </NavbarBrand>
       </NavbarContent>
 
       <NavbarContent className="hidden sm:flex gap-4" justify="center">
         <NavbarItem>
-          <Link color="foreground" href="#">
-            Features
-          </Link>
-        </NavbarItem>
-        <NavbarItem isActive>
-          <Link href="#" aria-current="page">
-            Customers
+          <Link href="/chatgpt" color="foreground">
+            Chat Bot
           </Link>
         </NavbarItem>
         <NavbarItem>
-          <Link color="foreground" href="#">
-            Integrations
-          </Link>
+          <DocumentsDropDown />
         </NavbarItem>
       </NavbarContent>
       <NavbarContent justify="end">
