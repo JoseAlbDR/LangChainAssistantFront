@@ -8,6 +8,7 @@ import { ActionFunctionArgs, useLoaderData } from 'react-router-dom';
 import { documentHistoryQuery, useDocumentHistory } from './useDocumentHistory';
 import { mapChatHistory } from '../../../utils';
 import { toast } from 'react-toastify';
+import { Spinner } from '@nextui-org/react';
 
 export const loader =
   (queryClient: QueryClient) => async (data: ActionFunctionArgs) => {
@@ -23,7 +24,7 @@ export const loader =
 const DocumentAssistantPage = () => {
   const document = useLoaderData() as string;
   const [messages, setMessages] = useState<Message[]>([]);
-  const { data: chatHistory } = useDocumentHistory(document);
+  const { data: chatHistory, isFetching } = useDocumentHistory(document);
   const { messagesEndRef, setShouldScroll } = useScroll(messages);
 
   useEffect(() => {
@@ -70,18 +71,22 @@ const DocumentAssistantPage = () => {
   return (
     <div className="chat-container bg-primary bg-opacity-15">
       <div className="chat-messages">
-        <div className="grid grid-cols-12 gap-y-2">
-          <GptMessage text="Hola! soy tu Chat Bot, para empezar adjunta el documento sobre el cual quieres hablar, ten en cuenta que según el tamaño del documento el tiempo de carga puede variar." />
-          {messages.map((message, index) =>
-            message.isGpt ? (
-              <GptMessage key={index} text={message.text} />
-            ) : (
-              <UserMessage key={index} text={message.text} />
-            )
-          )}
+        {isFetching ? (
+          <Spinner />
+        ) : (
+          <div className="grid grid-cols-12 gap-y-2">
+            <GptMessage text="Hola! soy tu Chat Bot, para empezar adjunta el documento sobre el cual quieres hablar, ten en cuenta que según el tamaño del documento el tiempo de carga puede variar." />
+            {messages.map((message, index) =>
+              message.isGpt ? (
+                <GptMessage key={index} text={message.text} />
+              ) : (
+                <UserMessage key={index} text={message.text} />
+              )
+            )}
 
-          <div ref={messagesEndRef} />
-        </div>
+            <div ref={messagesEndRef} />
+          </div>
+        )}
       </div>
 
       <TextMessageBoxFile

@@ -40,7 +40,7 @@ const DocumentsDropDown = () => {
   };
 
   const cutName = (document: string) => {
-    if (document.length > 15) return document.slice(0, 15) + '...';
+    if (document.length > 25) return document.slice(0, 25) + '...';
     return document;
   };
 
@@ -56,7 +56,7 @@ const DocumentsDropDown = () => {
     >
       <DropdownTrigger>
         <Button variant="ghost">
-          {`Documento: ${cutName(selectedValue) || 'Seleccionar'} `}
+          {`${cutName(selectedValue) || 'Seleccionar Documento'} `}
         </Button>
       </DropdownTrigger>
       <DropdownMenu
