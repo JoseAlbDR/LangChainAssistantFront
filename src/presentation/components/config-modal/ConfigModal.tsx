@@ -15,6 +15,7 @@ import TokensInput from './TokensInput';
 import { toast } from 'react-toastify';
 import { FormEvent } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
+import { useConfig } from '../../layouts/useConfig';
 
 interface Config {
   openAIApiKey?: string;
@@ -23,8 +24,9 @@ interface Config {
   maxTokens: number;
 }
 
-const ConfigModal = ({ config }: { config: Config }) => {
+const ConfigModal = () => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const { data: config } = useConfig();
   const queryClient = useQueryClient();
 
   const handleSubmit = async (event: FormEvent) => {

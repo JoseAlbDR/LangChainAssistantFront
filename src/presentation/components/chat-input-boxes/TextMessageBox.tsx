@@ -1,5 +1,6 @@
 import { Button } from '@nextui-org/react';
 import { FormEvent, useState } from 'react';
+import DeleteModal from '../delete-modal/DeleteModal';
 
 interface Props {
   onSendMessage: (message: string) => void;
@@ -30,11 +31,12 @@ const TextMessageBox = ({
     >
       <div className="flex-grow">
         <div className="relative w-full bg-primary p-2 bg-opacity-25 rounded-md flex gap-1 shadow-xl">
+          <DeleteModal />
           <input
             type="text"
             autoFocus
             name="question"
-            className="flex w-full border rounded-xl focus:outline-none focus:border-purple-300 pl-4 h-10"
+            className="flex w-full border rounded-xl focus:outline-none focus:border-purple-300 pl-4 h-10 "
             placeholder={placeholder}
             autoComplete={!disableCorrections ? 'off' : 'on'}
             autoCorrect={!disableCorrections ? 'off' : 'on'}
@@ -44,7 +46,7 @@ const TextMessageBox = ({
           />
           <div className="">
             <Button
-              className="btn-primary min-w-10 min-h-fit sm:w-20"
+              className="bg-tertiary min-w-10 min-h-fit sm:w-20"
               type="submit"
             >
               <span className="mr-2 hidden sm:block text-white">Send</span>
