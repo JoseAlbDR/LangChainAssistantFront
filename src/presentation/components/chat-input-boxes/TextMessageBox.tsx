@@ -1,6 +1,6 @@
 import { Button } from '@nextui-org/react';
 import { FormEvent, useState } from 'react';
-import DeleteModal from '../delete-modal/DeleteModal';
+import DeleteModal from '../delete-modal/DeleteHistoryModal';
 
 interface Props {
   onSendMessage: (message: string) => void;
@@ -31,7 +31,7 @@ const TextMessageBox = ({
     >
       <div className="flex-grow">
         <div className="relative w-full bg-primary p-2 bg-opacity-25 rounded-md flex gap-1 shadow-xl">
-          <DeleteModal />
+          <DeleteModal bot={'chatgpt'} />
           <input
             type="text"
             autoFocus

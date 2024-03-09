@@ -1,6 +1,6 @@
 import { NavLink } from 'react-router-dom';
 import { MenuItem } from '../../../interfaces/MenuItem';
-import DocumentClip from '../documents/DocumentClip';
+import DocumentClip from '../documents/DocumentUploadModal';
 import TrashCan from './TrashCan';
 
 const SidebarItem = ({ to, icon, title, description }: MenuItem) => {

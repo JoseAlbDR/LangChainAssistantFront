@@ -11,9 +11,9 @@ export const ThemeSwitcher = () => {
     <>
       <button onClick={toggleDarkMode}>
         {darkMode.value ? (
-          <i className="fa fa-moon text-3xl"></i>
-        ) : (
           <i className="fa fa-sun text-3xl"></i>
+        ) : (
+          <i className="fa fa-moon text-3xl"></i>
         )}
       </button>
     </>

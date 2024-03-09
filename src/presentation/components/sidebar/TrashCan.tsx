@@ -1,7 +1,7 @@
 const TrashCan = () => {
   return (
-    <div className="flex justify-center items-center rounded-md  transition-colors ">
-      <span className="fa-solid fa-trash text-xl" />
+    <div className="flex justify-center items-center rounded-md">
+      <span className="fa-solid fa-trash text-xl text-red-400" />
     </div>
   );
 };

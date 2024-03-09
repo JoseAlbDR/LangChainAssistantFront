@@ -17,7 +17,7 @@ import ErrorPage from '../presentation/pages/error/ErrorPage';
 
 export const menuRoutes: MenuItem[] = [
   {
-    to: '/chat-bot',
+    to: '/chatgpt',
     icon: 'fa-solid fa-robot',
     title: 'Chat Bot',
     description: 'Your personal GPT',
@@ -48,7 +48,7 @@ export const router = createBrowserRouter([
     errorElement: <ErrorPage />,
     children: [
       {
-        path: 'chat-bot',
+        path: 'chatgpt',
         element: <ChatBotPage />,
         loader: chatHistoryLoader(queryClient),
       },

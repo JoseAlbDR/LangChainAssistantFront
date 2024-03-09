@@ -10,22 +10,30 @@ import {
   Spinner,
 } from '@nextui-org/react';
 import { useQueryClient } from '@tanstack/react-query';
-import { useNavigation } from 'react-router-dom';
+import { useNavigate, useNavigation } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import TrashCan from '../sidebar/TrashCan';
+import { useChatContext } from '../../../context/ChatContext';
 
-export default function DeleteModal() {
+interface Payload {
+  bot: string;
+}
+
+export default function DeleteModal({ bot }: Payload) {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const { emptyMessages } = useChatContext();
+
   const navigation = useNavigation();
+  const navigate = useNavigate();
 
   const isLoading = navigation.state === 'loading';
 
   const queryClient = useQueryClient();
 
-  const handleDeleteHistory = async () => {
+  const handleDeleteHistory = async (bot: string, onClose: () => void) => {
     try {
       const response = await fetch(
-        'http://localhost:3000/api/assistant/chat-history',
+        `http://localhost:3000/api/${bot}/chat-history`,
         {
           method: 'DELETE',
         }
@@ -40,8 +48,11 @@ export default function DeleteModal() {
       queryClient.invalidateQueries({
         queryKey: ['chatbotHistory'],
       });
+      emptyMessages();
 
-      toast.success(data);
+      toast.success(data.message);
+      navigate(`/${bot}`);
+      onClose();
     } catch (error) {
       if (error instanceof Error) return toast.error(error.message);
       if (typeof error === 'string') return toast.error(error);
@@ -53,7 +64,9 @@ export default function DeleteModal() {
     <>
       <Button
         onPress={onOpen}
-        className='isIconOnly color="danger" aria-label="Like"'
+        isIconOnly
+        aria-label="Like"
+        className="bg-terciary"
       >
         <TrashCan />
       </Button>
@@ -80,7 +93,10 @@ export default function DeleteModal() {
                     <Button color="danger" variant="light" onPress={onClose}>
                       Close
                     </Button>
-                    <Button color="primary" onPress={handleDeleteHistory}>
+                    <Button
+                      color="primary"
+                      onPress={() => handleDeleteHistory(bot, onClose)}
+                    >
                       Action
                     </Button>
                   </ModalFooter>

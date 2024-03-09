@@ -10,7 +10,7 @@ const GptMessage = ({ text }: Props) => {
     <div className="col-start-1 sm:col-end-9 col-end-12 p-3 rounded-lg ">
       <div className="flex flex-row items-start">
         <div className="flex items-center justify-center h-10 w-10 rounded-full bg-green-600 flex-shrink-0 text-white">
-          G
+          <i className="fa fa-robot"></i>
         </div>
         {text === '' ? (
           <TypingLoader />
