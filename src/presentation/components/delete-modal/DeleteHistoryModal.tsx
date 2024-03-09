@@ -14,6 +14,7 @@ import { useNavigate, useNavigation } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import TrashCan from '../sidebar/TrashCan';
 import { useChatContext } from '../../../context/ChatContext';
+import useDarkMode from 'use-dark-mode';
 
 interface Payload {
   bot: string;
@@ -22,6 +23,7 @@ interface Payload {
 export default function DeleteModal({ bot }: Payload) {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const { emptyMessages } = useChatContext();
+  const darkMode = useDarkMode();
 
   const navigation = useNavigation();
   const navigate = useNavigate();
@@ -73,7 +75,9 @@ export default function DeleteModal({ bot }: Payload) {
       <Modal
         isOpen={isOpen}
         onOpenChange={onOpenChange}
-        className="text-foreground bg-background"
+        className={`${
+          darkMode.value ? 'dark' : ''
+        } text-foreground bg-background border border-white`}
       >
         <ModalContent>
           {(onClose) => (
@@ -90,11 +94,11 @@ export default function DeleteModal({ bot }: Payload) {
                     <small>Esta acción no puede ser deshecha</small>
                   </ModalBody>
                   <ModalFooter>
-                    <Button color="danger" variant="light" onPress={onClose}>
+                    <Button color="default" variant="light" onPress={onClose}>
                       Close
                     </Button>
                     <Button
-                      color="primary"
+                      className="bg-tertiary text-white"
                       onPress={() => handleDeleteHistory(bot, onClose)}
                     >
                       Action
