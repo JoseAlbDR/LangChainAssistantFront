@@ -57,7 +57,7 @@ export const router = createBrowserRouter([
         element: <DocumentsPage />,
       },
       {
-        path: 'document-assistant/:name',
+        path: 'assistant/:name',
         element: <DocumentAssistantPage />,
         loader: documentLoader(queryClient),
       },

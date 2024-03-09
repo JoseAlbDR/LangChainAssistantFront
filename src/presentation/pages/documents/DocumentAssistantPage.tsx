@@ -33,6 +33,10 @@ const DocumentAssistantPage = () => {
     }
   }, [chatHistory]);
 
+  const handleDeleteMessages = () => {
+    setMessages([]);
+  };
+
   const handlePost = async (text: string, document: string) => {
     setMessages((prev) => [...prev, { text, isGpt: false }]);
 
@@ -82,8 +86,8 @@ const DocumentAssistantPage = () => {
 
       <TextMessageBoxFile
         onSendMessage={handlePost}
+        onDeleteMessages={handleDeleteMessages}
         placeholder="Write here your shit"
-        // accept=".pdf, .txt"
         disableCorrections
       />
     </div>

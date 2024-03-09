@@ -9,12 +9,14 @@ interface Props {
   placeholder?: string;
   disableCorrections?: boolean;
   accept?: string; //image*
+  onDeleteMessages: () => void;
 }
 
 const TextMessageBoxFile = ({
   onSendMessage,
   placeholder = '',
   disableCorrections = false,
+  onDeleteMessages,
 }: // accept,
 Props) => {
   const { selectFile, isLoading } = useDocumentsContext();
@@ -39,7 +41,7 @@ Props) => {
     >
       <div className="flex-grow">
         <div className="relative w-full bg-primary p-2 bg-opacity-25 rounded-md flex gap-1 shadow-xl">
-          <DeleteModal bot={'chatgpt'} />
+          <DeleteModal bot={'assistant'} deleteMessages={onDeleteMessages} />
           <input
             type="text"
             autoFocus

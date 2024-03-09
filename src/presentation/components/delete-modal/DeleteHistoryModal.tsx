@@ -9,7 +9,7 @@ import {
   Spinner,
 } from '@nextui-org/react';
 import { useQueryClient } from '@tanstack/react-query';
-import { useNavigate, useNavigation } from 'react-router-dom';
+import { useNavigate, useNavigation, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import TrashCan from '../sidebar/TrashCan';
 import useDarkMode from 'use-dark-mode';
@@ -21,6 +21,10 @@ interface Payload {
 
 export default function DeleteModal({ bot, deleteMessages }: Payload) {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const params = useParams();
+
+  const document = params.name;
+
   const darkMode = useDarkMode();
 
   const navigation = useNavigation();
@@ -31,13 +35,14 @@ export default function DeleteModal({ bot, deleteMessages }: Payload) {
   const queryClient = useQueryClient();
 
   const handleDeleteHistory = async (bot: string, onClose: () => void) => {
+    const baseUrl = `http://localhost:3000/api/${bot}/chat-history`;
+
+    const url = document ? `${baseUrl}/${document}` : baseUrl;
+
     try {
-      const response = await fetch(
-        `http://localhost:3000/api/${bot}/chat-history`,
-        {
-          method: 'DELETE',
-        }
-      );
+      const response = await fetch(url, {
+        method: 'DELETE',
+      });
 
       const data = await response.json();
 
@@ -51,7 +56,10 @@ export default function DeleteModal({ bot, deleteMessages }: Payload) {
       deleteMessages();
 
       toast.success(data.message);
-      navigate(`/${bot}`);
+
+      const to = document ? `/${bot}/${document}` : `/${bot}`;
+
+      navigate(to);
       onClose();
     } catch (error) {
       if (error instanceof Error) return toast.error(error.message);

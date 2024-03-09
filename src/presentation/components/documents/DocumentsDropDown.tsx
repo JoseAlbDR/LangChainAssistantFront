@@ -36,7 +36,7 @@ const DocumentsDropDown = () => {
   );
 
   const handleSelectDocument = (document: string) => {
-    navigate(`document-assistant/${document}`);
+    navigate(`assistant/${document}`);
   };
 
   const cutName = (document: string) => {
