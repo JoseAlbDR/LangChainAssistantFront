@@ -1,7 +1,13 @@
 import { Card, CardFooter, Image, Button, Link } from '@nextui-org/react';
 import image from '../../../assets/images/paper_2.jpg';
+import DeleteDocumentModal from '../../components/delete-modal/DeleteDocumentModal';
 
-export default function DocumentCard({ document }: { document: string }) {
+interface Payload {
+  document: string;
+  onDelete: (document: string, onClose: () => void) => void;
+}
+
+export default function DocumentCard({ document, onDelete }: Payload) {
   const cutName = (document: string) => {
     if (document.length > 20) return document.slice(0, 20) + '...';
     return document;
@@ -34,16 +40,7 @@ export default function DocumentCard({ document }: { document: string }) {
               Chat
             </Link>
           </Button>
-
-          <Button
-            className="text-tiny   font-bold"
-            variant="bordered"
-            color="danger"
-            radius="lg"
-            size="sm"
-          >
-            Delete
-          </Button>
+          <DeleteDocumentModal onDelete={onDelete} document={document} />
         </div>
       </CardFooter>
     </Card>
