@@ -25,7 +25,7 @@ const DocumentAssistantPage = () => {
   const document = useLoaderData() as string;
   const [messages, setMessages] = useState<Message[]>([]);
   const { data: chatHistory, isFetching } = useDocumentHistory(document);
-  const { messagesEndRef, setShouldScroll } = useScroll(messages);
+  const { messagesEndRef } = useScroll(messages, isFetching);
 
   useEffect(() => {
     if (chatHistory) {
@@ -59,8 +59,6 @@ const DocumentAssistantPage = () => {
           return newMessages;
         });
       }
-
-      setShouldScroll(true);
     } catch (error) {
       if (error instanceof Error) return toast.error(error.message);
       if (typeof error === 'string') return toast.error(error);

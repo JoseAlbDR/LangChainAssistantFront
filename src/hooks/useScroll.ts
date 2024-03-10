@@ -1,25 +1,21 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { Message } from '../context/ChatContext';
 
-export const useScroll = (messages: Message[]) => {
+export const useScroll = (messages: Message[], isFetching: boolean) => {
   const messagesEndRef = useRef<HTMLDivElement>(null);
-  const [isInitialLoad, setIsInitialLoad] = useState(true);
-  const [shouldScroll, setShouldScroll] = useState(true);
 
-  const scrollToBottom = useCallback(() => {
-    if (messagesEndRef.current && shouldScroll) {
-      messagesEndRef.current.scrollIntoView();
-    }
-  }, [shouldScroll]);
+  const scrollToBottom = (type: 'instant' | 'smooth') => {
+    messagesEndRef.current?.scrollIntoView({ behavior: type });
+  };
 
   useEffect(() => {
-    if (isInitialLoad) {
-      setIsInitialLoad(false);
-      return;
+    scrollToBottom('smooth');
+  }, [messages]);
+
+  useEffect(() => {
+    if (!isFetching) {
+      scrollToBottom('instant');
     }
-
-    scrollToBottom();
-  }, [messages, isInitialLoad, shouldScroll, scrollToBottom]);
-
-  return { messagesEndRef, setShouldScroll };
+  }, [isFetching]);
+  return { messagesEndRef };
 };

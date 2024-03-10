@@ -7,15 +7,15 @@ import {
 } from '../../components';
 import { chatStreamGeneratorUseCase } from '../../../core/use-cases/chat-stream-generator/chat-stream-generator.use-case';
 import { Message } from '../../../context/ChatContext';
-import { useScroll } from '../../../hooks/useScroll';
+
 import { QueryClient } from '@tanstack/react-query';
 import { historyQuery, useHistory } from './useHistory';
 import { mapChatHistory } from '../../../utils';
 import { toast } from 'react-toastify';
 import { Spinner } from '@nextui-org/react';
+import { useScroll } from '../../../hooks/useScroll';
 
 export const loader = (queryClient: QueryClient) => async () => {
-  console.log('loader');
   await queryClient.ensureQueryData(historyQuery());
   return null;
 };
@@ -24,9 +24,10 @@ const ChatBotPage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
   const { data: chatHistory, isFetching } = useHistory();
-  const { messagesEndRef, setShouldScroll } = useScroll(messages);
+  const { messagesEndRef } = useScroll(messages, isFetching);
 
   useEffect(() => {
+    setMessages([]);
     const history = mapChatHistory(chatHistory!);
     setMessages(history);
   }, [chatHistory, setMessages]);
@@ -56,8 +57,6 @@ const ChatBotPage = () => {
           return newMessages;
         });
       }
-
-      setShouldScroll(true);
     } catch (error) {
       if (error instanceof Error) return toast.error(error.message);
       if (typeof error === 'string') return toast.error(error);
@@ -81,13 +80,12 @@ const ChatBotPage = () => {
                 <UserMessage key={index} text={message.text} />
               )
             )}
-            <div ref={messagesEndRef} />
-
             {isLoading && (
               <div className="col-start-1 col-end-12 fade-in">
                 <TypingLoader />
               </div>
             )}
+            <div ref={messagesEndRef} />
           </div>
         )}
       </div>

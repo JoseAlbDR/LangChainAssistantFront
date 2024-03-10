@@ -1,5 +1,5 @@
 import { Button } from '@nextui-org/react';
-import { FormEvent, useState } from 'react';
+import { FormEvent, useRef, useState } from 'react';
 import DeleteModal from '../delete-modal/DeleteHistoryModal';
 
 interface Props {
@@ -16,6 +16,7 @@ const TextMessageBox = ({
   onDeleteMessages,
 }: Props) => {
   const [message, setMessage] = useState('');
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const handleSendMessage = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -23,6 +24,7 @@ const TextMessageBox = ({
     if (message.trim().length === 0) return;
 
     onSendMessage(message);
+    inputRef.current?.focus();
     setMessage('');
   };
 
@@ -35,6 +37,7 @@ const TextMessageBox = ({
         <div className="relative w-full bg-primary p-2 bg-opacity-25 rounded-md flex gap-1 shadow-xl">
           <DeleteModal bot={'chatgpt'} deleteMessages={onDeleteMessages} />
           <input
+            ref={inputRef}
             type="text"
             autoFocus
             name="question"
