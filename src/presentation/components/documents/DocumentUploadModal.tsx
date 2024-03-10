@@ -13,12 +13,14 @@ import { documentUploadUseCase } from '../../../core/use-cases/document-upload/d
 import { toast } from 'react-toastify';
 import { queryClient } from '../../../router/router';
 import { useNavigate } from 'react-router-dom';
+import useDarkMode from 'use-dark-mode';
 
-const DocumentClip = () => {
+const DocumentUploadModal = () => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const { selectedFile, setIsLoading, saveDocument, isLoading, selectFile } =
     useDocumentsContext();
   const navigate = useNavigate();
+  const darkMode = useDarkMode();
 
   const handleUploadDocument = async (onClose: () => void) => {
     if (!selectedFile) return;
@@ -31,7 +33,7 @@ const DocumentClip = () => {
         queryKey: ['documents'],
       });
       saveDocument(selectedFile.name);
-      navigate(`/document-assistant/${selectedFile.name}`);
+      navigate(`/assistant/${selectedFile.name}`);
       onClose();
     } catch (error) {
       if (error instanceof Error) return toast.error(error.message);
@@ -49,11 +51,17 @@ const DocumentClip = () => {
         className="flex justify-center items-center bg-gray-800 rounded-md p-2 transition-colors h-full  border-stone-300 border-medium"
       >
         <i className="fa-solid fa-plus text-xl text-stone-300"></i>
-        <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
+        <Modal
+          isOpen={isOpen}
+          onOpenChange={onOpenChange}
+          className={`${
+            darkMode.value ? 'dark' : ''
+          } text-foreground bg-background border border-white`}
+        >
           <ModalContent>
             {(onClose) => (
               <>
-                <ModalHeader className="flex flex-col gap-1 text-blue-800">
+                <ModalHeader className="flex flex-col gap-1">
                   Cargar Documento
                 </ModalHeader>
                 <ModalBody>
@@ -72,11 +80,11 @@ const DocumentClip = () => {
                   )}
                 </ModalBody>
                 <ModalFooter>
-                  <Button color="danger" variant="light" onPress={onClose}>
+                  <Button color="default" variant="light" onPress={onClose}>
                     Cerrar
                   </Button>
                   <Button
-                    color="primary"
+                    className="bg-tertiary text-white"
                     onPress={() => handleUploadDocument(onClose)}
                   >
                     Subir
@@ -91,4 +99,4 @@ const DocumentClip = () => {
   );
 };
 
-export default DocumentClip;
+export default DocumentUploadModal;
