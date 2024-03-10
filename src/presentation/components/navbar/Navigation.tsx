@@ -14,6 +14,7 @@ import Logo from '../../layouts/Logo';
 import { ThemeSwitcher } from '../theme-switcher/ThemeSwitcher';
 import { ConfigModal, DocumentsDropDown } from '..';
 import FalloutGuy from './FalloutGuy';
+import DocumentUploadModal from '../documents/DocumentUploadModal';
 
 export default function Navigation() {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
@@ -50,6 +51,9 @@ export default function Navigation() {
           <Link href="/documents" color="foreground">
             Documentos
           </Link>
+        </NavbarItem>
+        <NavbarItem>
+          <DocumentUploadModal />
         </NavbarItem>
       </NavbarContent>
       <NavbarContent justify="end">
