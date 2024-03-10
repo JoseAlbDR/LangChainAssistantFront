@@ -64,7 +64,7 @@ export default function DeleteDocumentModal({ onDelete, document }: Payload) {
                   className="bg-tertiary text-white"
                   onPress={() => onDelete(document, onClose)}
                 >
-                  Action
+                  Borrar
                 </Button>
               </ModalFooter>
             </>
