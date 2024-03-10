@@ -75,6 +75,7 @@ export default function DeleteModal({ bot, deleteMessages }: Payload) {
         isIconOnly
         aria-label="Like"
         className="bg-terciary"
+        color="danger"
       >
         <TrashCan />
       </Button>

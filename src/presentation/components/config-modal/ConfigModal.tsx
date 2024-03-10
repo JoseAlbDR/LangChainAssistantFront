@@ -81,14 +81,21 @@ const ConfigModal = () => {
       >
         <span className="fa fa-cog text-3xl text-white"></span>
       </Button>
+
       <Modal
         isOpen={isOpen}
         onOpenChange={onOpenChange}
+        placement="center"
+        size="xs"
         className={`${
           darkMode.value ? 'dark' : ''
-        } text-foreground bg-background border border-white`}
+        } text-foreground bg-background border border-white `}
       >
-        <form encType="application/json" onSubmit={handleSubmit}>
+        <form
+          encType="application/json"
+          onSubmit={handleSubmit}
+          className="items-center"
+        >
           <ModalContent>
             {(onClose) => (
               <>

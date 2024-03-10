@@ -32,7 +32,7 @@ const DashboardLayout = () => {
       <main
         className={`${
           darkMode.value ? 'dark' : ''
-        } text-foreground bg-background flex flex-col items-center content-center`}
+        } text-foreground bg-background flex flex-col items-center content-center min-h-fit`}
       >
         <Navigation />
         <section className="sm:mx-3 flex flex-col h-[calc(100vh-80px)] bg-opacity-10 p-5 rounded-3xl lg:w-3/5">

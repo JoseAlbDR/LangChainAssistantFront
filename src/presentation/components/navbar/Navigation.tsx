@@ -46,6 +46,11 @@ export default function Navigation() {
         <NavbarItem>
           <DocumentsDropDown />
         </NavbarItem>
+        <NavbarItem>
+          <Link href="/documents" color="foreground">
+            Documentos
+          </Link>
+        </NavbarItem>
       </NavbarContent>
       <NavbarContent justify="end">
         <NavbarItem className="hidden lg:flex">

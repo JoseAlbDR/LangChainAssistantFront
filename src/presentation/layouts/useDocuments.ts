@@ -18,7 +18,7 @@ export const documentsQuery = () => {
 };
 
 export const useDocuments = () => {
-  const { data, isFetching, isError } = useQuery<Document>(documentsQuery());
+  const { data, isFetching, isError } = useQuery<Document[]>(documentsQuery());
 
   return { data, isFetching, isError };
 };
