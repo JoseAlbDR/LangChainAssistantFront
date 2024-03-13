@@ -6,7 +6,7 @@ import {
   ChatBotPage,
   DocumentsPage,
 } from '../presentation/pages';
-import { DocumentsDropDown } from '../presentation/components';
+import { ConfigModal, DocumentsDropDown } from '../presentation/components';
 
 import { loader as dashboardLoader } from '../presentation/layouts/DashboardLayout';
 import { loader as chatHistoryLoader } from '../presentation/pages/chat-bot/ChatBotPage';
@@ -60,6 +60,10 @@ export const router = createBrowserRouter([
         path: 'assistant/:name',
         element: <DocumentAssistantPage />,
         loader: documentLoader(queryClient),
+      },
+      {
+        path: 'config',
+        element: <ConfigModal />,
       },
       {
         path: '',

@@ -17,5 +17,6 @@ export const useScroll = (messages: Message[], isFetching: boolean) => {
       scrollToBottom('instant');
     }
   }, [isFetching]);
+
   return { messagesEndRef };
 };

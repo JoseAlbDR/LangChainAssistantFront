@@ -48,7 +48,7 @@ const DocumentUploadModal = () => {
     <div className="z-50 flex h-full items-center">
       <Button
         onPress={onOpen}
-        className="flex justify-center items-center bg-gray-800 rounded-md p-2 transition-colors h-full  border-stone-300 border-medium"
+        className="flex justify-center items-center rounded-md p-2 transition-colors h-full  border-stone-300 border-medium bg-background text-foreground"
       >
         <i className="fa-solid fa-plus text-xl text-stone-300"></i>
         <Modal

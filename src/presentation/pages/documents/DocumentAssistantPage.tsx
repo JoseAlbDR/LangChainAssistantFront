@@ -73,7 +73,9 @@ const DocumentAssistantPage = () => {
           <Spinner />
         ) : (
           <div className="grid grid-cols-12 gap-y-2">
-            <GptMessage text="Hola! soy tu Chat Bot, para empezar adjunta el documento sobre el cual quieres hablar, ten en cuenta que según el tamaño del documento el tiempo de carga puede variar." />
+            <GptMessage
+              text={`Hola! soy tu Chat Bot, ¿Qué necesitas saber sobre el documento ${document}?`}
+            />
             {messages.map((message, index) =>
               message.isGpt ? (
                 <GptMessage key={index} text={message.text} />
@@ -90,7 +92,7 @@ const DocumentAssistantPage = () => {
       <TextMessageBoxFile
         onSendMessage={handlePost}
         onDeleteMessages={handleDeleteMessages}
-        placeholder="Write here your shit"
+        placeholder="Escribe aquí tu pregunta"
         disableCorrections
       />
     </div>

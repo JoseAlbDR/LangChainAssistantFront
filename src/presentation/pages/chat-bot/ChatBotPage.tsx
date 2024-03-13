@@ -71,7 +71,7 @@ const ChatBotPage = () => {
           <Spinner />
         ) : (
           <div className="grid grid-cols-12 gap-y-2">
-            <GptMessage text="Hola! Soy tu asistente personal, pregunta lo que necesites y responderé basado en mi base de conocimiento" />
+            <GptMessage text="Hola! Soy tu asistente personal, pregunta lo que necesites y responderé basado en mi base de conocimiento." />
 
             {messages.map((message, index) =>
               message.isGpt ? (

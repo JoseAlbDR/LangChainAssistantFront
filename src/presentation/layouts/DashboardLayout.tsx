@@ -1,10 +1,10 @@
-import { Outlet, useNavigate } from 'react-router-dom';
+import { Navigate, Outlet, useNavigate } from 'react-router-dom';
 
 import { QueryClient } from '@tanstack/react-query';
-import { configQuery } from './useConfig';
+import { configQuery, useConfig } from './useConfig';
 import { documentsQuery } from './useDocuments';
 import Navigation from '../components/navbar/Navigation';
-import { NextUIProvider } from '@nextui-org/react';
+import { NextUIProvider, Spinner } from '@nextui-org/react';
 import useDarkMode from 'use-dark-mode';
 
 export interface Config {
@@ -24,8 +24,14 @@ const DashboardLayout = () => {
   // const { isFetching: isLoadingConfig, data: config } = useConfig();
   // const { isFetching: isLoadingDocuments } = useDocuments();
 
+  const { data: config, isFetching } = useConfig();
+
   const darkMode = useDarkMode();
   const navigate = useNavigate();
+
+  if (isFetching) return <Spinner />;
+
+  console.log(config);
 
   return (
     <NextUIProvider navigate={navigate}>
@@ -38,7 +44,7 @@ const DashboardLayout = () => {
         <section className="sm:mx-3 flex flex-col h-[calc(100vh-80px)] bg-opacity-10 p-5 rounded-3xl lg:w-3/5">
           <div className="flex flex-row h-full">
             <div className="flex flex-col flex-auto h-full p-1 ">
-              <Outlet />
+              {!config ? <Navigate to="/config" /> : <Outlet />}
             </div>
           </div>
         </section>

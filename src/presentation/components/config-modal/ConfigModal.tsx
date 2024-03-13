@@ -17,12 +17,13 @@ import { FormEvent } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 import { useConfig } from '../../layouts/useConfig';
 import useDarkMode from 'use-dark-mode';
+import { useNavigate } from 'react-router-dom';
 
 interface Config {
   openAIApiKey?: string;
-  modelName: string;
-  temperature: number;
-  maxTokens: number;
+  modelName: string | undefined;
+  temperature: number | undefined;
+  maxTokens: number | undefined;
 }
 
 const ConfigModal = () => {
@@ -30,6 +31,7 @@ const ConfigModal = () => {
   const { data: config } = useConfig();
   const queryClient = useQueryClient();
   const darkMode = useDarkMode();
+  const navigate = useNavigate();
 
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
@@ -38,11 +40,14 @@ const ConfigModal = () => {
 
     const openAIApiKey = formData.get('openAIApiKey') as string | undefined;
 
+    console.log({ openAIApiKey });
+
     let configData: Config = {
       openAIApiKey,
-      modelName: formData.get('modelName') as string,
-      temperature: parseFloat(formData.get('temperature') as string),
-      maxTokens: parseInt(formData.get('maxTokens') as string),
+      modelName: (formData.get('modelName') as string) || undefined,
+      temperature:
+        parseFloat(formData.get('temperature') as string) || undefined,
+      maxTokens: parseInt(formData.get('maxTokens') as string) || undefined,
     };
 
     if (!openAIApiKey) {
@@ -52,13 +57,25 @@ const ConfigModal = () => {
     }
 
     try {
-      const response = await fetch('http://localhost:3000/api/openai-config', {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(configData),
-      });
+      // Initial config
+      if (!config) {
+        console.log({ configData });
+        await fetch('http://localhost:3000/api/openai-config', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(configData),
+        });
+        navigate('/');
+      }
 
-      if (!response.ok) throw new Error('Error saving configuration');
+      // Update existing config
+      if (config)
+        await fetch('http://localhost:3000/api/openai-config', {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(configData),
+        });
+
       queryClient.invalidateQueries({
         queryKey: ['config'],
       });
@@ -83,10 +100,9 @@ const ConfigModal = () => {
       </Button>
 
       <Modal
-        isOpen={isOpen}
+        isOpen={!config ? true : isOpen}
         onOpenChange={onOpenChange}
         placement="center"
-        size="xs"
         className={`${
           darkMode.value ? 'dark' : ''
         } text-foreground bg-background border border-white `}
@@ -106,12 +122,16 @@ const ConfigModal = () => {
                 <ModalBody>
                   <ApiKeyInput />
                   <Divider className="my-1" />
-                  <ModelSelect value={config!.modelName} />
-                  <Divider className="my-1" />
-                  <TemperatureSlider value={config!.temperature} />
-                  <Divider className="my-1" />
-                  <TokensInput value={String(config!.maxTokens)} />
-                  <Divider className="my-1" />
+                  {config && (
+                    <>
+                      <ModelSelect value={config!.modelName} />
+                      <Divider className="my-1" />
+                      <TemperatureSlider value={config!.temperature} />
+                      <Divider className="my-1" />
+                      <TokensInput value={String(config!.maxTokens)} />
+                      <Divider className="my-1" />
+                    </>
+                  )}
                 </ModalBody>
                 <ModalFooter>
                   <Button color="danger" variant="light" onPress={onClose}>

@@ -1,5 +1,5 @@
 import { Button, Spinner } from '@nextui-org/react';
-import { FormEvent, useState } from 'react';
+import { FormEvent, useRef, useState } from 'react';
 import { useDocumentsContext } from '../../../context/DocumentsContext';
 import { useParams } from 'react-router-dom';
 import DeleteModal from '../delete-modal/DeleteHistoryModal';
@@ -21,6 +21,7 @@ const TextMessageBoxFile = ({
 Props) => {
   const { selectFile, isLoading } = useDocumentsContext();
   const [message, setMessage] = useState('');
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const params = useParams();
 
@@ -30,6 +31,7 @@ Props) => {
     if (params && params.name) onSendMessage(message, params.name);
 
     setMessage('');
+    inputRef.current?.focus();
     selectFile(null);
   };
 
@@ -43,6 +45,7 @@ Props) => {
         <div className="relative w-full bg-primary p-2 bg-opacity-25 rounded-md flex gap-1 shadow-xl">
           <DeleteModal bot={'assistant'} deleteMessages={onDeleteMessages} />
           <input
+            ref={inputRef}
             type="text"
             autoFocus
             name="message"

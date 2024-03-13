@@ -9,6 +9,8 @@ export interface IError {
 const ErrorPage = () => {
   const error = useRouteError() as IError;
 
+  console.log(error);
+
   if (error.statusCode && error.statusCode === 404) {
     return (
       <div className="min-h-screen text-center text-capitalize flex flex-col items-center justify-center">
