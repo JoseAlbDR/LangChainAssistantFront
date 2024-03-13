@@ -20,6 +20,7 @@ import useDarkMode from 'use-dark-mode';
 import { useNavigate } from 'react-router-dom';
 import { Config } from '../../../interfaces';
 import { createConfig, updateConfig } from './service';
+import { handleError } from '../../../utils';
 
 const ConfigModal = () => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
@@ -65,10 +66,7 @@ const ConfigModal = () => {
       });
       toast.success('Configuración actualizada');
     } catch (error) {
-      console.log(error);
-      if (error instanceof Error) return toast.error(error.message);
-      if (typeof error === 'string') return toast.error(error);
-      toast.error('Unknown error, check logs');
+      handleError(error);
     }
   };
 
