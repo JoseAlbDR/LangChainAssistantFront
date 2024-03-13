@@ -22,4 +22,4 @@ npm i
 npm run dev
 ```
 
-*NOTE:* Repo (LangChainAssistantBack)[https://github.com/JoseAlbDR/LangChainAssistanBack.git] is needed for this frontend to work.
+*NOTE:* Repo [LangChainAssistantBack](https://github.com/JoseAlbDR/LangChainAssistanBack.git) is needed for this frontend to work.
