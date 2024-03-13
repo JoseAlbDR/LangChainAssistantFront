@@ -40,8 +40,6 @@ const ConfigModal = () => {
 
     const openAIApiKey = formData.get('openAIApiKey') as string | undefined;
 
-    console.log({ openAIApiKey });
-
     let configData: Config = {
       openAIApiKey,
       modelName: (formData.get('modelName') as string) || undefined,
@@ -59,7 +57,8 @@ const ConfigModal = () => {
     try {
       // Initial config
       if (!config) {
-        console.log({ configData });
+        if (!openAIApiKey) return toast.error('Se necesita una OpenAI API Key');
+
         await fetch('http://localhost:3000/api/openai-config', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
