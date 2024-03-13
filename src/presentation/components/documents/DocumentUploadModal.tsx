@@ -10,7 +10,6 @@ import {
   Divider,
 } from '@nextui-org/react';
 import { useDocumentsContext } from '../../../context/DocumentsContext';
-import { documentUploadUseCase } from '../../../core/use-cases/document-upload/document-upload.use-case';
 import { toast } from 'react-toastify';
 import { queryClient } from '../../../router/router';
 import { useNavigate } from 'react-router-dom';
@@ -18,6 +17,7 @@ import useDarkMode from 'use-dark-mode';
 import ChunkSizeSlider from './components/ChunkSizeSlider';
 import ChunkOverlapSlider from './components/ChunkOverlapSlider';
 import { handleError } from '../../../utils';
+import { documentUpload } from './service';
 
 const DocumentUploadModal = () => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
@@ -28,6 +28,8 @@ const DocumentUploadModal = () => {
     selectFile,
     setOverlap,
     setChunkSize,
+    overlap,
+    chunkSize,
   } = useDocumentsContext();
   const navigate = useNavigate();
   const darkMode = useDarkMode();
@@ -37,7 +39,12 @@ const DocumentUploadModal = () => {
 
     try {
       setIsLoading(true);
-      await documentUploadUseCase({ file: selectedFile });
+      // await documentUploadUseCase({ file: selectedFile });
+      await documentUpload({
+        file: selectedFile,
+        chunkOverlap: overlap,
+        chunkSize,
+      });
       toast.success('Carga realizada con éxito!');
       queryClient.invalidateQueries({
         queryKey: ['documents'],

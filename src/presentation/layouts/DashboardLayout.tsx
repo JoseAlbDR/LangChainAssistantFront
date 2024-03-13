@@ -31,8 +31,6 @@ const DashboardLayout = () => {
 
   if (isFetching) return <Spinner />;
 
-  console.log(config);
-
   return (
     <NextUIProvider navigate={navigate}>
       <main
