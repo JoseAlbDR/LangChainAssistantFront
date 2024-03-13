@@ -8,23 +8,18 @@ import {
   Button,
   Divider,
 } from '@nextui-org/react';
-import ApiKeyInput from './ApiKeyInput';
-import ModelSelect from './ModelSelect';
-import TemperatureSlider from './TemperatureSlider';
-import TokensInput from './TokensInput';
+import ApiKeyInput from './components/ApiKeyInput';
+import ModelSelect from './components/ModelSelect';
+import TemperatureSlider from './components/TemperatureSlider';
+import TokensInput from './components/TokensInput';
 import { toast } from 'react-toastify';
 import { FormEvent } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 import { useConfig } from '../../layouts/useConfig';
 import useDarkMode from 'use-dark-mode';
 import { useNavigate } from 'react-router-dom';
-
-interface Config {
-  openAIApiKey?: string;
-  modelName: string | undefined;
-  temperature: number | undefined;
-  maxTokens: number | undefined;
-}
+import { Config } from '../../../interfaces';
+import { createConfig, updateConfig } from './service';
 
 const ConfigModal = () => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
@@ -58,22 +53,12 @@ const ConfigModal = () => {
       // Initial config
       if (!config) {
         if (!openAIApiKey) return toast.error('Se necesita una OpenAI API Key');
-
-        await fetch('http://localhost:3000/api/openai-config', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(configData),
-        });
+        await createConfig({ openAIApiKey });
         navigate('/');
       }
 
       // Update existing config
-      if (config)
-        await fetch('http://localhost:3000/api/openai-config', {
-          method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(configData),
-        });
+      if (config) await updateConfig(config);
 
       queryClient.invalidateQueries({
         queryKey: ['config'],
