@@ -55,11 +55,10 @@ const ConfigModal = () => {
       if (!data?.isKeyPresent) {
         if (!openAIApiKey) return toast.error('Se necesita una OpenAI API Key');
         await createConfig({ openAIApiKey });
-        navigate('/');
       }
 
       // Update existing config
-      if (data?.config) await updateConfig(data?.config);
+      if (data?.config) await updateConfig(configData);
 
       queryClient.invalidateQueries({
         queryKey: ['config'],

@@ -4,7 +4,7 @@ import { QueryClient } from '@tanstack/react-query';
 import { configQuery, useConfig } from './useConfig';
 import { documentsQuery } from './useDocuments';
 import Navigation from '../components/navbar/Navigation';
-import { NextUIProvider, Spinner } from '@nextui-org/react';
+import { NextUIProvider } from '@nextui-org/react';
 import useDarkMode from 'use-dark-mode';
 
 export interface Config {
@@ -24,12 +24,10 @@ const DashboardLayout = () => {
   // const { isFetching: isLoadingConfig, data: config } = useConfig();
   // const { isFetching: isLoadingDocuments } = useDocuments();
 
-  const { data, isFetching } = useConfig();
+  const { data } = useConfig();
 
   const darkMode = useDarkMode();
   const navigate = useNavigate();
-
-  if (isFetching) return <Spinner />;
 
   return (
     <NextUIProvider navigate={navigate}>
