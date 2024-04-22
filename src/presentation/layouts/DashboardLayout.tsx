@@ -24,7 +24,7 @@ const DashboardLayout = () => {
   // const { isFetching: isLoadingConfig, data: config } = useConfig();
   // const { isFetching: isLoadingDocuments } = useDocuments();
 
-  const { data: config, isFetching } = useConfig();
+  const { data, isFetching } = useConfig();
 
   const darkMode = useDarkMode();
   const navigate = useNavigate();
@@ -42,12 +42,13 @@ const DashboardLayout = () => {
         <section className="sm:mx-3 flex flex-col h-[calc(100vh-80px)] bg-opacity-10 p-5 rounded-3xl lg:w-3/5">
           <div className="flex flex-row h-full">
             <div className="flex flex-col flex-auto h-full p-1 ">
-              {!config ? <Navigate to="/config" /> : <Outlet />}
+              {!data?.isKeyPresent ? <Navigate to="/config" /> : <Outlet />}
             </div>
           </div>
         </section>
       </main>
     </NextUIProvider>
+
     // <main className="flex flex-row mt-7">
     //   <nav className="hidden sm:flex flex-col ml-5 w-[370px] min-h-[calc(100vh-3.0rem)] bg-white bg-opacity-10 p-5 rounded-3xl">
     //     <div className="flex justify-between items-center">

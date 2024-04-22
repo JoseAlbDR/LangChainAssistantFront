@@ -4,7 +4,7 @@ import { useDocumentsContext } from '../../../../context/DocumentsContext';
 const ChunkOverlap = () => {
   return (
     <div className="px-1 py-2">
-      <div className="text-small font-bold">Chunk Size</div>
+      <div className="text-small font-bold">Chunk Overlap</div>
       <div className="text-tiny">
         <p>
           Independientemente del tamaño del 'Chunk', se recomienda generalmente

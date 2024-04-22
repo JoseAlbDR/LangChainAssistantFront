@@ -3,9 +3,12 @@ import { getConfig } from './service';
 import { toast } from 'react-toastify';
 
 export interface Config {
-  modelName: string;
-  temperature: number;
-  maxTokens: number;
+  config: {
+    modelName: string;
+    temperature: number;
+    maxTokens: number;
+  };
+  isKeyPresent: boolean;
 }
 
 export const configQuery = () => {

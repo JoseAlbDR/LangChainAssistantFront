@@ -24,7 +24,7 @@ import { handleError } from '../../../utils';
 
 const ConfigModal = () => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
-  const { data: config } = useConfig();
+  const { data } = useConfig();
   const queryClient = useQueryClient();
   const darkMode = useDarkMode();
   const navigate = useNavigate();
@@ -52,19 +52,21 @@ const ConfigModal = () => {
 
     try {
       // Initial config
-      if (!config) {
+      if (!data?.isKeyPresent) {
         if (!openAIApiKey) return toast.error('Se necesita una OpenAI API Key');
         await createConfig({ openAIApiKey });
         navigate('/');
       }
 
       // Update existing config
-      if (config) await updateConfig(config);
+      if (data?.config) await updateConfig(data?.config);
 
       queryClient.invalidateQueries({
         queryKey: ['config'],
       });
+
       toast.success('Configuración actualizada');
+      navigate('/');
     } catch (error) {
       handleError(error);
     }
@@ -82,7 +84,7 @@ const ConfigModal = () => {
       </Button>
 
       <Modal
-        isOpen={!config ? true : isOpen}
+        isOpen={!data?.config ? true : isOpen}
         onOpenChange={onOpenChange}
         placement="center"
         className={`${
@@ -104,13 +106,13 @@ const ConfigModal = () => {
                 <ModalBody>
                   <ApiKeyInput />
                   <Divider className="my-1" />
-                  {config && (
+                  {data?.config && (
                     <>
-                      <ModelSelect value={config!.modelName} />
+                      <ModelSelect value={data?.config!.modelName} />
                       <Divider className="my-1" />
-                      <TemperatureSlider value={config!.temperature} />
+                      <TemperatureSlider value={data?.config!.temperature} />
                       <Divider className="my-1" />
-                      <TokensInput value={String(config!.maxTokens)} />
+                      <TokensInput value={String(data?.config!.maxTokens)} />
                       <Divider className="my-1" />
                     </>
                   )}

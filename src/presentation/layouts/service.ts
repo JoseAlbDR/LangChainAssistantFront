@@ -17,5 +17,5 @@ export const getConfig = async () => {
 
   const data = await response.json();
 
-  return data.config;
+  return data;
 };
