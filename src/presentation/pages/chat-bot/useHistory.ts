@@ -1,17 +1,13 @@
 import { useQuery } from '@tanstack/react-query';
 import { getHistory } from './service';
-import { toast } from 'react-toastify';
 import { ChatHistory } from '../../../interfaces';
 
 export const historyQuery = () => {
   return {
-    queryKey: ['chatbotHistory'],
+    queryKey: ['chatbot-history'],
     queryFn: async () => getHistory(),
     staleTime: 1000,
-    onError: (error: string) => {
-      console.log(error);
-      toast.error(error);
-    },
+    retry: false,
   };
 };
 

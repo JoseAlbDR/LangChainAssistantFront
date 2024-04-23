@@ -14,10 +14,17 @@ import { mapChatHistory } from '../../../utils';
 import { toast } from 'react-toastify';
 import { Spinner } from '@nextui-org/react';
 import { useScroll } from '../../../hooks/useScroll';
+import { AxiosError } from 'axios';
 
 export const loader = (queryClient: QueryClient) => async () => {
-  await queryClient.ensureQueryData(historyQuery());
-  return null;
+  try {
+    await queryClient.ensureQueryData(historyQuery());
+    return null;
+  } catch (error) {
+    console.log(error);
+    if (error instanceof AxiosError) toast.error(error.response?.data.message);
+    return null;
+  }
 };
 
 const ChatBotPage = () => {
