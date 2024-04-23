@@ -5,6 +5,9 @@ import {
   DocumentAssistantPage,
   ChatBotPage,
   DocumentsPage,
+  LoginPage,
+  RegisterPage,
+  ErrorPage,
 } from '../presentation/pages';
 import { ConfigModal, DocumentsDropDown } from '../presentation/components';
 
@@ -13,8 +16,6 @@ import { loader as chatHistoryLoader } from '../presentation/pages/chat-bot/Chat
 import { loader as documentLoader } from '../presentation/pages/documents/DocumentAssistantPage';
 
 import { QueryClient } from '@tanstack/react-query';
-import ErrorPage from '../presentation/pages/error/ErrorPage';
-import LoginPage from '../presentation/pages/auth/LoginPage';
 
 export const menuRoutes: MenuItem[] = [
   {
@@ -45,6 +46,10 @@ export const router = createBrowserRouter([
   {
     path: 'login',
     element: <LoginPage />,
+  },
+  {
+    path: 'register',
+    element: <RegisterPage />,
   },
   {
     path: '/',
