@@ -8,10 +8,13 @@ import { Button, Input, Spinner } from '@nextui-org/react';
 import { loginUser } from './service';
 import { toast } from 'react-toastify';
 import { setAuthorizationHeader } from '../../../api/client';
+import useDarkMode from 'use-dark-mode';
+import { ThemeSwitcher } from '../../components/theme-switcher/ThemeSwitcher';
 
 const LoginPage = () => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
+  const darkMode = useDarkMode();
 
   const {
     register,
@@ -43,12 +46,17 @@ const LoginPage = () => {
   };
 
   return (
-    <main className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
+    <main
+      className={`${
+        darkMode.value ? 'dark' : ''
+      } text-foreground bg-background flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0`}
+    >
       <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
         <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
           <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
             Haz Login
           </h1>
+          <ThemeSwitcher />
           <form
             className="space-y-4 md:space-y-2"
             onSubmit={handleSubmit(onSubmit)}
