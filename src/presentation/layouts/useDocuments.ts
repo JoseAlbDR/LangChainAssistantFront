@@ -10,6 +10,7 @@ export const documentsQuery = () => {
   return {
     queryKey: ['documents'],
     queryFn: async () => getDocuments(),
+    retry: false,
     onError: (error: string) => {
       console.log(error);
       toast.error(error);

@@ -1,5 +1,5 @@
 import { Navigate, createBrowserRouter } from 'react-router-dom';
-import DashboardLayout from '../presentation/layouts/DashboardLayout';
+import AppLayout from '../presentation/layouts/AppLayout';
 import { MenuItem } from '../interfaces';
 import {
   DocumentAssistantPage,
@@ -8,12 +8,13 @@ import {
 } from '../presentation/pages';
 import { ConfigModal, DocumentsDropDown } from '../presentation/components';
 
-import { loader as dashboardLoader } from '../presentation/layouts/DashboardLayout';
+import { loader as dashboardLoader } from '../presentation/layouts/AppLayout';
 import { loader as chatHistoryLoader } from '../presentation/pages/chat-bot/ChatBotPage';
 import { loader as documentLoader } from '../presentation/pages/documents/DocumentAssistantPage';
 
 import { QueryClient } from '@tanstack/react-query';
 import ErrorPage from '../presentation/pages/error/ErrorPage';
+import LoginPage from '../presentation/pages/auth/LoginPage';
 
 export const menuRoutes: MenuItem[] = [
   {
@@ -42,8 +43,12 @@ export const queryClient = new QueryClient({
 
 export const router = createBrowserRouter([
   {
+    path: 'login',
+    element: <LoginPage />,
+  },
+  {
     path: '/',
-    element: <DashboardLayout />,
+    element: <AppLayout />,
     loader: dashboardLoader(queryClient),
     errorElement: <ErrorPage />,
     children: [

@@ -14,7 +14,8 @@ export interface Config {
 export const configQuery = () => {
   return {
     queryKey: ['config'],
-    queryFn: async () => getConfig(),
+    queryFn: getConfig,
+    retry: false,
     onError: (error: string) => {
       console.log(error);
       toast.error(error);

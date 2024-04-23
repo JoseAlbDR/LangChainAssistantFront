@@ -1,4 +1,4 @@
-import { Navigate, Outlet, useNavigate } from 'react-router-dom';
+import { Navigate, Outlet, redirect, useNavigate } from 'react-router-dom';
 
 import { QueryClient } from '@tanstack/react-query';
 import { configQuery, useConfig } from './useConfig';
@@ -6,6 +6,8 @@ import { documentsQuery } from './useDocuments';
 import Navigation from '../components/navbar/Navigation';
 import { NextUIProvider } from '@nextui-org/react';
 import useDarkMode from 'use-dark-mode';
+import { authStatusQuery } from './useAuthStatus';
+import { AxiosError } from 'axios';
 
 export interface Config {
   modelName: string;
@@ -14,17 +16,23 @@ export interface Config {
 }
 
 export const loader = (queryClient: QueryClient) => async () => {
-  const config = await queryClient.ensureQueryData(configQuery());
-  const documents = await queryClient.ensureQueryData(documentsQuery());
+  try {
+    const [authStatus, config, documents] = await Promise.all([
+      queryClient.ensureQueryData(authStatusQuery()),
+      queryClient.ensureQueryData(configQuery()),
+      queryClient.ensureQueryData(documentsQuery()),
+    ]);
 
-  return { documents, config };
+    return { documents, config, authStatus };
+  } catch (error) {
+    console.log(error);
+    if (error instanceof AxiosError && error.response?.status === 401)
+      return redirect('/login');
+  }
 };
 
-const DashboardLayout = () => {
-  // const { isFetching: isLoadingConfig, data: config } = useConfig();
-  // const { isFetching: isLoadingDocuments } = useDocuments();
-
-  const { data } = useConfig();
+const AppLayout = () => {
+  const { data: config } = useConfig();
 
   const darkMode = useDarkMode();
   const navigate = useNavigate();
@@ -40,7 +48,7 @@ const DashboardLayout = () => {
         <section className="sm:mx-3 flex flex-col h-[calc(100vh-80px)] bg-opacity-10 p-5 rounded-3xl lg:w-3/5">
           <div className="flex flex-row h-full">
             <div className="flex flex-col flex-auto h-full p-1 ">
-              {!data?.isKeyPresent ? <Navigate to="/config" /> : <Outlet />}
+              {!config?.isKeyPresent ? <Navigate to="/config" /> : <Outlet />}
             </div>
           </div>
         </section>
@@ -77,4 +85,4 @@ const DashboardLayout = () => {
   );
 };
 
-export default DashboardLayout;
+export default AppLayout;

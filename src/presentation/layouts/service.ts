@@ -1,21 +1,21 @@
+import axios from 'axios';
+
 export const getDocuments = async () => {
-  const response = await fetch('http://localhost:3000/api/document');
-
-  if (!response.ok) throw new Error('Error fetching documents');
-
-  console.log('documents');
-
-  const data = await response.json();
+  const { data } = await axios.get('http://localhost:3000/api/document');
 
   return data;
 };
 
 export const getConfig = async () => {
-  const response = await fetch('http://localhost:3000/api/openai-config');
+  const { data } = await axios.get('http://localhost:3000/api/openai-config');
 
-  if (!response.ok) throw new Error('Error fetching config');
+  return data;
+};
 
-  const data = await response.json();
+export const getAuthStatus = async () => {
+  const { data } = await axios.get(
+    'http://localhost:3000/api/auth/check-status'
+  );
 
   return data;
 };
