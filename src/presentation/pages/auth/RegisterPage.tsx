@@ -2,16 +2,12 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { RegisterUserType, registerUserSchema } from '../../../utils';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Button, Input, Spinner } from '@nextui-org/react';
-import { Link, useNavigate } from 'react-router-dom';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { registerUser } from './service';
-import { toast } from 'react-toastify';
+import { Link } from 'react-router-dom';
 import useDarkMode from 'use-dark-mode';
 import { ThemeSwitcher } from '../../components/theme-switcher/ThemeSwitcher';
+import { useRegister } from './useRegister';
 
 const RegisterPage = () => {
-  const navigate = useNavigate();
-  const queryClient = useQueryClient();
   const darkMode = useDarkMode();
 
   const {
@@ -29,16 +25,7 @@ const RegisterPage = () => {
     },
   });
 
-  const { mutate, isPending } = useMutation({
-    mutationFn: (data: RegisterUserType) => registerUser(data),
-    onSuccess: () => {
-      toast.success('Usuario registrado');
-      queryClient.removeQueries();
-      reset();
-      navigate('/login');
-    },
-    onError: (error) => toast.error(error.message),
-  });
+  const { mutate, isPending } = useRegister(reset);
 
   const onSubmit: SubmitHandler<RegisterUserType> = (data) => {
     mutate(data);

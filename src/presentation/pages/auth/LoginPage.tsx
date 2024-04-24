@@ -1,20 +1,15 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import React from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { LoginUserType, loginUserSchema } from '../../../utils';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Button, Input, Spinner } from '@nextui-org/react';
-import { loginUser } from './service';
-import { toast } from 'react-toastify';
-import { setAuthorizationHeader } from '../../../api/client';
+
 import useDarkMode from 'use-dark-mode';
 import { ThemeSwitcher } from '../../components/theme-switcher/ThemeSwitcher';
-import { storage } from '../../../utils/storage';
+
+import { useLogin } from './useLogin';
 
 const LoginPage = () => {
-  const navigate = useNavigate();
-  const queryClient = useQueryClient();
   const darkMode = useDarkMode();
 
   const {
@@ -30,18 +25,7 @@ const LoginPage = () => {
     },
   });
 
-  const { mutate, isPending } = useMutation({
-    mutationFn: (data: LoginUserType) => loginUser(data),
-    onSuccess: (data) => {
-      toast.success('Usuario logueado');
-      setAuthorizationHeader(data.token);
-      storage.set('accessToken', data.token);
-      queryClient.removeQueries();
-      reset();
-      navigate('/');
-    },
-    onError: (error) => toast.error(error.message),
-  });
+  const { mutate, isPending } = useLogin(reset);
 
   const onSubmit: SubmitHandler<LoginUserType> = (data) => {
     mutate(data);
