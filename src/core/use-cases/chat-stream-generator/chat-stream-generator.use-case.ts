@@ -1,3 +1,7 @@
+import { redirect } from 'react-router-dom';
+import { storage } from '../../../utils/storage';
+import { CustomError } from '../../../presentation/pages/error/customError';
+
 interface Payload {
   question: string;
   document?: string;
@@ -7,11 +11,14 @@ export async function* chatStreamGeneratorUseCase(
   payload: Payload,
   endpoint: string
 ) {
+  const accessToken = storage.get('accessToken');
+
   try {
     const res = await fetch(`http://localhost:3000/api/${endpoint}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        Authorization: `Bearer ${accessToken}`,
       },
       body: JSON.stringify(payload),
     });
@@ -19,7 +26,7 @@ export async function* chatStreamGeneratorUseCase(
     if (!res.ok) {
       const data = await res.json();
 
-      throw new Error(data.message);
+      throw new CustomError(data.message, data.statusCode);
     }
 
     const reader = res.body?.getReader();
@@ -43,6 +50,8 @@ export async function* chatStreamGeneratorUseCase(
     }
   } catch (error) {
     console.log(error);
+    if (error instanceof CustomError && error.statusCode === 401)
+      return redirect('/login');
     throw error;
   }
 }
