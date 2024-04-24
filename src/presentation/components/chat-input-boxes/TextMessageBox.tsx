@@ -57,7 +57,7 @@ const TextMessageBox = ({
               type="submit"
               disabled={isLoading}
             >
-              <span className="mr-2 hidden sm:block text-white">Send</span>
+              <span className="mr-2 hidden sm:block text-white">Enviar</span>
               <i className=" fa-regular fa-paper-plane text-white"></i>
             </Button>
           </div>

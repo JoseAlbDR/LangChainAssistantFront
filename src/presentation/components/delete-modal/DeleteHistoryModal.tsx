@@ -8,12 +8,10 @@ import {
   useDisclosure,
   Spinner,
 } from '@nextui-org/react';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { useNavigate, useNavigation, useParams } from 'react-router-dom';
-import { toast } from 'react-toastify';
+import { useNavigation, useParams } from 'react-router-dom';
 import TrashCan from '../sidebar/TrashCan';
 import useDarkMode from 'use-dark-mode';
-import { deleteHistory } from './service';
+import { useDeleteHistory } from './useDeleteHistory';
 
 interface Payload {
   bot: string;
@@ -26,26 +24,10 @@ export default function DeleteModal({ bot, deleteMessages }: Payload) {
   const document = params.name;
   const darkMode = useDarkMode();
   const navigation = useNavigation();
-  const navigate = useNavigate();
   const isLoading = navigation.state === 'loading';
-  const queryClient = useQueryClient();
 
-  const { mutate } = useMutation({
-    mutationFn: (data: string) => deleteHistory(data),
-    onSuccess: (data) => {
-      queryClient.invalidateQueries({
-        queryKey: ['chatbotHistory'],
-      });
-      toast.success(data.message);
-      const to = document ? `/${bot}/${document}` : `/${bot}`;
-      deleteMessages();
-      navigate(to);
-      onClose();
-    },
-    onError: (error) => {
-      toast.error(error.message);
-    },
-  });
+  const to = document ? `/${bot}/${document}` : `/${bot}`;
+  const { mutate } = useDeleteHistory({ deleteMessages, onClose, to });
 
   const handleDeleteHistory = async (bot: string) => {
     const baseUrl = `${bot}/chat-history`;
