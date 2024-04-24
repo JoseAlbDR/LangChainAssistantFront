@@ -1,5 +1,19 @@
 import * as z from 'zod';
 
+export enum ModelEnum {
+  gpt350 = 'gpt-3.5-turbo-0125',
+  gpt351 = 'gpt-3.5-turbo-1106',
+  gpt40 = 'gpt-4-0125-preview',
+  gpt41 = 'gpt-4-1106-preview',
+}
+
+export const configSchema = z.object({
+  openAIApiKey: z.string(),
+  modelName: z.nativeEnum(ModelEnum),
+  temperature: z.number().min(0).max(1),
+  maxTokens: z.number().min(0),
+});
+
 export const registerUserSchema = z
   .object({
     username: z.string().min(3, {
@@ -39,3 +53,4 @@ export const loginUserSchema = z.object({
 
 export type RegisterUserType = z.infer<typeof registerUserSchema>;
 export type LoginUserType = z.infer<typeof loginUserSchema>;
+export type ConfigType = z.infer<typeof configSchema>;

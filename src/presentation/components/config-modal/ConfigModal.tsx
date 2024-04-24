@@ -12,64 +12,73 @@ import ApiKeyInput from './components/ApiKeyInput';
 import ModelSelect from './components/ModelSelect';
 import TemperatureSlider from './components/TemperatureSlider';
 import TokensInput from './components/TokensInput';
-import { toast } from 'react-toastify';
-import { FormEvent } from 'react';
-import { useQueryClient } from '@tanstack/react-query';
+
 import { useConfig } from '../../layouts/useConfig';
 import useDarkMode from 'use-dark-mode';
-import { useNavigate } from 'react-router-dom';
-import { Config } from '../../../interfaces';
-import { createConfig, updateConfig } from './service';
-import { handleError } from '../../../utils';
+
+import { ConfigType, ModelEnum, configSchema } from '../../../utils';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
 
 const ConfigModal = () => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const { data } = useConfig();
-  const queryClient = useQueryClient();
   const darkMode = useDarkMode();
-  const navigate = useNavigate();
 
-  const handleSubmit = async (event: FormEvent) => {
-    event.preventDefault();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm<ConfigType>({
+    resolver: zodResolver(configSchema),
+    defaultValues: {
+      maxTokens: data?.config.maxTokens || 250,
+      modelName: (data?.config.modelName as ModelEnum) || ModelEnum.gpt350,
+      openAIApiKey: '',
+      temperature: data?.config.temperature || 0.7,
+    },
+  });
 
-    const formData = new FormData(event.target as HTMLFormElement);
-
-    const openAIApiKey = formData.get('openAIApiKey') as string | undefined;
-
-    let configData: Config = {
-      openAIApiKey,
-      modelName: (formData.get('modelName') as string) || undefined,
-      temperature:
-        parseFloat(formData.get('temperature') as string) || undefined,
-      maxTokens: parseInt(formData.get('maxTokens') as string) || undefined,
-    };
-
-    if (!openAIApiKey) {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const { openAIApiKey, ...rest } = configData;
-      configData = rest;
-    }
-
-    try {
-      // Initial config
-      if (!data?.isKeyPresent) {
-        if (!openAIApiKey) return toast.error('Se necesita una OpenAI API Key');
-        await createConfig({ openAIApiKey });
-      }
-
-      // Update existing config
-      if (data?.config) await updateConfig(configData);
-
-      queryClient.invalidateQueries({
-        queryKey: ['config'],
-      });
-
-      toast.success('Configuración actualizada');
-      navigate('/');
-    } catch (error) {
-      handleError(error);
-    }
+  const onSubmit: SubmitHandler<ConfigType> = (data) => {
+    console.log({ data });
   };
+
+  // const handleSubmit = async (event: FormEvent) => {
+  //   event.preventDefault();
+
+  //   const formData = new FormData(event.target as HTMLFormElement);
+
+  //   const openAIApiKey = formData.get('openAIApiKey') as string | undefined;
+
+  //   let configData: Config = {
+  //     openAIApiKey,
+  //     modelName: (formData.get('modelName') as string) || undefined,
+  //     temperature:
+  //       parseFloat(formData.get('temperature') as string) || undefined,
+  //     maxTokens: parseInt(formData.get('maxTokens') as string) || undefined,
+  //   };
+
+  //   if (!openAIApiKey) {
+  //     // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  //     const { openAIApiKey, ...rest } = configData;
+  //     configData = rest;
+  //   }
+
+  //   try {
+  //     // Update existing config
+  //     if (data?.config) await updateConfig(configData);
+
+  //     queryClient.invalidateQueries({
+  //       queryKey: ['config'],
+  //     });
+
+  //     toast.success('Configuración actualizada');
+  //     navigate('/');
+  //   } catch (error) {
+  //     handleError(error);
+  //   }
+  // };
 
   return (
     <>
@@ -83,7 +92,7 @@ const ConfigModal = () => {
       </Button>
 
       <Modal
-        isOpen={!data?.config ? true : isOpen}
+        isOpen={!data?.isKeyPresent ? true : isOpen}
         onOpenChange={onOpenChange}
         placement="center"
         className={`${
@@ -92,7 +101,7 @@ const ConfigModal = () => {
       >
         <form
           encType="application/json"
-          onSubmit={handleSubmit}
+          onSubmit={() => handleSubmit(onSubmit)}
           className="items-center"
         >
           <ModalContent>
@@ -103,11 +112,18 @@ const ConfigModal = () => {
                 </ModalHeader>
                 <Divider className="my-1" />
                 <ModalBody>
-                  <ApiKeyInput />
+                  <ApiKeyInput
+                    register={register}
+                    errors={errors.openAIApiKey}
+                  />
                   <Divider className="my-1" />
-                  {data?.config && (
+                  {data?.isKeyPresent && (
                     <>
-                      <ModelSelect value={data?.config!.modelName} />
+                      <ModelSelect
+                        value={data?.config!.modelName}
+                        register={register}
+                        errors={errors.modelName}
+                      />
                       <Divider className="my-1" />
                       <TemperatureSlider value={data?.config!.temperature} />
                       <Divider className="my-1" />
