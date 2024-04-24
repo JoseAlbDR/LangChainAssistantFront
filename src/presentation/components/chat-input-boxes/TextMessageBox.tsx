@@ -7,6 +7,7 @@ interface Props {
   placeholder?: string;
   disableCorrections?: boolean;
   onDeleteMessages: () => void;
+  isLoading: boolean;
 }
 
 const TextMessageBox = ({
@@ -14,6 +15,7 @@ const TextMessageBox = ({
   placeholder = '',
   disableCorrections = false,
   onDeleteMessages,
+  isLoading,
 }: Props) => {
   const [message, setMessage] = useState('');
   const inputRef = useRef<HTMLInputElement>(null);
@@ -53,6 +55,7 @@ const TextMessageBox = ({
             <Button
               className="bg-tertiary min-w-10 min-h-fit sm:w-20"
               type="submit"
+              disabled={isLoading}
             >
               <span className="mr-2 hidden sm:block text-white">Send</span>
               <i className=" fa-regular fa-paper-plane text-white"></i>

@@ -58,7 +58,6 @@ const ChatBotPage = () => {
         'chatgpt/user-question'
       );
 
-      setIsLoading(false);
       setMessages((prev) => [...prev, { text: '', isGpt: true }]);
       for await (const chunk of stream) {
         setMessages((prev) => {
@@ -67,11 +66,13 @@ const ChatBotPage = () => {
           return newMessages;
         });
       }
+      setIsLoading(false);
     } catch (error) {
       console.log(error);
-      if (typeof error === 'string') return toast.error(error);
-      if (error instanceof CustomError && error.statusCode === 401)
+      if (error instanceof CustomError && error.statusCode === 401) {
+        toast.error(error.message);
         return navigate('/login');
+      }
       return toast.error('Error desconocido, revise los logs');
     }
   };
@@ -107,6 +108,7 @@ const ChatBotPage = () => {
         onSendMessage={handlePost}
         placeholder="Write here your shit"
         disableCorrections
+        isLoading={isLoading}
       />
     </div>
   );
