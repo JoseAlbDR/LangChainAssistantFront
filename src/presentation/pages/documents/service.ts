@@ -1,20 +1,13 @@
-export const getDocumentHistory = async (document: string) => {
-  try {
-    const response = await fetch(
-      `http://localhost:3000/api/assistant/chat-history/${document}`
-    );
+import { client } from '../../../api/client';
 
-    if (!response.ok) {
-      const data = await response.json();
-      console.log({ data });
-      throw data;
-    }
+export const getDocumentHistory = async <T>(document: string) => {
+  const { data } = await client.get<T>(`/assistant/chat-history/${document}`);
 
-    const data = await response.json();
+  return data;
+};
 
-    return data;
-  } catch (error) {
-    console.log(error);
-    throw error;
-  }
+export const deleteDocument = async <T>(id: string, onClose: () => void) => {
+  await client.delete<T>(`/document/${id}`);
+
+  return onClose;
 };

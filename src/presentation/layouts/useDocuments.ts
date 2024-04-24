@@ -4,12 +4,13 @@ import { toast } from 'react-toastify';
 
 interface Document {
   name: string;
+  id: string;
 }
 
 export const documentsQuery = () => {
   return {
     queryKey: ['documents'],
-    queryFn: async () => getDocuments(),
+    queryFn: getDocuments,
     retry: false,
     onError: (error: string) => {
       console.log(error);

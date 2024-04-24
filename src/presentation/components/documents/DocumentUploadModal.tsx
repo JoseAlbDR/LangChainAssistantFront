@@ -10,17 +10,13 @@ import {
   Divider,
 } from '@nextui-org/react';
 import { useDocumentsContext } from '../../../context/DocumentsContext';
-import { toast } from 'react-toastify';
-import { queryClient } from '../../../router/router';
-import { useNavigate } from 'react-router-dom';
 import useDarkMode from 'use-dark-mode';
 import ChunkSizeSlider from './components/ChunkSizeSlider';
 import ChunkOverlapSlider from './components/ChunkOverlapSlider';
-import { handleError } from '../../../utils';
-import { documentUpload } from './service';
+import { useUploadDocument } from './useUploadDocument';
 
 const DocumentUploadModal = () => {
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
   const {
     selectedFile,
     setIsLoading,
@@ -31,31 +27,18 @@ const DocumentUploadModal = () => {
     overlap,
     chunkSize,
   } = useDocumentsContext();
-  const navigate = useNavigate();
   const darkMode = useDarkMode();
+  const { mutate, isPending } = useUploadDocument(
+    onClose,
+    selectedFile?.name || ''
+  );
 
-  const handleUploadDocument = async (onClose: () => void) => {
+  const handleUploadDocument = async () => {
     if (!selectedFile) return;
 
-    try {
-      setIsLoading(true);
-      // await documentUploadUseCase({ file: selectedFile });
-      await documentUpload({
-        file: selectedFile,
-        chunkOverlap: overlap,
-        chunkSize,
-      });
-      toast.success('Carga realizada con éxito!');
-      queryClient.invalidateQueries({
-        queryKey: ['documents'],
-      });
-      navigate(`/assistant/${selectedFile.name}`);
-      onClose();
-    } catch (error) {
-      handleError(error);
-    } finally {
-      setIsLoading(false);
-    }
+    setIsLoading(true);
+    mutate({ file: selectedFile, chunkOverlap: overlap, chunkSize });
+    setIsLoading(false);
   };
 
   return (
@@ -79,7 +62,7 @@ const DocumentUploadModal = () => {
                   Cargar Documento
                 </ModalHeader>
                 <ModalBody>
-                  {isLoading ? (
+                  {isLoading || isPending ? (
                     <Spinner />
                   ) : (
                     <>
@@ -113,7 +96,8 @@ const DocumentUploadModal = () => {
                   </Button>
                   <Button
                     className="bg-tertiary text-white"
-                    onPress={() => handleUploadDocument(onClose)}
+                    onPress={handleUploadDocument}
+                    disabled={isPending}
                   >
                     Subir
                   </Button>

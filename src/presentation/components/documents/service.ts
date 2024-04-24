@@ -1,3 +1,5 @@
+import { client } from '../../../api/client';
+
 interface Payload {
   file: File;
   chunkSize: number;
@@ -20,18 +22,7 @@ export const documentUpload = async ({
   const overlap = chunkSize * chunkOverlap;
   formData.append('chunkOverlap', String(overlap));
 
-  try {
-    const res = await fetch('http://localhost:3000/api/document/', {
-      method: 'POST',
-      body: formData,
-    });
+  const { data } = await client.post('/document', formData);
 
-    if (!res.ok) {
-      const { message } = await res.json();
-      throw new Error(message);
-    }
-  } catch (err) {
-    console.log(err);
-    throw err;
-  }
+  return data;
 };

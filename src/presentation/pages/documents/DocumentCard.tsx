@@ -4,10 +4,11 @@ import DeleteDocumentModal from '../../components/delete-modal/DeleteDocumentMod
 
 interface Payload {
   document: string;
+  id: string;
   onDelete: (document: string, onClose: () => void) => void;
 }
 
-export default function DocumentCard({ document, onDelete }: Payload) {
+export default function DocumentCard({ document, onDelete, id }: Payload) {
   const cutName = (document: string) => {
     if (document.length > 20) return document.slice(0, 20) + '...';
     return document;
@@ -40,7 +41,11 @@ export default function DocumentCard({ document, onDelete }: Payload) {
               Chat
             </Link>
           </Button>
-          <DeleteDocumentModal onDelete={onDelete} document={document} />
+          <DeleteDocumentModal
+            onDelete={onDelete}
+            document={document}
+            id={id}
+          />
         </div>
       </CardFooter>
     </Card>

@@ -14,9 +14,14 @@ import { useDocumentsContext } from '../../../context/DocumentsContext';
 interface Payload {
   onDelete: (document: string, onClose: () => void) => void;
   document: string;
+  id: string;
 }
 
-export default function DeleteDocumentModal({ onDelete, document }: Payload) {
+export default function DeleteDocumentModal({
+  onDelete,
+  document,
+  id,
+}: Payload) {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const darkMode = useDarkMode();
   const { isLoading } = useDocumentsContext();
@@ -62,7 +67,7 @@ export default function DeleteDocumentModal({ onDelete, document }: Payload) {
                 </Button>
                 <Button
                   className="bg-tertiary text-white"
-                  onPress={() => onDelete(document, onClose)}
+                  onPress={() => onDelete(id, onClose)}
                 >
                   Borrar
                 </Button>

@@ -4,11 +4,16 @@ import { Message } from '../../../context/ChatContext';
 import { chatStreamGeneratorUseCase } from '../../../core/use-cases/chat-stream-generator/chat-stream-generator.use-case';
 import { useScroll } from '../../../hooks/useScroll';
 import { QueryClient } from '@tanstack/react-query';
-import { ActionFunctionArgs, useLoaderData } from 'react-router-dom';
+import {
+  ActionFunctionArgs,
+  useLoaderData,
+  useNavigate,
+} from 'react-router-dom';
 import { documentHistoryQuery, useDocumentHistory } from './useDocumentHistory';
 import { mapChatHistory } from '../../../utils';
 import { toast } from 'react-toastify';
 import { Spinner } from '@nextui-org/react';
+import { CustomError } from '../error/customError';
 
 export const loader =
   (queryClient: QueryClient) => async (data: ActionFunctionArgs) => {
@@ -26,6 +31,7 @@ const DocumentAssistantPage = () => {
   const [messages, setMessages] = useState<Message[]>([]);
   const { data: chatHistory, isFetching } = useDocumentHistory(document);
   const { messagesEndRef } = useScroll(messages, isFetching);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (chatHistory) {
@@ -51,7 +57,6 @@ const DocumentAssistantPage = () => {
       );
 
       setMessages((prev) => [...prev, { text: '', isGpt: true }]);
-
       for await (const chunk of stream) {
         setMessages((prev) => {
           const newMessages = [...prev];
@@ -60,9 +65,13 @@ const DocumentAssistantPage = () => {
         });
       }
     } catch (error) {
-      if (error instanceof Error) return toast.error(error.message);
-      if (typeof error === 'string') return toast.error(error);
-      return toast.error('Error desconocido, revise los logs');
+      console.log(error);
+      if (error instanceof CustomError) {
+        if (error.statusCode === 401) {
+          toast.error(error.message);
+          return navigate('/login');
+        } else return toast.error(error.message);
+      }
     }
   };
 

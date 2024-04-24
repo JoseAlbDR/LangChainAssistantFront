@@ -1,10 +1,5 @@
 import { useEffect, useState } from 'react';
-import {
-  GptMessage,
-  UserMessage,
-  TypingLoader,
-  TextMessageBox,
-} from '../../components';
+import { GptMessage, UserMessage, TextMessageBox } from '../../components';
 import { chatStreamGeneratorUseCase } from '../../../core/use-cases/chat-stream-generator/chat-stream-generator.use-case';
 import { Message } from '../../../context/ChatContext';
 
@@ -69,11 +64,12 @@ const ChatBotPage = () => {
       setIsLoading(false);
     } catch (error) {
       console.log(error);
-      if (error instanceof CustomError && error.statusCode === 401) {
-        toast.error(error.message);
-        return navigate('/login');
+      if (error instanceof CustomError) {
+        if (error.statusCode === 401) {
+          toast.error(error.message);
+          return navigate('/login');
+        } else return toast.error(error.message);
       }
-      return toast.error('Error desconocido, revise los logs');
     }
   };
 
@@ -93,11 +89,11 @@ const ChatBotPage = () => {
                 <UserMessage key={index} text={message.text} />
               )
             )}
-            {isLoading && (
+            {/* {isLoading && (
               <div className="col-start-1 col-end-12 fade-in">
                 <TypingLoader />
               </div>
-            )}
+            )} */}
             <div ref={messagesEndRef} />
           </div>
         )}

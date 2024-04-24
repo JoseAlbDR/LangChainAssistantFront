@@ -6,7 +6,7 @@ import { ChatHistory } from '../../../interfaces';
 export const documentHistoryQuery = (document: string) => {
   return {
     queryKey: ['documentHistory', document],
-    queryFn: async () => getDocumentHistory(document),
+    queryFn: async () => getDocumentHistory<ChatHistory>(document),
     staleTime: 1000,
     onError: (error: string) => {
       console.log(error);
@@ -16,7 +16,7 @@ export const documentHistoryQuery = (document: string) => {
 };
 
 export const useDocumentHistory = (document: string) => {
-  const { data, isError, isFetching } = useQuery<ChatHistory>(
+  const { data, isError, isFetching } = useQuery(
     documentHistoryQuery(document)
   );
 
