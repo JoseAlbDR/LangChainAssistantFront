@@ -16,10 +16,6 @@ export const useLogin = (
   const { mutate, isPending } = useMutation({
     mutationFn: (data: LoginUserType) => loginUser(data),
     onSuccess: (data) => {
-      if (!data.isActive) {
-        toast.error('El usuario no está activo');
-        return navigate('/login');
-      }
       toast.success('Usuario logueado');
       storage.set('accessToken', data.token);
       setAuthorizationHeader(data.token);
