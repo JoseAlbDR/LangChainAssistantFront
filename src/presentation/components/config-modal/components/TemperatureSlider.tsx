@@ -29,6 +29,8 @@ const Temperature = () => {
 };
 
 const TemperatureSlider = ({ value, control }: TemperatureProps) => {
+  console.log({ value });
+
   return (
     <Controller
       control={control}
@@ -41,11 +43,11 @@ const TemperatureSlider = ({ value, control }: TemperatureProps) => {
             step={0.1}
             maxValue={1}
             minValue={0}
-            defaultValue={value}
             className="max-w-md"
             endContent={<Icon type={'thermometer-full'} />}
             color="success"
             {...field}
+            defaultValue={value}
           />
         </Tooltip>
       )}

@@ -11,7 +11,7 @@ export const configSchema = z.object({
   openAIApiKey: z.string(),
   modelName: z.nativeEnum(ModelEnum),
   temperature: z.number().min(0).max(1),
-  maxTokens: z.number().min(0),
+  maxTokens: z.coerce.number().min(0),
 });
 
 export const registerUserSchema = z

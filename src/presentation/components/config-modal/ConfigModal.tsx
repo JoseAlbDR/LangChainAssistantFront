@@ -7,6 +7,7 @@ import {
   ModalFooter,
   Button,
   Divider,
+  Spinner,
 } from '@nextui-org/react';
 import ApiKeyInput from './components/ApiKeyInput';
 import ModelSelect from './components/ModelSelect';
@@ -16,13 +17,14 @@ import TokensInput from './components/TokensInput';
 import { useConfig } from '../../layouts/useConfig';
 import useDarkMode from 'use-dark-mode';
 
-import { ConfigType, ModelEnum, configSchema } from '../../../utils';
+import { ConfigType, configSchema } from '../../../utils';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useUpdateConfig } from './useUpdateConfig';
 
 const ConfigModal = () => {
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
-  const { data } = useConfig();
+  const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
+  const { data, isFetching } = useConfig();
   const darkMode = useDarkMode();
 
   const {
@@ -33,16 +35,14 @@ const ConfigModal = () => {
     reset,
   } = useForm<ConfigType>({
     resolver: zodResolver(configSchema),
-    defaultValues: {
-      maxTokens: data?.config.maxTokens || 250,
-      modelName: (data?.config.modelName as ModelEnum) || ModelEnum.gpt350,
-      openAIApiKey: '',
-      temperature: data?.config.temperature || 0.7,
-    },
   });
 
+  const { mutate, isPending } = useUpdateConfig(onClose);
+
   const onSubmit: SubmitHandler<ConfigType> = (data) => {
-    console.log({ data });
+    console.log(data);
+    mutate(data);
+    reset();
   };
 
   // const handleSubmit = async (event: FormEvent) => {
@@ -112,39 +112,44 @@ const ConfigModal = () => {
                   Configuración
                 </ModalHeader>
                 <Divider className="my-1" />
-                <ModalBody>
-                  <ApiKeyInput
-                    register={register}
-                    errors={errors.openAIApiKey}
-                  />
-                  <Divider className="my-1" />
-                  {data?.isKeyPresent && (
-                    <>
-                      <ModelSelect
-                        value={data?.config!.modelName}
-                        register={register}
-                        errors={errors.modelName}
-                      />
-                      <Divider className="my-1" />
-                      <TemperatureSlider
-                        value={data?.config!.temperature}
-                        control={control}
-                      />
-                      <Divider className="my-1" />
-                      <TokensInput value={String(data?.config!.maxTokens)} />
-                      <Divider className="my-1" />
-                    </>
-                  )}
-                </ModalBody>
+                {isPending || isFetching ? (
+                  <Spinner />
+                ) : (
+                  <ModalBody>
+                    <ApiKeyInput
+                      register={register}
+                      errors={errors.openAIApiKey}
+                    />
+                    <Divider className="my-1" />
+                    {data?.isKeyPresent && (
+                      <>
+                        <ModelSelect
+                          value={data?.config!.modelName}
+                          register={register}
+                          errors={errors.modelName}
+                        />
+                        <Divider className="my-1" />
+                        <TemperatureSlider
+                          value={data?.config!.temperature}
+                          control={control}
+                        />
+                        <Divider className="my-1" />
+                        <TokensInput
+                          value={String(data?.config!.maxTokens)}
+                          register={register}
+                          errors={errors.maxTokens}
+                        />
+                        <Divider className="my-1" />
+                      </>
+                    )}
+                  </ModalBody>
+                )}
+
                 <ModalFooter>
                   <Button color="danger" variant="light" onPress={onClose}>
                     Cerrar
                   </Button>
-                  <Button
-                    className="bg-tertiary text-white"
-                    onPress={onClose}
-                    type="submit"
-                  >
+                  <Button className="bg-tertiary text-white" type="submit">
                     Aceptar
                   </Button>
                 </ModalFooter>

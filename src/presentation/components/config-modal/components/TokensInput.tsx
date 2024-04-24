@@ -1,6 +1,11 @@
 import { Tooltip, Input } from '@nextui-org/react';
 
 import Icon from './Icon';
+import { ConfigInputProps } from '../interfaces';
+
+type TokensInputProps = ConfigInputProps & {
+  value: string;
+};
 
 const Tokens = () => {
   return (
@@ -16,19 +21,26 @@ const Tokens = () => {
     </div>
   );
 };
-const TokensInput = ({ value }: { value: string }) => {
+const TokensInput = ({ value, errors, register }: TokensInputProps) => {
   return (
-    <Tooltip content={<Tokens />} className="text-stone-500 w-56">
-      <Input
-        endContent={<Icon type={'microchip'} />}
-        label="Tokens"
-        variant="bordered"
-        type="number"
-        defaultValue={value}
-        name="maxTokens"
-        color="success"
-      />
-    </Tooltip>
+    <>
+      <Tooltip content={<Tokens />} className="text-stone-500 w-56">
+        <Input
+          endContent={<Icon type={'microchip'} />}
+          label="Tokens"
+          variant="bordered"
+          type="number"
+          defaultValue={value}
+          color="success"
+          {...register('maxTokens')}
+        />
+      </Tooltip>
+      {errors && (
+        <span className="block w-full mt-0 px-2.5 text-red-500">
+          {errors.message}
+        </span>
+      )}
+    </>
   );
 };
 
