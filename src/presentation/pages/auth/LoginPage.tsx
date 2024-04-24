@@ -10,6 +10,7 @@ import { toast } from 'react-toastify';
 import { setAuthorizationHeader } from '../../../api/client';
 import useDarkMode from 'use-dark-mode';
 import { ThemeSwitcher } from '../../components/theme-switcher/ThemeSwitcher';
+import { storage } from '../../../utils/storage';
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -34,6 +35,7 @@ const LoginPage = () => {
     onSuccess: (data) => {
       toast.success('Usuario logueado');
       setAuthorizationHeader(data.token);
+      storage.set('accessToken', data.token);
       queryClient.removeQueries();
       reset();
       navigate('/');
@@ -53,10 +55,12 @@ const LoginPage = () => {
     >
       <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
         <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
-          <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
-            Haz Login
-          </h1>
-          <ThemeSwitcher />
+          <div className="flex justify-between items-center">
+            <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
+              Haz Login
+            </h1>
+            <ThemeSwitcher />
+          </div>
           <form
             className="space-y-4 md:space-y-2"
             onSubmit={handleSubmit(onSubmit)}
