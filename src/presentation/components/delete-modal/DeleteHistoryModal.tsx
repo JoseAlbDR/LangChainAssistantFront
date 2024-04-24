@@ -8,7 +8,7 @@ import {
   useDisclosure,
   Spinner,
 } from '@nextui-org/react';
-import { useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useNavigate, useNavigation, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import TrashCan from '../sidebar/TrashCan';
@@ -21,43 +21,38 @@ interface Payload {
 }
 
 export default function DeleteModal({ bot, deleteMessages }: Payload) {
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
   const params = useParams();
-
   const document = params.name;
-
   const darkMode = useDarkMode();
-
   const navigation = useNavigation();
   const navigate = useNavigate();
-
   const isLoading = navigation.state === 'loading';
-
   const queryClient = useQueryClient();
 
-  const handleDeleteHistory = async (bot: string, onClose: () => void) => {
+  const { mutate } = useMutation({
+    mutationFn: (data: string) => deleteHistory(data),
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({
+        queryKey: ['chatbotHistory'],
+      });
+      toast.success(data.message);
+      const to = document ? `/${bot}/${document}` : `/${bot}`;
+      deleteMessages();
+      navigate(to);
+      onClose();
+    },
+    onError: (error) => {
+      toast.error(error.message);
+    },
+  });
+
+  const handleDeleteHistory = async (bot: string) => {
     const baseUrl = `${bot}/chat-history`;
 
     const url = document ? `${baseUrl}/${document}` : baseUrl;
 
-    try {
-      const data = await deleteHistory(url);
-      queryClient.invalidateQueries({
-        queryKey: ['chatbotHistory'],
-      });
-      deleteMessages();
-
-      toast.success(data.message);
-
-      const to = document ? `/${bot}/${document}` : `/${bot}`;
-
-      navigate(to);
-      onClose();
-    } catch (error) {
-      if (error instanceof Error) return toast.error(error.message);
-      if (typeof error === 'string') return toast.error(error);
-      return toast.error('Error desconocido, revise los logs');
-    }
+    mutate(url);
   };
 
   return (
@@ -98,7 +93,7 @@ export default function DeleteModal({ bot, deleteMessages }: Payload) {
                     </Button>
                     <Button
                       className="bg-tertiary text-white"
-                      onPress={() => handleDeleteHistory(bot, onClose)}
+                      onPress={() => handleDeleteHistory(bot)}
                     >
                       Action
                     </Button>
