@@ -1,6 +1,18 @@
 import { Tooltip, Slider } from '@nextui-org/react';
 
 import Icon from './Icon';
+import { ModelEnum } from '../../../../utils';
+import { Control, Controller } from 'react-hook-form';
+
+type TemperatureProps = {
+  value: number;
+  control: Control<{
+    openAIApiKey: string;
+    modelName: ModelEnum;
+    temperature: number;
+    maxTokens: number;
+  }>;
+};
 
 const Temperature = () => {
   return (
@@ -16,21 +28,28 @@ const Temperature = () => {
   );
 };
 
-const TemperatureSlider = ({ value }: { value: number }) => {
+const TemperatureSlider = ({ value, control }: TemperatureProps) => {
   return (
-    <Tooltip content={<Temperature />} className="text-stone-500 w-56">
-      <Slider
-        label="Temperatura"
-        step={0.1}
-        maxValue={1}
-        minValue={0}
-        defaultValue={value}
-        className="max-w-md"
-        endContent={<Icon type={'thermometer-full'} />}
-        name="temperature"
-        color="success"
-      />
-    </Tooltip>
+    <Controller
+      control={control}
+      name="temperature"
+      defaultValue={value}
+      render={({ field }) => (
+        <Tooltip content={<Temperature />} className="text-stone-500 w-56">
+          <Slider
+            label="Temperatura"
+            step={0.1}
+            maxValue={1}
+            minValue={0}
+            defaultValue={value}
+            className="max-w-md"
+            endContent={<Icon type={'thermometer-full'} />}
+            color="success"
+            {...field}
+          />
+        </Tooltip>
+      )}
+    />
   );
 };
 

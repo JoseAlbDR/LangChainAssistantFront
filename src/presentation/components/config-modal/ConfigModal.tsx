@@ -29,6 +29,7 @@ const ConfigModal = () => {
     register,
     handleSubmit,
     formState: { errors },
+    control,
     reset,
   } = useForm<ConfigType>({
     resolver: zodResolver(configSchema),
@@ -101,7 +102,7 @@ const ConfigModal = () => {
       >
         <form
           encType="application/json"
-          onSubmit={() => handleSubmit(onSubmit)}
+          onSubmit={handleSubmit(onSubmit)}
           className="items-center"
         >
           <ModalContent>
@@ -125,7 +126,10 @@ const ConfigModal = () => {
                         errors={errors.modelName}
                       />
                       <Divider className="my-1" />
-                      <TemperatureSlider value={data?.config!.temperature} />
+                      <TemperatureSlider
+                        value={data?.config!.temperature}
+                        control={control}
+                      />
                       <Divider className="my-1" />
                       <TokensInput value={String(data?.config!.maxTokens)} />
                       <Divider className="my-1" />
