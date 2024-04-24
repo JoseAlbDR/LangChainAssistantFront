@@ -15,6 +15,7 @@ import { ThemeSwitcher } from '../theme-switcher/ThemeSwitcher';
 import { ConfigModal, DocumentsDropDown } from '..';
 import FalloutGuy from './FalloutGuy';
 import DocumentUploadModal from '../documents/DocumentUploadModal';
+import UserArea from './UserArea';
 
 export default function Navigation() {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
@@ -58,9 +59,13 @@ export default function Navigation() {
         </NavbarItem>
       </NavbarContent>
       <NavbarContent justify="end">
-        <NavbarItem className="hidden lg:flex">
+        <NavbarItem>
           <ThemeSwitcher />
         </NavbarItem>
+        <NavbarItem>
+          <UserArea />
+        </NavbarItem>
+        <NavbarItem className="flex"></NavbarItem>
       </NavbarContent>
       <NavbarMenu className="flex items-center content-center gap-3">
         <Divider />

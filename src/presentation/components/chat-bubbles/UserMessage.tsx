@@ -10,7 +10,7 @@ const MyMessage = ({ text }: Props) => {
           U
         </div>
         <div className="relative mr-3 text-medium bg-tertiary py-2 px-4 rounded-xl text-white shadow-xl">
-          {text}
+          <span className="break-all">{text}</span>
         </div>
       </div>
     </div>
