@@ -15,6 +15,8 @@ import { toast } from 'react-toastify';
 import { Spinner } from '@nextui-org/react';
 import { useScroll } from '../../../hooks/useScroll';
 import { AxiosError } from 'axios';
+import { CustomError } from '../error/customError';
+import { useNavigate } from 'react-router-dom';
 
 export const loader = (queryClient: QueryClient) => async () => {
   try {
@@ -32,6 +34,7 @@ const ChatBotPage = () => {
   const [messages, setMessages] = useState<Message[]>([]);
   const { data: chatHistory, isFetching } = useHistory();
   const { messagesEndRef } = useScroll(messages, isFetching);
+  const navigate = useNavigate();
 
   useEffect(() => {
     setMessages([]);
@@ -65,8 +68,10 @@ const ChatBotPage = () => {
         });
       }
     } catch (error) {
-      if (error instanceof Error) return toast.error(error.message);
+      console.log(error);
       if (typeof error === 'string') return toast.error(error);
+      if (error instanceof CustomError && error.statusCode === 401)
+        return navigate('/login');
       return toast.error('Error desconocido, revise los logs');
     }
   };

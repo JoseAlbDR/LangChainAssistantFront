@@ -13,6 +13,7 @@ import { useNavigate, useNavigation, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import TrashCan from '../sidebar/TrashCan';
 import useDarkMode from 'use-dark-mode';
+import { deleteHistory } from './service';
 
 interface Payload {
   bot: string;
@@ -35,21 +36,12 @@ export default function DeleteModal({ bot, deleteMessages }: Payload) {
   const queryClient = useQueryClient();
 
   const handleDeleteHistory = async (bot: string, onClose: () => void) => {
-    const baseUrl = `http://localhost:3000/api/${bot}/chat-history`;
+    const baseUrl = `${bot}/chat-history`;
 
     const url = document ? `${baseUrl}/${document}` : baseUrl;
 
     try {
-      const response = await fetch(url, {
-        method: 'DELETE',
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw data;
-      }
-
+      const data = await deleteHistory(url);
       queryClient.invalidateQueries({
         queryKey: ['chatbotHistory'],
       });
