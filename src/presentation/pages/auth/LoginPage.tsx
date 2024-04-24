@@ -78,7 +78,7 @@ const LoginPage = () => {
               className="w-full text-white bg-tertiary-400 hover:bg-tertiary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
               disabled={isPending}
             >
-              {isPending ? <Spinner /> : 'Crear Cuenta'}
+              {isPending ? <Spinner /> : 'Entrar'}
             </Button>
             <p className="text-sm font-light text-gray-500 dark:text-gray-400">
               ¿Aún no tienes una cuenta?{' '}

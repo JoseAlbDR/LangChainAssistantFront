@@ -29,6 +29,7 @@ export const useUploadDocument = (
       onClose();
     },
     onError: (error) => {
+      console.log(error);
       if (error instanceof AxiosError && error.response?.status === 401) {
         navigate('/login');
       }

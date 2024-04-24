@@ -8,6 +8,9 @@ import { NextUIProvider } from '@nextui-org/react';
 import useDarkMode from 'use-dark-mode';
 import { authStatusQuery } from './useAuthStatus';
 import { AxiosError } from 'axios';
+import { setAuthorizationHeader } from '../../api/client';
+import { storage } from '../../utils/storage';
+import { toast } from 'react-toastify';
 
 export interface Config {
   modelName: string;
@@ -16,6 +19,10 @@ export interface Config {
 }
 
 export const loader = (queryClient: QueryClient) => async () => {
+  const accessToken = storage.get('accessToken');
+  console.log({ accessToken });
+  if (accessToken) setAuthorizationHeader(accessToken);
+
   try {
     const [authStatus, config, documents] = await Promise.all([
       queryClient.ensureQueryData(authStatusQuery()),
@@ -26,8 +33,12 @@ export const loader = (queryClient: QueryClient) => async () => {
     return { documents, config, authStatus };
   } catch (error) {
     console.log(error);
-    if (error instanceof AxiosError && error.response?.status === 401)
+    if (error instanceof AxiosError && error.response?.status === 401) {
+      toast.error(error.response.data.message);
       return redirect('/login');
+    }
+    toast.error((error as Error).message);
+    return null;
   }
 };
 
