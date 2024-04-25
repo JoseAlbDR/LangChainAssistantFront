@@ -35,12 +35,12 @@ const LoginPage = () => {
     <main
       className={`${
         darkMode.value ? 'dark' : ''
-      } text-foreground bg-background flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0`}
+      } text-foreground bg-background flex flex-col items-center justify-center px-6 py-8 mx-auto h-screen `}
     >
-      <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
+      <div className="w-full bg-white rounded-lg shadow md:mt-0 sm:max-w-md xl:p-0 ">
         <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
           <div className="flex justify-between items-center">
-            <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
+            <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl">
               Haz Login
             </h1>
             <ThemeSwitcher />
@@ -50,10 +50,10 @@ const LoginPage = () => {
             onSubmit={handleSubmit(onSubmit)}
           >
             <Input
-              {...register('username')}
               label="Usuario"
               className=" text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
               disabled={isPending}
+              {...register('username')}
             />
             {errors.username && (
               <span className="block w-full mt-0 px-2.5 text-red-500">
@@ -61,11 +61,11 @@ const LoginPage = () => {
               </span>
             )}
             <Input
-              {...register('password')}
               label="Password"
               className=" text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
               disabled={isPending}
               type="password"
+              {...register('password')}
             />
             {errors.password && (
               <span className="block w-full mt-0 px-2.5 text-red-500">
@@ -80,11 +80,11 @@ const LoginPage = () => {
             >
               {isPending ? <Spinner /> : 'Entrar'}
             </Button>
-            <p className="text-sm font-light text-gray-500 dark:text-gray-400">
+            <p className="text-sm font-light text-gray-500">
               ¿Aún no tienes una cuenta?{' '}
               <Link
                 to="/register"
-                className="font-medium text-primary-600 hover:underline dark:text-primary-500"
+                className="font-medium text-primary-600 hover:underline "
               >
                 Registrate aquí
               </Link>
