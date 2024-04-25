@@ -6,10 +6,8 @@ const ApiKeyInput = ({ register, errors }: ConfigInputProps) => {
   return (
     <>
       <Input
-        // autoFocus
         endContent={<Icon type={'key'} />}
         label="OpenAI API Key"
-        // placeholder="OpenAI API Key"
         variant="bordered"
         type="password"
         {...register('openAIApiKey')}

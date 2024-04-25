@@ -17,10 +17,11 @@ import TokensInput from './components/TokensInput';
 import { useConfig } from '../../layouts/useConfig';
 import useDarkMode from 'use-dark-mode';
 
-import { ConfigType, configSchema } from '../../../utils';
+import { ConfigType, ModelEnum, configSchema } from '../../../utils';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useUpdateConfig } from './useUpdateConfig';
+import { useEffect } from 'react';
 
 const ConfigModal = () => {
   const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
@@ -35,12 +36,28 @@ const ConfigModal = () => {
     reset,
   } = useForm<ConfigType>({
     resolver: zodResolver(configSchema),
+    defaultValues: {
+      openAIApiKey: '',
+      maxTokens: data?.config.maxTokens || 250,
+      temperature: data?.config.temperature || 0.7,
+      modelName: (data?.config.modelName as ModelEnum) || ModelEnum.gpt350,
+    },
   });
+
+  useEffect(() => {
+    if (data) {
+      reset({
+        openAIApiKey: '',
+        maxTokens: data.config.maxTokens || 250,
+        temperature: data.config.temperature || 0.7,
+        modelName: (data.config.modelName as ModelEnum) || ModelEnum.gpt350,
+      });
+    }
+  }, [data, reset]);
 
   const { mutate, isPending } = useUpdateConfig(onClose);
 
   const onSubmit: SubmitHandler<ConfigType> = (data) => {
-    console.log(data);
     mutate(data);
     reset();
   };

@@ -17,6 +17,7 @@ export const useUpdateConfig = (onClose: () => void) => {
         queryKey: ['config'],
       });
       onClose();
+      navigate('/');
     },
     onError: (error) => {
       console.log(error);

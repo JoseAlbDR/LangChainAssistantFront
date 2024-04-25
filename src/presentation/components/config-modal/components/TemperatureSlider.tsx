@@ -28,14 +28,11 @@ const Temperature = () => {
   );
 };
 
-const TemperatureSlider = ({ value, control }: TemperatureProps) => {
-  console.log({ value });
-
+const TemperatureSlider = ({ control }: TemperatureProps) => {
   return (
     <Controller
       control={control}
       name="temperature"
-      defaultValue={value}
       render={({ field }) => (
         <Tooltip content={<Temperature />} className="text-stone-500 w-56">
           <Slider
@@ -47,7 +44,6 @@ const TemperatureSlider = ({ value, control }: TemperatureProps) => {
             endContent={<Icon type={'thermometer-full'} />}
             color="success"
             {...field}
-            defaultValue={value}
           />
         </Tooltip>
       )}
