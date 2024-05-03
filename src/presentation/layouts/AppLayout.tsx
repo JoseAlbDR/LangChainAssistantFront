@@ -4,13 +4,15 @@ import { QueryClient } from '@tanstack/react-query';
 import { configQuery, useConfig } from './useConfig';
 import { documentsQuery } from './useDocuments';
 import Navigation from '../components/navbar/Navigation';
-import { NextUIProvider } from '@nextui-org/react';
+import { Link, Navbar, NavbarContent, NavbarItem, NextUIProvider } from '@nextui-org/react';
 import useDarkMode from 'use-dark-mode';
 import { authStatusQuery } from './useAuthStatus';
 import { AxiosError } from 'axios';
 import { setAuthorizationHeader } from '../../api/client';
 import { storage } from '../../utils/storage';
 import { toast } from 'react-toastify';
+import { ConfigModal, DocumentsDropDown } from '../components';
+import DocumentUploadModal from '../components/documents/DocumentUploadModal';
 
 export interface Config {
   modelName: string;
@@ -50,20 +52,52 @@ const AppLayout = () => {
 
   return (
     <NextUIProvider navigate={navigate}>
-      <main
-        className={`${
+      <section  className={`${
           darkMode.value ? 'dark' : ''
-        } text-foreground bg-background flex flex-col items-center content-center min-h-fit`}
-      >
+        } text-foreground flex flex-col items-center content-center min-h-fit`}>
+           <header className='w-screen'>
         <Navigation />
-        <section className="sm:mx-3 flex flex-col h-[calc(100vh-80px)] bg-opacity-10 p-5 rounded-3xl lg:w-3/5">
-          <div className="flex flex-row h-full">
+      </header>
+      <section className='flex flex-col gap-5 lg:flex-row justify-center'>
+         <aside className='sm:flex flex-col gap-4  items-center'>
+           <ConfigModal />
+<Navbar>
+ <NavbarContent className='flex flex-col'>
+        <NavbarItem>
+          <Link href="/chatgpt" color="foreground">
+            Chat Bot
+          </Link>
+        </NavbarItem>
+        <NavbarItem>
+          <DocumentsDropDown />
+        </NavbarItem>
+        <NavbarItem>
+          <Link href="/documents" color="foreground">
+            Documentos
+          </Link>
+        </NavbarItem>
+        <NavbarItem>
+          <DocumentUploadModal />
+        </NavbarItem>
+      </NavbarContent>
+</Navbar>
+         </aside>
+      <main className="sm:mx-3 flex flex-col h-[calc(100vh-80px)] bg-opacity-10 p-5 rounded-3xl lg:w-3/5">
+         <div className="flex flex-row h-full">
             <div className="flex flex-col flex-auto h-full p-1 ">
               {!config?.isKeyPresent ? <Navigate to="/config" /> : <Outlet />}
             </div>
           </div>
-        </section>
       </main>
+      </section>
+     
+      <footer></footer>
+       
+      
+
+      </section>
+     
+     
     </NextUIProvider>
 
     // <main className="flex flex-row mt-7">
