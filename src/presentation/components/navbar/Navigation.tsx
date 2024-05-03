@@ -26,7 +26,7 @@ export default function Navigation() {
       onMenuOpenChange={setIsMenuOpen}
       shouldHideOnScroll
       isBordered
-      className="h-20 bg-primary bg-opacity-15"
+      className="h-20 bg-primary bg-opacity-0"
     >
       <NavbarContent>
         <NavbarMenuToggle
@@ -35,29 +35,12 @@ export default function Navigation() {
         />
         <NavbarBrand className="flex gap-3">
           <FalloutGuy />
-          <Logo />
-          <ConfigModal />
+          
+         
         </NavbarBrand>
       </NavbarContent>
 
-      <NavbarContent className="hidden sm:flex gap-4" justify="center">
-        <NavbarItem>
-          <Link href="/chatgpt" color="foreground">
-            Chat Bot
-          </Link>
-        </NavbarItem>
-        <NavbarItem>
-          <DocumentsDropDown />
-        </NavbarItem>
-        <NavbarItem>
-          <Link href="/documents" color="foreground">
-            Documentos
-          </Link>
-        </NavbarItem>
-        <NavbarItem>
-          <DocumentUploadModal />
-        </NavbarItem>
-      </NavbarContent>
+     
       <NavbarContent justify="end">
         <NavbarItem>
           <ThemeSwitcher />
