@@ -4,7 +4,7 @@ import { QueryClient } from '@tanstack/react-query';
 import { configQuery, useConfig } from './useConfig';
 import { documentsQuery } from './useDocuments';
 import Navigation from '../components/navbar/Navigation';
-import { Link, Navbar, NavbarContent, NavbarItem, NextUIProvider } from '@nextui-org/react';
+import { Button, Link, Navbar, NavbarContent, NavbarItem, NextUIProvider } from '@nextui-org/react';
 import useDarkMode from 'use-dark-mode';
 import { authStatusQuery } from './useAuthStatus';
 import { AxiosError } from 'axios';
@@ -13,6 +13,7 @@ import { storage } from '../../utils/storage';
 import { toast } from 'react-toastify';
 import { ConfigModal, DocumentsDropDown } from '../components';
 import DocumentUploadModal from '../components/documents/DocumentUploadModal';
+import { IconRobotFace } from '@tabler/icons-react';
 
 export interface Config {
   modelName: string;
@@ -54,36 +55,34 @@ const AppLayout = () => {
     <NextUIProvider navigate={navigate}>
       <section  className={`${
           darkMode.value ? 'dark' : ''
-        } text-foreground flex flex-col items-center content-center min-h-fit`}>
+        } text-foreground flex flex-col items-center content-center min-h-fit max-w-7xl  mx-auto`}>
            <header className='w-screen'>
         <Navigation />
       </header>
-      <section className='flex flex-col gap-5 lg:flex-row justify-center'>
-         <aside className='sm:flex flex-col gap-4  items-center'>
+      <section className='flex flex-col gap-5 lg:flex-row justify-center rounded-sm bg-opacity-15 '>
+         <aside className='flex md:flex-col gap-4  items-center rounded-sm bg-opacity-15 bg-slate-50 py-10 '>
            <ConfigModal />
-<Navbar>
- <NavbarContent className='flex flex-col'>
-        <NavbarItem>
-          <Link href="/chatgpt" color="foreground">
-            Chat Bot
-          </Link>
-        </NavbarItem>
-        <NavbarItem>
+           <Button className="p-4 bg-transparent w-full flex justify-start items-center">
+            <IconRobotFace stroke={1} className='stroke-primary '/>
+            <Link href="/chatgpt"> Chat Bot </Link>
+           </Button>
+          <span className='border-primary border-b-1 w-11/12 text-primary  pb-2'>
+            Documentos 
+          </span>
+
           <DocumentsDropDown />
-        </NavbarItem>
-        <NavbarItem>
           <Link href="/documents" color="foreground">
             Documentos
           </Link>
-        </NavbarItem>
-        <NavbarItem>
+       
+       
           <DocumentUploadModal />
-        </NavbarItem>
-      </NavbarContent>
-</Navbar>
+       
+      
+
          </aside>
-      <main className="sm:mx-3 flex flex-col h-[calc(100vh-80px)] bg-opacity-10 p-5 rounded-3xl lg:w-3/5">
-         <div className="flex flex-row h-full">
+      <main className="sm:mx-3 flex flex-col h-[calc(100vh-100px)] bg-chat-screen p-5 rounded-md lg:w-4/5 mb-5">
+         <div className="flex flex-row h-full ">
             <div className="flex flex-col flex-auto h-full p-1 ">
               {!config?.isKeyPresent ? <Navigate to="/config" /> : <Outlet />}
             </div>
