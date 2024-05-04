@@ -22,6 +22,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useUpdateConfig } from './useUpdateConfig';
 import { useEffect } from 'react';
+import { IconAdjustments } from '@tabler/icons-react';
 
 const ConfigModal = () => {
   const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
@@ -101,12 +102,13 @@ const ConfigModal = () => {
   return (
     <>
       <Button
-        isIconOnly
         aria-label="config"
-        className="p-4 bg-primary bg-opacity-50"
+        className="p-4 bg-transparent w-full flex justify-start items-center"
         onPress={onOpen}
-      >
-        <span className="fa fa-cog text-3xl text-white"></span>
+        radius='sm'
+        color='primary'
+        ><IconAdjustments stroke={1} className='stroke-primary '/>
+        <span className='text-primary'>Settings</span>
       </Button>
 
       <Modal
