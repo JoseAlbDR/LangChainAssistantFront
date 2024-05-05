@@ -18,7 +18,7 @@ export default function DocumentCard({ document, onDelete, id }: Payload) {
     <Card
       isFooterBlurred
       radius="lg"
-      className="max-w-[200px] border border-secondary"
+      className=" h-full border border-secondary col-span-2"
     >
       <Image
         alt="Woman listing to music"
@@ -27,9 +27,9 @@ export default function DocumentCard({ document, onDelete, id }: Payload) {
         src={image}
         width={200}
       />
-      <CardFooter className="flex flex-col items-center content-center gap-5">
-        <p className=" text-foreground ">{cutName(document)}</p>
-        <div className="flex gap-1">
+      <CardFooter className="flex flex-col gap-5 mx-1 ">
+        <div className=" text-foreground  h-5 ">{cutName(document)}</div>
+        <div className="flex justify-center gap-5 w-full">
           <Button
             className="bg-primary bg-opacity-25  "
             variant="bordered"

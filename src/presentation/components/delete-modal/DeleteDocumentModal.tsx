@@ -43,12 +43,12 @@ export default function DeleteDocumentModal({
         onOpenChange={onOpenChange}
         className={`${
           darkMode.value ? 'dark' : ''
-        } text-foreground bg-background border border-white`}
+        } text-foreground bg-background border border-primary`}
       >
         <ModalContent>
           {(onClose) => (
             <>
-              <ModalHeader className="flex flex-col gap-1">
+              <ModalHeader className="flex flex-col gap-1  text-primary">
                 Borrar Documento
               </ModalHeader>
               <ModalBody>
@@ -62,11 +62,11 @@ export default function DeleteDocumentModal({
                 )}
               </ModalBody>
               <ModalFooter>
-                <Button color="default" variant="light" onPress={onClose}>
+                <Button color="primary" variant="ghost" onPress={onClose}>
                   Close
                 </Button>
                 <Button
-                  className="bg-tertiary text-white"
+                  className="bg-danger text-white"
                   onPress={() => onDelete(id, onClose)}
                 >
                   Borrar

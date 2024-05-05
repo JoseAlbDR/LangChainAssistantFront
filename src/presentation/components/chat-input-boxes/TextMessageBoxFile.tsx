@@ -3,6 +3,7 @@ import { FormEvent, useRef, useState } from 'react';
 import { useDocumentsContext } from '../../../context/DocumentsContext';
 import { useParams } from 'react-router-dom';
 import DeleteModal from '../delete-modal/DeleteHistoryModal';
+import { IconSend2 } from '@tabler/icons-react';
 
 interface Props {
   onSendMessage: (message: string, document: string) => void;
@@ -38,18 +39,18 @@ Props) => {
   return (
     <form
       onSubmit={handleSendMessage}
-      className="flex flex-row items-center justify-center h-16 rounded-xl w-full px-4"
+      className="flex flex-row items-center justify-center  w-full border-primary rounded-none border-t-1 bg-opacity-15 bg-black px-5 py-4 "
       encType="multipart/form-data"
     >
       <div className="flex-grow">
-        <div className="relative w-full bg-primary p-2 bg-opacity-25 rounded-md flex gap-1 shadow-xl">
+        <div className="relative w-full bg-transparent rounded-md flex gap-2">
           <DeleteModal bot={'assistant'} deleteMessages={onDeleteMessages} />
           <input
             ref={inputRef}
             type="text"
             autoFocus
             name="message"
-            className="flex w-full border rounded-xl focus:outline-none focus:border-purple-300 pl-4 h-10 "
+            className="flex w-full focus:outline-none focus:border-purple-300 pl-4  bg-transparent text-foreground  "
             placeholder={placeholder}
             autoComplete={!disableCorrections ? 'off' : 'on'}
             autoCorrect={!disableCorrections ? 'off' : 'on'}
@@ -63,11 +64,10 @@ Props) => {
               <Spinner />
             ) : (
               <Button
-                className="bg-tertiary min-w-10 min-h-fit sm:w-20"
+                className="bg-transparent min-w-10  sm:w-20"
                 type="submit"
               >
-                <span className="mr-2 hidden sm:block text-white">Send</span>
-                <i className=" fa-regular fa-paper-plane text-white"></i>
+                <IconSend2 stroke={2} className='stroke-foreground'/>
               </Button>
             )}
           </div>

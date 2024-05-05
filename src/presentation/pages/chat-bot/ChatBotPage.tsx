@@ -74,7 +74,7 @@ const ChatBotPage = () => {
   };
 
   return (
-    <div className="chat-container bg-primary bg-opacity-15">
+    <div className="chat-container ">
       <div className="chat-messages">
         {isFetching ? (
           <Spinner />

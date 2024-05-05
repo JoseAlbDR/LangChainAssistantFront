@@ -5,10 +5,10 @@ export default {
   content: [
     './index.html',
     './src/**/*.{js,ts,jsx,tsx}',
-    './node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}',
+    './node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}'
   ],
   theme: {
-    extend: {},
+    extend: {}
   },
   darkMode: 'class',
   plugins: [
@@ -18,7 +18,7 @@ export default {
           colors: {
             background: '#f5fbef',
             foreground: '#11181C',
-            primary: '#40f99b',
+            primary: '#00300B',
             secondary: '#a3a3a3',
             tertiary: {
               50: '#f5f3ff',
@@ -30,7 +30,7 @@ export default {
               600: '#7c3aed',
               700: '#6d28d9',
               800: '#5b21b6',
-              DEFAULT: '#5b21b6',
+              DEFAULT: '#5b21b6'
             },
             default: {
               50: '#f7f7f8',
@@ -43,15 +43,15 @@ export default {
               700: '#4c4d58',
               800: '#41414b',
               900: '#393941',
-              950: '#18181b',
-            },
-          },
+              950: '#18181b'
+            }
+          }
         },
         dark: {
           colors: {
             background: '#11181C',
             foreground: '#f5fbef',
-            primary: '#40f99b',
+            primary: '#03AE2C',
             secondary: '#a3a3a3',
             tertiary: {
               50: '#f5f3ff',
@@ -63,7 +63,7 @@ export default {
               600: '#7c3aed',
               700: '#6d28d9',
               800: '#5b21b6',
-              DEFAULT: '#5b21b6',
+              DEFAULT: '#5b21b6'
             },
             default: {
               50: '#fafafa',
@@ -76,11 +76,11 @@ export default {
               700: '#525252',
               800: '#464646',
               900: '#3d3d3d',
-              950: '#292929',
-            },
-          },
-        },
-      },
-    }),
-  ],
+              950: '#292929'
+            }
+          }
+        }
+      }
+    })
+  ]
 };

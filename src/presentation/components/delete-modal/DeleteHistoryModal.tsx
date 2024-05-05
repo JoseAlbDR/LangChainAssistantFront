@@ -44,7 +44,7 @@ export default function DeleteModal({ bot, deleteMessages }: Payload) {
         isIconOnly
         aria-label="Like"
         className="bg-terciary"
-        color="danger"
+        
       >
         <TrashCan />
       </Button>
@@ -53,7 +53,7 @@ export default function DeleteModal({ bot, deleteMessages }: Payload) {
         onOpenChange={onOpenChange}
         className={`${
           darkMode.value ? 'dark' : ''
-        } text-foreground bg-background border border-white`}
+        } text-foreground bg-background border border-primary`}
       >
         <ModalContent>
           {(onClose) => (
@@ -62,7 +62,7 @@ export default function DeleteModal({ bot, deleteMessages }: Payload) {
                 <Spinner />
               ) : (
                 <>
-                  <ModalHeader className="flex flex-col gap-1">
+                  <ModalHeader className="flex flex-col gap-1 text-primary">
                     Borrar Historial
                   </ModalHeader>
                   <ModalBody>
@@ -70,14 +70,14 @@ export default function DeleteModal({ bot, deleteMessages }: Payload) {
                     <small>Esta acción no puede ser deshecha</small>
                   </ModalBody>
                   <ModalFooter>
-                    <Button color="default" variant="light" onPress={onClose}>
-                      Close
+                    <Button color="primary" variant="ghost" onPress={onClose}>
+                      Cerrar
                     </Button>
                     <Button
-                      className="bg-tertiary text-white"
+                      className="bg-danger text-white"
                       onPress={() => handleDeleteHistory(bot)}
                     >
-                      Action
+                      Borrar
                     </Button>
                   </ModalFooter>
                 </>

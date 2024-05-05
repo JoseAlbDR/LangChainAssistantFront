@@ -13,6 +13,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { documentsQuery } from '../../layouts/useDocuments';
 import useDarkMode from 'use-dark-mode';
+import { IconSelect } from '@tabler/icons-react';
 
 interface Document {
   name: string;
@@ -52,11 +53,11 @@ const DocumentsDropDown = () => {
     <Dropdown
       className={`${
         darkMode.value ? 'dark' : ''
-      } text-foreground bg-background border border-white`}
+      }  `}
     >
       <DropdownTrigger>
-        <Button variant="ghost">
-          {`${cutName(selectedValue) || 'Seleccionar Documento'} `}
+        <Button className = "bg-transparent w-full flex justify-start items-center ">
+          <IconSelect stroke={1} className='stroke-primary ' /> <span className='text-primary text-medium text-ellipsis '>  {`Seleccionar...`}  </span>
         </Button>
       </DropdownTrigger>
       <DropdownMenu

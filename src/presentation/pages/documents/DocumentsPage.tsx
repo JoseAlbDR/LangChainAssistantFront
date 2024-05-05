@@ -22,7 +22,7 @@ const DocumentsPage = () => {
   return isFetching || isPending ? (
     <Spinner />
   ) : (
-    <div className="flex flex-wrap gap-4 items-center justify-center">
+    <div className="grid grid-cols-12 gap-5 items-center justify-start p-10">
       {data?.map((document) => (
         <DocumentCard
           key={document.name}

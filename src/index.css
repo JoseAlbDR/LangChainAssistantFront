@@ -4,8 +4,8 @@
 
 html,
 body {
-  /* background-color: #000000;
-  color: white;
+  /* background-color: #000000; */
+  /*color: white;
   font-family: 'Open Sans', sans-serif; */
   /* overflow: hidden; */
 }
@@ -48,13 +48,29 @@ em {
 }
 
 .chat-container {
-  @apply flex flex-col rounded-2xl h-full p-4;
+  @apply flex flex-col h-full;
 }
 
 .chat-messages {
   @apply flex flex-col h-full overflow-x-auto mb-4 overflow-scroll;
 }
 
+.dark-bg-chat-screen {
+  background: rgb(9, 68, 13);
+  background: linear-gradient(
+    0deg,
+    rgba(9, 68, 13, 1) 50%,
+    rgba(0, 0, 0, 1) 100%
+  );
+}
+.light-bg-chat-screen {
+  background: rgb(9, 68, 13);
+  background: linear-gradient(
+    0deg,
+    rgb(93, 218, 102) 50%,
+    rgba(255, 255, 255, 1) 100%
+  );
+}
 /* Animations */
 
 /* .fade-in {
