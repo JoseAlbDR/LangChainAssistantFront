@@ -35,7 +35,7 @@ const LoginPage = () => {
     <main
       className={`${
         darkMode.value ? 'dark' : ''
-      } text-foreground bg-background flex flex-col items-center justify-center px-6 py-8 mx-auto h-screen `}
+      } text-foreground bg-background flex flex-col items-center justify-center px-6 py-8 mx-auto h-screen bg-opacity-80`}
     >
       <div className="w-full bg-black bg-opacity-15 rounded-lg md:mt-0 sm:max-w-md xl:p-0 ">
         <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
@@ -52,7 +52,7 @@ const LoginPage = () => {
             <Input
               label="Usuario"
               className=" text-primary sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 "
-              variant='faded'
+              variant="faded"
               disabled={isPending}
               {...register('username')}
             />
@@ -64,7 +64,7 @@ const LoginPage = () => {
             <Input
               label="Password"
               className=" text-primary sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 "
-              variant='faded'
+              variant="faded"
               disabled={isPending}
               type="password"
               {...register('password')}
