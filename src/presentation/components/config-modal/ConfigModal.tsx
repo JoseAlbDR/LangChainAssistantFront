@@ -103,12 +103,12 @@ const ConfigModal = () => {
     <>
       <Button
         aria-label="config"
-        className="p-4 bg-transparent w-full flex justify-start items-center"
+        className="bg-transparent w-full flex justify-start items-center"
         onPress={onOpen}
         radius='sm'
         color='primary'
-        ><IconAdjustments stroke={1} className='stroke-primary '/>
-        <span className='text-primary'>Settings</span>
+        >
+        <span className='text-primary flex gap-2 items-center text-medium'><IconAdjustments stroke={1} className='stroke-primary '/> Configuración</span>
       </Button>
 
       <Modal
@@ -117,7 +117,7 @@ const ConfigModal = () => {
         placement="center"
         className={`${
           darkMode.value ? 'dark' : ''
-        } text-foreground bg-background border border-white `}
+        }  text-foreground bg-background border border-primary `}
       >
         <form
           encType="application/json"
@@ -127,7 +127,7 @@ const ConfigModal = () => {
           <ModalContent>
             {(onClose) => (
               <>
-                <ModalHeader className="flex flex-col gap-1">
+                <ModalHeader className="flex flex-col gap-1  text-primary">
                   Configuración
                 </ModalHeader>
                 <Divider className="my-1" />
@@ -165,10 +165,11 @@ const ConfigModal = () => {
                 )}
 
                 <ModalFooter>
-                  <Button color="danger" variant="light" onPress={onClose}>
+                  <Button color="primary" variant="ghost" onPress={onClose}>
                     Cerrar
                   </Button>
-                  <Button className="bg-tertiary text-white" type="submit">
+                  <Button variant="solid"
+              className=" bg-primary hover:bg-background focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center text-black" type="submit">
                     Aceptar
                   </Button>
                 </ModalFooter>

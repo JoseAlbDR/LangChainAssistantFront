@@ -37,10 +37,10 @@ const LoginPage = () => {
         darkMode.value ? 'dark' : ''
       } text-foreground bg-background flex flex-col items-center justify-center px-6 py-8 mx-auto h-screen `}
     >
-      <div className="w-full bg-white rounded-lg shadow md:mt-0 sm:max-w-md xl:p-0 ">
+      <div className="w-full bg-black bg-opacity-15 rounded-lg md:mt-0 sm:max-w-md xl:p-0 ">
         <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
           <div className="flex justify-between items-center">
-            <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl">
+            <h1 className="text-xl font-bold leading-tight tracking-tight text-primary md:text-2xl">
               Haz Login
             </h1>
             <ThemeSwitcher />
@@ -51,7 +51,8 @@ const LoginPage = () => {
           >
             <Input
               label="Usuario"
-              className=" text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+              className=" text-primary sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 "
+              variant='faded'
               disabled={isPending}
               {...register('username')}
             />
@@ -62,7 +63,8 @@ const LoginPage = () => {
             )}
             <Input
               label="Password"
-              className=" text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+              className=" text-primary sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 "
+              variant='faded'
               disabled={isPending}
               type="password"
               {...register('password')}
@@ -75,7 +77,7 @@ const LoginPage = () => {
             <Button
               type="submit"
               variant="solid"
-              className="w-full text-white bg-tertiary-400 hover:bg-tertiary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+              className="w-full bg-background hover:bg-background focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
               disabled={isPending}
             >
               {isPending ? <Spinner /> : 'Entrar'}
