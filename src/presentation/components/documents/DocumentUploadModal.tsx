@@ -14,6 +14,7 @@ import useDarkMode from 'use-dark-mode';
 import ChunkSizeSlider from './components/ChunkSizeSlider';
 import ChunkOverlapSlider from './components/ChunkOverlapSlider';
 import { useUploadDocument } from './useUploadDocument';
+import { IconBookUpload } from '@tabler/icons-react';
 
 const DocumentUploadModal = () => {
   const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
@@ -42,12 +43,15 @@ const DocumentUploadModal = () => {
   };
 
   return (
-    <div className="z-50 flex h-full items-center">
+    <>
       <Button
         onPress={onOpen}
-        className="flex justify-center items-center rounded-md p-2 transition-colors h-full  border-stone-300 border-medium bg-background text-foreground"
+        className="bg-transparent w-full flex justify-start items-center"
+        radius='sm'
+        color='primary'
       >
-        <i className="fa-solid fa-plus text-xl text-stone-300"></i>
+       <span className='text-primary flex gap-2 items-center text-medium'><IconBookUpload stroke={1} className='stroke-primary '/> Añadir... </span>
+       
         <Modal
           isOpen={isOpen}
           onOpenChange={onOpenChange}
@@ -55,10 +59,11 @@ const DocumentUploadModal = () => {
             darkMode.value ? 'dark' : ''
           } text-foreground bg-background border border-white`}
         >
+ 
           <ModalContent>
             {(onClose) => (
               <>
-                <ModalHeader className="flex flex-col gap-1">
+                <ModalHeader className="flex flex-col gap-1 text-primary">
                   Cargar Documento
                 </ModalHeader>
                 <ModalBody>
@@ -91,11 +96,12 @@ const DocumentUploadModal = () => {
                   )}
                 </ModalBody>
                 <ModalFooter>
-                  <Button color="default" variant="light" onPress={onClose}>
+                  <Button color="primary" variant="ghost" onPress={onClose}>
                     Cerrar
                   </Button>
                   <Button
-                    className="bg-tertiary text-white"
+                     variant="solid"
+              className=" bg-primary hover:bg-background focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center text-black"
                     onPress={handleUploadDocument}
                     disabled={isPending}
                   >
@@ -107,7 +113,7 @@ const DocumentUploadModal = () => {
           </ModalContent>
         </Modal>
       </Button>
-    </div>
+    </>
   );
 };
 
