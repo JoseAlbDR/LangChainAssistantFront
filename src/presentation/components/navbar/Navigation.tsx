@@ -5,23 +5,21 @@ import {
   NavbarContent,
   NavbarItem,
   NavbarMenuToggle,
- 
 } from '@nextui-org/react';
 import { ThemeSwitcher } from '../theme-switcher/ThemeSwitcher';
 import FalloutGuyDark from './FalloutGuyDark';
 import UserArea from './UserArea';
 import FalloutGuyLight from './FalloutGuyLight';
 
-interface Props{
-  dark: boolean
+interface Props {
+  dark: boolean;
 }
 
-export default function Navigation({dark}:Props) {
+export default function Navigation({ dark }: Props) {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
 
   return (
     <Navbar
-      isMenuOpen={isMenuOpen}
       onMenuOpenChange={setIsMenuOpen}
       shouldHideOnScroll
       className="h-20 bg-opacity-0"
@@ -32,10 +30,7 @@ export default function Navigation({dark}:Props) {
           className="sm:hidden"
         />
         <NavbarBrand className="flex gap-3">
-          {
-          dark ? <FalloutGuyLight />  : <FalloutGuyDark />
-        }
-          
+          {dark ? <FalloutGuyLight /> : <FalloutGuyDark />}
         </NavbarBrand>
       </NavbarContent>
       <NavbarContent justify="end">
@@ -45,9 +40,7 @@ export default function Navigation({dark}:Props) {
         <NavbarItem>
           <UserArea />
         </NavbarItem>
-      
       </NavbarContent>
-      
     </Navbar>
   );
 }

@@ -47,11 +47,13 @@ const DocumentUploadModal = () => {
       <Button
         onPress={onOpen}
         className="bg-transparent w-full flex justify-start items-center"
-        radius='sm'
-        color='primary'
+        radius="sm"
+        color="primary"
       >
-       <span className='text-primary flex gap-2 items-center text-medium'><IconBookUpload stroke={1} className='stroke-primary '/> Añadir... </span>
-       
+        <span className="text-primary flex gap-2 items-center text-medium">
+          <IconBookUpload stroke={1} className="stroke-primary " /> Añadir...{' '}
+        </span>
+
         <Modal
           isOpen={isOpen}
           onOpenChange={onOpenChange}
@@ -59,7 +61,6 @@ const DocumentUploadModal = () => {
             darkMode.value ? 'dark' : ''
           } text-foreground bg-background border border-white`}
         >
- 
           <ModalContent>
             {(onClose) => (
               <>
@@ -100,8 +101,8 @@ const DocumentUploadModal = () => {
                     Cerrar
                   </Button>
                   <Button
-                     variant="solid"
-              className=" bg-primary hover:bg-background focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center text-black"
+                    variant="solid"
+                    color="success"
                     onPress={handleUploadDocument}
                     disabled={isPending}
                   >

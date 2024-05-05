@@ -44,7 +44,6 @@ export default function DeleteModal({ bot, deleteMessages }: Payload) {
         isIconOnly
         aria-label="Like"
         className="bg-terciary"
-        
       >
         <TrashCan />
       </Button>
@@ -70,7 +69,12 @@ export default function DeleteModal({ bot, deleteMessages }: Payload) {
                     <small>Esta acción no puede ser deshecha</small>
                   </ModalBody>
                   <ModalFooter>
-                    <Button color="primary" variant="ghost" onPress={onClose}>
+                    <Button
+                      color="primary"
+                      variant="ghost"
+                      onPress={onClose}
+                      className="hover:text-white"
+                    >
                       Cerrar
                     </Button>
                     <Button

@@ -50,7 +50,7 @@ Props) => {
             type="text"
             autoFocus
             name="message"
-            className="flex w-full focus:outline-none focus:border-purple-300 pl-4  bg-transparent text-foreground  "
+            className="flex w-full focus:outline-none focus:border-purple-300 pl-4  bg-transparent text-foreground  placeholder:text-foreground"
             placeholder={placeholder}
             autoComplete={!disableCorrections ? 'off' : 'on'}
             autoCorrect={!disableCorrections ? 'off' : 'on'}
@@ -67,7 +67,7 @@ Props) => {
                 className="bg-transparent min-w-10  sm:w-20"
                 type="submit"
               >
-                <IconSend2 stroke={2} className='stroke-foreground'/>
+                <IconSend2 stroke={2} className="stroke-foreground" />
               </Button>
             )}
           </div>

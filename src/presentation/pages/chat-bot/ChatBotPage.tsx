@@ -97,7 +97,7 @@ const ChatBotPage = () => {
       <TextMessageBox
         onDeleteMessages={handleDeleteMessages}
         onSendMessage={handlePost}
-        placeholder="Write here your shit"
+        placeholder="Pregunta lo que necesites saber"
         disableCorrections
         isLoading={isLoading}
       />

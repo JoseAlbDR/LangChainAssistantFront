@@ -105,10 +105,13 @@ const ConfigModal = () => {
         aria-label="config"
         className="bg-transparent w-full flex justify-start items-center"
         onPress={onOpen}
-        radius='sm'
-        color='primary'
-        >
-        <span className='text-primary flex gap-2 items-center text-medium'><IconAdjustments stroke={1} className='stroke-primary '/> Configuración</span>
+        radius="sm"
+        color="primary"
+      >
+        <span className="text-primary flex gap-2 items-center text-medium">
+          <IconAdjustments stroke={1} className="stroke-primary " />{' '}
+          Configuración
+        </span>
       </Button>
 
       <Modal
@@ -165,11 +168,15 @@ const ConfigModal = () => {
                 )}
 
                 <ModalFooter>
-                  <Button color="primary" variant="ghost" onPress={onClose}>
+                  <Button
+                    color="secondary"
+                    variant="ghost"
+                    onPress={onClose}
+                    className="hover:text-white"
+                  >
                     Cerrar
                   </Button>
-                  <Button variant="solid"
-              className=" bg-primary hover:bg-background focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center text-black" type="submit">
+                  <Button variant="solid" type="submit" color="success">
                     Aceptar
                   </Button>
                 </ModalFooter>

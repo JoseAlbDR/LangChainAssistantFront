@@ -62,8 +62,13 @@ export default function DeleteDocumentModal({
                 )}
               </ModalBody>
               <ModalFooter>
-                <Button color="primary" variant="ghost" onPress={onClose}>
-                  Close
+                <Button
+                  color="primary"
+                  variant="ghost"
+                  onPress={onClose}
+                  className="hover:text-white"
+                >
+                  Cerrar
                 </Button>
                 <Button
                   className="bg-danger text-white"
