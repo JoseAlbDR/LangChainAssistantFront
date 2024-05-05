@@ -5,19 +5,18 @@ import {
   NavbarContent,
   NavbarItem,
   NavbarMenuToggle,
-  NavbarMenu,
-  NavbarMenuItem,
-  Link,
-  Divider,
+ 
 } from '@nextui-org/react';
-import Logo from '../../layouts/Logo';
 import { ThemeSwitcher } from '../theme-switcher/ThemeSwitcher';
-import { ConfigModal, DocumentsDropDown } from '..';
-import FalloutGuy from './FalloutGuy';
-import DocumentUploadModal from '../documents/DocumentUploadModal';
+import FalloutGuyDark from './FalloutGuyDark';
 import UserArea from './UserArea';
+import FalloutGuyLight from './FalloutGuyLight';
 
-export default function Navigation() {
+interface Props{
+  dark: boolean
+}
+
+export default function Navigation({dark}:Props) {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
 
   return (
@@ -25,8 +24,7 @@ export default function Navigation() {
       isMenuOpen={isMenuOpen}
       onMenuOpenChange={setIsMenuOpen}
       shouldHideOnScroll
-      isBordered
-      className="h-20 bg-primary bg-opacity-0"
+      className="h-20 bg-opacity-0"
     >
       <NavbarContent>
         <NavbarMenuToggle
@@ -34,13 +32,12 @@ export default function Navigation() {
           className="sm:hidden"
         />
         <NavbarBrand className="flex gap-3">
-          <FalloutGuy />
+          {
+          dark ? <FalloutGuyLight />  : <FalloutGuyDark />
+        }
           
-         
         </NavbarBrand>
       </NavbarContent>
-
-     
       <NavbarContent justify="end">
         <NavbarItem>
           <ThemeSwitcher />
@@ -48,21 +45,9 @@ export default function Navigation() {
         <NavbarItem>
           <UserArea />
         </NavbarItem>
-        <NavbarItem className="flex"></NavbarItem>
+      
       </NavbarContent>
-      <NavbarMenu className="flex items-center content-center gap-3">
-        <Divider />
-        <NavbarMenuItem>
-          <Link href="/chatgpt" color="foreground" size="lg" className="w-full">
-            Chat Bot
-          </Link>
-        </NavbarMenuItem>
-        <Divider />
-        <NavbarMenuItem>
-          <DocumentsDropDown />
-        </NavbarMenuItem>
-        <Divider />
-      </NavbarMenu>
+      
     </Navbar>
   );
 }
