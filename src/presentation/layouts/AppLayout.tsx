@@ -13,7 +13,8 @@ import { storage } from '../../utils/storage';
 import { toast } from 'react-toastify';
 import { ConfigModal, DocumentsDropDown } from '../components';
 import DocumentUploadModal from '../components/documents/DocumentUploadModal';
-import { IconRobotFace } from '@tabler/icons-react';
+import { IconBooks, IconRobotFace } from '@tabler/icons-react';
+import DeleteModal from '../components/delete-modal/DeleteHistoryModal';
 
 export interface Config {
   modelName: string;
@@ -50,40 +51,49 @@ const AppLayout = () => {
 
   const darkMode = useDarkMode();
   const navigate = useNavigate();
-
+console.log('el dark es ', darkMode )
   return (
+    
     <NextUIProvider navigate={navigate}>
       <section  className={`${
-          darkMode.value ? 'dark' : ''
-        } text-foreground flex flex-col items-center content-center min-h-fit max-w-7xl  mx-auto`}>
+          darkMode.value ? 'dark bg-background' : ''
+        } text-foreground flex flex-col items-center content-center min-h-fit   mx-auto `}>
            <header className='w-screen'>
-        <Navigation />
+        <Navigation dark={darkMode.value}/>
       </header>
-      <section className='flex flex-col gap-5 lg:flex-row justify-center rounded-sm bg-opacity-15 '>
-         <aside className='flex md:flex-col gap-4  items-center rounded-sm bg-opacity-15 bg-slate-50 py-10 '>
+      <section className='flex flex-col lg:flex-row justify-center rounded-sm  '>
+         <aside className='flex md:flex-col items-center rounded-sm bg-opacity-15  py-10 w-48 gap-2'>
            <ConfigModal />
-           <Button className="p-4 bg-transparent w-full flex justify-start items-center">
-            <IconRobotFace stroke={1} className='stroke-primary '/>
-            <Link href="/chatgpt"> Chat Bot </Link>
+           <section className='py-5 w-full pl-5'>
+             <div className='text-primary pb-2 '>Chat </div>
+             <Button className="bg-transparent w-full flex justify-start items-center" >
+            <Link href='/chatgpt'>
+            <span className='text-primary flex gap-2 items-center text-medium'><IconRobotFace stroke={1} className='stroke-primary '/> GPT  </span>
+            </Link>
            </Button>
-          <span className='border-primary border-b-1 w-11/12 text-primary  pb-2'>
-            Documentos 
-          </span>
-
-          <DocumentsDropDown />
-          <Link href="/documents" color="foreground">
-            Documentos
-          </Link>
-       
-       
+          <Button className="bg-transparent w-full flex justify-start items-center" >
+            <Link href='/documents'>
+            <span className='text-primary flex gap-2 items-center text-medium'><IconBooks stroke={1} className='stroke-primary '/> Documentos  </span>
+            </Link>
+           </Button>
+           
+           </section>
+          
+           <section className='py-5 w-full pl-5'>
+            <div className='text-primary pb-2 '>Documentos</div>
+            <DocumentsDropDown />
           <DocumentUploadModal />
+           </section>
+          
        
       
 
          </aside>
-      <main className="sm:mx-3 flex flex-col h-[calc(100vh-100px)] bg-chat-screen p-5 rounded-md lg:w-4/5 mb-5">
-         <div className="flex flex-row h-full ">
-            <div className="flex flex-col flex-auto h-full p-1 ">
+      <main className="sm:mx-3 flex flex-col h-[calc(100vh-100px)] rounded-md lg:w-4/5 mb-5 ">
+         <div className={`${
+          darkMode.value ? 'dark-bg-chat-screen' : 'light-bg-chat-screen'
+        } flex flex-row h-full rounded-lg`}>
+            <div className="flex flex-col flex-auto ">
               {!config?.isKeyPresent ? <Navigate to="/config" /> : <Outlet />}
             </div>
           </div>
