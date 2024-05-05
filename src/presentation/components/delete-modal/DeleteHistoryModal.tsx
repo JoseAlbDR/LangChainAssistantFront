@@ -41,6 +41,7 @@ export default function DeleteModal({ bot, deleteMessages }: Payload) {
     <>
       <Button
         onPress={onOpen}
+        color="danger"
         isIconOnly
         aria-label="Like"
         className="bg-terciary"

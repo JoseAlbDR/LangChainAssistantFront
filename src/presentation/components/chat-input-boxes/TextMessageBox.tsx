@@ -44,7 +44,7 @@ const TextMessageBox = ({
             type="text"
             autoFocus
             name="question"
-            className="flex w-full focus:outline-none focus:border-purple-300 pl-4  bg-transparent text-foreground placeholder:text-foreground"
+            className="flex w-full focus:outline-none focus:border-purple-300 pl-4 text-foreground placeholder:text-foreground bg-primary bg-opacity-15 rounded-full"
             placeholder={placeholder}
             autoComplete={!disableCorrections ? 'off' : 'on'}
             autoCorrect={!disableCorrections ? 'off' : 'on'}
